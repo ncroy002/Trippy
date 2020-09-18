@@ -87,7 +87,7 @@
                           </a>
                         </li>
                         <li>
-                          <a href="#/login">
+                          <a href="login">
                             <i class="material-icons">fingerprint</i>
                             <p>Login Page</p>
                           </a>
