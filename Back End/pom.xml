@@ -12,7 +12,7 @@
 	<artifactId>back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>back</name>
-	<description>Backend for trippy front end</description>
+	<description>Backend for trippy project</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -52,6 +52,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>8.4.1.jre14</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

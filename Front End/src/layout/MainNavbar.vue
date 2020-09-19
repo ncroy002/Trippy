@@ -77,7 +77,7 @@
                         data-toggle="dropdown"
                       >
                         <i class="material-icons">view_carousel</i>
-                        <p>Examples</p>
+                        <p>Navigation</p>
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
                         <li>
@@ -96,6 +96,12 @@
                           <a href="#/profile">
                             <i class="material-icons">account_circle</i>
                             <p>Profile Page</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#/FAQ_page">
+                            <i class="material-icons">account_circle</i>
+                            <p>FAQ Page</p>
                           </a>
                         </li>
                       </ul>
@@ -175,7 +181,7 @@ export default {
   },
   computed: {
     showDownload() {
-      const excludedRoutes = ["login", "landing", "profile"];
+      const excludedRoutes = ["login", "landing", "profile", "FAQ_page"];
       return excludedRoutes.every(r => r !== this.$route.name);
     }
   },
