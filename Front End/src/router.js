@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Index from "./views/Index.vue";
 import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
+import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
 import FAQ from "./views/FAQ_page.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
@@ -56,7 +57,16 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
-    }
+    },
+    {
+      path: "/UserList",
+      name: "userlist",
+      components: { default: UserList, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
   ],
   scrollBehavior: to => {
     if (to.hash) {

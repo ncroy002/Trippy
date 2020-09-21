@@ -8,15 +8,18 @@
           >
             <h1 class="title">Your Story Starts With Us.</h1>
             <h4>
-              Filter through differenet destinations around the world to find the perfect location just for you.
+              Every landing page needs a small description after the big bold
+              title, that's why we added this text here. Add here all the
+              information that can make you or your product create the first
+              impression.
             </h4>
             <br />
-            <!-- <md-button
+            <md-button
               href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
               class="md-success md-lg"
               target="_blank"
               ><i class="fas fa-play"></i> Watch video</md-button
-            > -->
+            >
           </div>
         </div>
       </div>
@@ -28,9 +31,13 @@
             <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
-              <h2 class="title text-center">Let's talk travel</h2>
+              <h2 class="title text-center">Let's talk product</h2>
               <h5 class="description">
-                Trippy offers many different filter criteria to help find the perfect destination for you.
+                This is the paragraph where you can write more details about
+                your product. Keep you user engaged by providing meaningful
+                information. Remember that by this time, the user is curious,
+                otherwise he wouldn't scroll to get here. Add a button if you
+                want the user to see more.
               </h5>
             </div>
           </div>
@@ -41,9 +48,11 @@
                   <div class="icon icon-info">
                     <md-icon>chat</md-icon>
                   </div>
-                  <h4 class="info-title">Best Deals</h4>
+                  <h4 class="info-title">Free Chat</h4>
                   <p>
-                    Sort through different offers to find the best deal to reach your perfect destination, and enjoy all it has to offer.
+                    Divide details about your product or agency work into parts.
+                    Write a few lines about each one. A paragraph describing a
+                    feature will be enough.
                   </p>
                 </div>
               </div>
@@ -52,9 +61,11 @@
                   <div class="icon icon-success">
                     <md-icon>verified_user</md-icon>
                   </div>
-                  <h4 class="info-title">Account Details</h4>
+                  <h4 class="info-title">Verified Users</h4>
                   <p>
-                    Share your findings by saving these trips to your account for later access.
+                    Divide details about your product or agency work into parts.
+                    Write a few lines about each one. A paragraph describing a
+                    feature will be enough.
                   </p>
                 </div>
               </div>
@@ -63,9 +74,11 @@
                   <div class="icon icon-danger">
                     <md-icon>fingerprint</md-icon>
                   </div>
-                  <h4 class="info-title">Personalized Travel</h4>
+                  <h4 class="info-title">Fingerprint</h4>
                   <p>
-                    Trippy allows you to find the best location for YOU.
+                    Divide details about your product or agency work into parts.
+                    Write a few lines about each one. A paragraph describing a
+                    feature will be enough.
                   </p>
                 </div>
               </div>
@@ -73,7 +86,7 @@
           </div>
         </div>
       </div>
-      <!-- <div class="section text-center">
+      <div class="section text-center">
         <div class="container">
           <h2 class="title">Here is our team</h2>
           <div class="team">
@@ -221,12 +234,18 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
       <div class="section section-contacts">
         <div class="container">
           <div class="md-layout">
             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto">
-              <h2 class="text-center title">Contact us</h2>
+              <h2 class="text-center title">Work with us</h2>
+              <h4 class="text-center description">
+                Divide details about your product or agency work into parts.
+                Write a few lines about each one and contact us about any
+                further collaboration. We will responde get back to you in a
+                couple of hours.
+              </h4>
               <form class="contact-form">
                 <div class="md-layout">
                   <div class="md-layout-item md-size-50">
@@ -268,18 +287,18 @@ export default {
       type: String,
       default: require("@/assets/img/bg7.jpg")
     },
-    // teamImg1: {
-    //   type: String,
-    //   default: require("@/assets/img/faces/avatar.jpg")
-    // },
-    // teamImg2: {
-    //   type: String,
-    //   default: require("@/assets/img/faces/christian.jpg")
-    // },
-    // teamImg3: {
-    //   type: String,
-    //   default: require("@/assets/img/faces/kendall.jpg")
-    // }
+    teamImg1: {
+      type: String,
+      default: require("@/assets/img/faces/avatar.jpg")
+    },
+    teamImg2: {
+      type: String,
+      default: require("@/assets/img/faces/christian.jpg")
+    },
+    teamImg3: {
+      type: String,
+      default: require("@/assets/img/faces/kendall.jpg")
+    }
   },
   data() {
     return {
