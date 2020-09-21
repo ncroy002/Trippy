@@ -7,9 +7,7 @@
             class="md-layout-item md-size-50 md-small-size-70 md-xsmall-size-100"
           >
             <h1 class="title">Frequently Asked Questions</h1>
-            <h4>
-              INSERT INFO HERE***************
-            </h4>
+            
             <br />
           </div>
 		  </div>
@@ -23,8 +21,30 @@
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
               <h2 class="title text-center">Frequently Asked Questions</h2>
+                </div>
+                <div
+                  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-left"
+                 >
+                  <md-button class="md-icon-button md-raised text-" disabled>
+                  <md-icon>add</md-icon>
+                  </md-button>
+
+                <h6 class="description">
+                Add New FAQ item
+              </h6>
+              </div>
+
+              <div
+              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
+            >
               <h5 class="description">
-                BLAH BLAH BLAH
+                FAQ #1 ****************************************************************
+              </h5>
+               <h5 class="description">
+                FAQ #2 ****************************************************************
+              </h5>
+               <h5 class="description">
+                FAQ #3 ****************************************************************
               </h5>
             </div>
           </div>
@@ -38,22 +58,10 @@
 export default {
   bodyClass: "FAQ_page-page",
   props: {
-    // header: {
-    //   type: String,
-    //   default: require("@/assets/img/bg7.jpg")
-    // },
-    // teamImg1: {
-    //   type: String,
-    //   default: require("@/assets/img/faces/avatar.jpg")
-    // },
-    // teamImg2: {
-    //   type: String,
-    //   default: require("@/assets/img/faces/christian.jpg")
-    // },
-    // teamImg3: {
-    //   type: String,
-    //   default: require("@/assets/img/faces/kendall.jpg")
-    // }
+     header: {
+      type: String,
+      default: require("@/assets/img/bg3.jpg")
+    },
   },
   data() {
     return {
