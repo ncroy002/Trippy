@@ -22,6 +22,8 @@
           <div class="title">
             <h2>Basic Elements</h2>
           </div>
+          <p>1</p>
+          <searchbar></searchbar>
           <basic-elements></basic-elements>
         </div>
       </div>
@@ -276,6 +278,7 @@ import Notifications from "./components/NotificationsSection";
 import TypographyImages from "./components/TypographyImagesSection";
 import JavascriptComponents from "./components/JavascriptComponentsSection";
 import { LoginCard } from "@/components";
+import { Searchbar } from "@/components";
 
 export default {
   components: {
@@ -287,7 +290,8 @@ export default {
     Notifications,
     TypographyImages,
     JavascriptComponents,
-    LoginCard
+    LoginCard,
+    Searchbar
   },
   name: "index",
   bodyClass: "index-page",
