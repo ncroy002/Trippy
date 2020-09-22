@@ -1,17 +1,17 @@
 package com.trippy.back.security;
 
-import com.trippy.back.entities.User;
+import com.trippy.back.entities.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 public class JwtUserDetails implements UserDetails {
-    private User user = new User();
+    private Account account = new Account();
     public  JwtUserDetails(String email, String password, String token){
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setToken(token);
+        account.setEmail(email);
+        account.setPassword(password);
+        account.setToken(token);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -20,12 +20,12 @@ public class JwtUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return account.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return account.getEmail();
     }
 
     @Override

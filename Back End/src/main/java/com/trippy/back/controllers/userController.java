@@ -1,8 +1,7 @@
 package com.trippy.back.controllers;
 
-import antlr.StringUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.trippy.back.entities.User;
+import com.trippy.back.entities.Account;
 import com.trippy.back.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +19,8 @@ public class userController {
     @JsonFormat
     @ResponseBody
     @PostMapping(value = "/secure/login")
-    public ResponseEntity login(@RequestBody User user){
-        String token = userService.login(user);
+    public ResponseEntity login(@RequestBody Account account){
+        String token = userService.login(account);
 
         if(token.isEmpty()){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

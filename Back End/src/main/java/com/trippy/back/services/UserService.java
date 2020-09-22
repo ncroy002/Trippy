@@ -1,6 +1,6 @@
 package com.trippy.back.services;
 
-import com.trippy.back.entities.User;
+import com.trippy.back.entities.Account;
 import com.trippy.back.repos.UserRepo;
 import com.trippy.back.security.JwtGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +19,20 @@ public class UserService {
      private PasswordEncoder passwordEncoder;
 
 
-    public String login(User user){
-       User onFileUser = userRepo.findByEmail(user.getEmail());
-       if(onFileUser != null){
-           if(passwordEncoder.matches(user.getPassword(), onFileUser.getPassword())){
-               String token = jwtGenerator.generate(onFileUser);
-               onFileUser.setToken(token);
-               userRepo.save(onFileUser);
+    public String login(Account account){
+       Account onFileAccount = userRepo.findByEmail(account.getEmail());
+       if(onFileAccount != null){
+           if(passwordEncoder.matches(account.getPassword(), onFileAccount.getPassword())){
+               String token = jwtGenerator.generate(onFileAccount);
+               onFileAccount.setToken(token);
+               userRepo.save(onFileAccount);
                return token;
            }
        }
        //todo: delete this
         return "delete";
     }
-    public List<User> getAllUsers(){
+    public List<Account> getAllUsers(){
         return userRepo.findAll();
     }
     //todo: potentially return http status or confirmation
@@ -46,8 +46,8 @@ public class UserService {
         String email = null;
         try{
             if(userRepo.existsById(id)){
-                User user = userRepo.getOne(id);
-                email = user.getEmail();
+                Account account = userRepo.getOne(id);
+                email = account.getEmail();
             }
             else{
                 email = null;

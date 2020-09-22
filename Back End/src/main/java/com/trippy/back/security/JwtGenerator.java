@@ -1,6 +1,6 @@
 package com.trippy.back.security;
 
-import com.trippy.back.entities.User;
+import com.trippy.back.entities.Account;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,15 +11,15 @@ import java.util.Date;
 
 @Component
 public class JwtGenerator {
-    public String generate(User jwtUser){
+    public String generate(Account jwtAccount){
         Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
 
         Claims claims = Jwts.claims()
                 .setSubject("");
         //todo: possibly change to string value
-        claims.put("id", jwtUser.getId());
-        claims.put("email", String.valueOf(jwtUser.getEmail()));
+        claims.put("id", jwtAccount.getId());
+        claims.put("email", String.valueOf(jwtAccount.getEmail()));
 
         calendar.setTime(currentDate);
         calendar.add(Calendar.MINUTE, 20);
