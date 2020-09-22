@@ -74,7 +74,7 @@
                           </a>
                         </li>
                          <li>
-                          <a href="#/admin" v-if="!admin">
+                          <a href="#/userlist" v-if="!admin">
                             <i class="material-icons">admin_panel_settings</i>
                             <p>Administrate</p>
                           </a>
