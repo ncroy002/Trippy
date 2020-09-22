@@ -19,11 +19,10 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <div class="container">
+          <searchbar></searchbar>
           <div class="title">
             <h2>Basic Elements</h2>
           </div>
-          <p>1</p>
-          <searchbar></searchbar>
           <basic-elements></basic-elements>
         </div>
       </div>
