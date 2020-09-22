@@ -1,9 +1,6 @@
 <template>
   <div class="wrapper">
-    <parallax
-      class="section page-header header-filter"
-      :style="headerStyle"
-    ></parallax>
+    <parallax class="section page-header header-filter" :style="headerStyle"></parallax>
     <div class="main main-raised">
       <div class="section profile-content">
         <div class="container">
@@ -11,46 +8,39 @@
             <div class="md-layout-item md-size-50 mx-auto">
               <div class="profile">
                 <div class="avatar">
-                  <img
-                    :src="img"
-                    alt="Circle Image"
-                    class="img-raised rounded-circle img-fluid"
-                  />
+                  <img :src="img" alt="Circle Image" class="img-raised rounded-circle img-fluid" />
                 </div>
                 <div class="name">
-                  <h3 class="title">Carla Hortensia</h3>
-                  <h6>Designer</h6>
-                  <md-button
-                    href="javascript:void(0)"
-                    class="md-just-icon md-simple md-dribbble"
-                    ><i class="fab fa-dribbble"></i
-                  ></md-button>
-                  <md-button
-                    href="javascript:void(0)"
-                    class="md-just-icon md-simple md-twitter"
-                    ><i class="fab fa-twitter"></i
-                  ></md-button>
-                  <md-button
-                    href="javascript:void(0)"
-                    class="md-just-icon md-simple md-pinterest"
-                    ><i class="fab fa-pinterest"></i
-                  ></md-button>
+                  <div id="edit-name">
+                    <h4>Edit Name</h4>
+                    <form>
+                      <input type="text" v-model.lazy="user.name" required />
+                    </form>
+                  </div>
+                  <div id="name">
+                    <h3 class="title">{{user.name}}</h3>
+                  </div>
+                  <h6>New User</h6>
                 </div>
               </div>
             </div>
           </div>
           <div class="description text-center">
-            <p>
-              An artist of considerable range, Chet Faker — the name taken by
-              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-              and records all of his own music, giving it a warm, intimate feel
-              with a solid groove structure.
-            </p>
+            <div id="edit-description">
+              <h4>Edit Description</h4>
+              <form>
+                <input type="text" v-model.lazy="user.descrip" required />
+              </form>
+            </div>
+            <div id="description">
+              <h4>Description</h4>
+              <p>{{user.descrip}}</p>
+            </div>
           </div>
           <div class="profile-tabs">
             <tabs
-              :tab-name="['Studio', 'Work', 'Favorite']"
-              :tab-icon="['camera', 'palette', 'favorite']"
+              :tab-name="['Recently viewed', 'Shared trips', 'Favorite']"
+              :tab-icon="['explore', 'share', 'favorite']"
               plain
               nav-pills-icons
               color-button="success"
@@ -96,6 +86,7 @@
               </template>
             </tabs>
           </div>
+          <md-button class="md-warning">Edit</md-button>
         </div>
       </div>
     </div>
@@ -104,6 +95,7 @@
 
 <script>
 import { Tabs } from "@/components";
+var description1 = "THIS IS A TEST";
 export default {
   components: {
     Tabs
@@ -111,6 +103,10 @@ export default {
   bodyClass: "profile-page",
   data() {
     return {
+      user: {
+        name: "Papa S. Diaw",
+        descrip: description1
+      },
       tabPane1: [
         { image: require("@/assets/img/examples/studio-1.jpg") },
         { image: require("@/assets/img/examples/studio-2.jpg") },
@@ -151,6 +147,13 @@ export default {
     }
   }
 };
+/*new Vue({
+  el: '#descrip',
+  data:{
+    cssClass: ''
+  }
+});
+*/
 </script>
 
 <style lang="scss" scoped>
