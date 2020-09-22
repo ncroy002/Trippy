@@ -5,9 +5,7 @@ import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
-import FAQ from "./views/FAQ_page.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
-
 
 Vue.use(Router);
 
