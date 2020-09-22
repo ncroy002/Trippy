@@ -32,4 +32,14 @@ public class userController {
         }
     }
 
+    @PostMapping(value = "/create")
+    public ResponseEntity create(@RequestBody Account account){
+
+
+        userService.createUser(account);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }
