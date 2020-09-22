@@ -1,14 +1,16 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Index from "./views/Index.vue";
-import Landing from "./views/Landing.vue";
-import Login from "./views/Login.vue";
-import UserList from "./views/UserList.vue";
-import Profile from "./views/Profile.vue";
-import FAQ from "./views/FAQ_page.vue";
-import MainNavbar from "./layout/MainNavbar.vue";
-import MainFooter from "./layout/MainFooter.vue";
 
+import Login from "./views/Login.vue";
+import Profile from "./views/Profile.vue";
+import MainNavbar from "./layout/MainNavbar.vue";
+import HomeNavbar from "./layout/HomeNavbar.vue";
+import MainFooter from "./layout/MainFooter.vue";
+import FAQ from "./views/Faq.vue"
+import About from "./views/About.vue"
+import Trips from "./views/Trips.vue"
+import Recommend from "./views/Recommend.vue"
 
 Vue.use(Router);
 
@@ -17,16 +19,16 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      components: { default: Index, header: MainNavbar, footer: MainFooter },
+      components: { default: Index, header: HomeNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
     {
-      path: "/landing",
-      name: "landing",
-      components: { default: Landing, header: MainNavbar, footer: MainFooter },
+      path: "/trips",
+      name: "trips",
+      components: { default: Trips, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
@@ -50,8 +52,8 @@ export default new Router({
       }
     },
     {
-      path: "/FAQ_page",
-      name: "FAQ_page",
+      path: "/faq",
+      name: "faq",
       components: { default: FAQ, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
@@ -59,14 +61,34 @@ export default new Router({
       }
     },
     {
-      path: "/UserList",
-      name: "userlist",
-      components: { default: UserList, header: MainNavbar, footer: MainFooter },
+      path: "/about",
+      name: "about",
+      components: { default: About, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
+    {
+      path: "/recommendations",
+      name: "recommendations",
+      components: {
+        default: Recommend,
+        header: MainNavbar,
+        footer: MainFooter
+      },
+
+
+
+      props: {
+        header: {
+          colorOnScroll: 400
+        },
+        footer: {
+          backgroundColor: "black"
+        }
+      }
+    }
   ],
   scrollBehavior: to => {
     if (to.hash) {
