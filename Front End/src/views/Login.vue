@@ -19,9 +19,7 @@
                 <label>Password...</label>
                 <md-input v-model="password"></md-input>
               </md-field>
-              <md-button slot="footer" class="md-simple md-success md-lg">
-                Login
-              </md-button>
+              <md-button v-on:click="login()" slot="footer" class="md-simple md-success md-lg">Login</md-button>
             </login-card>
           </div>
         </div>
@@ -32,6 +30,8 @@
 
 <script>
 import { LoginCard } from "@/components";
+import Axios, { axios } from "axios";
+import { Account } from "../models/Account";
 
 export default {
   components: {
@@ -40,7 +40,6 @@ export default {
   bodyClass: "login-page",
   data() {
     return {
-      firstname: null,
       email: null,
       password: null
     };
@@ -49,6 +48,23 @@ export default {
     header: {
       type: String,
       default: require("@/assets/img/profile_city.jpg")
+    }
+  },
+  methods: {
+    login() {
+      const url = "http://localhost:8080/user/login";
+      const account = new Account(this.email, this.password);
+      Axios.post(url, account, {params: {
+        header: {
+          "Content-Type": "application/json",
+        }
+      }})
+        .then(reponse => {
+          console.log(reponse);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   },
   computed: {
