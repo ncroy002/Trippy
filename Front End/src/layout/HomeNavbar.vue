@@ -24,7 +24,7 @@
         <div class="md-collapse">
           <div class="md-collapse-wrapper">
             <mobile-menu nav-mobile-section-start="false">
-              <!-- Here you can add your items from the section-start of your toolbar -->
+             
             </mobile-menu>
             <md-list>
               <md-list-item href="#/trips">
