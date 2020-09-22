@@ -3,6 +3,7 @@
     <div id="nav-tabs">
       <h3>Navigation Tabs</h3>
       <div class="md-layout">
+        
         <div class="md-layout-item md-size-50 md-small-size-100">
           <h3><small>Tabs with Icons on Card</small></h3>
           <nav-tabs-card no-label>
@@ -47,6 +48,7 @@
             </template>
           </nav-tabs-card>
         </div>
+        
         <div class="md-layout-item md-size-50 md-small-size-100">
           <h3><small>Tabs on Plain Card</small></h3>
           <nav-tabs-card no-label tabs-plain>

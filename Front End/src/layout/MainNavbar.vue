@@ -79,6 +79,32 @@
                             <p>Administrate</p>
                           </a>
                         </li>
+                        <li>
+                          <a href="login">
+                            <i class="material-icons">fingerprint</i>
+                            <p>Login Page</p>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#/profile">
+                            <i class="material-icons">account_circle</i>
+                            <p>Profile Page</p>
+                          </a>
+                        </li>
+                        <li>
+                          <!-- Code I edited -->
+                          <a href="#/recommend">
+                            <i class="material-icons">help_center</i>
+                            <p>Recommendation Page</p>
+                          </a>
+                        </li>
+                        <li>
+                          <!-- Code I edited -->
+                          <a href="#/forums">
+                            <i class="material-icons">help_center</i>
+                            <p>Forums Page</p>
+                          </a>
+                        </li>
                       </ul>
                     </drop-down>
                   </div>
@@ -107,6 +133,7 @@
 </template>
 
 <script>
+
 let resizeTimeout;
 function resizeThrottler(actualResizeHandler) {
   // ignore resize events as long as an actualResizeHandler execution is in the queue
@@ -121,6 +148,7 @@ function resizeThrottler(actualResizeHandler) {
 }
 
 import MobileMenu from "@/layout/MobileMenu";
+
 export default {
   components: {
     MobileMenu
@@ -154,12 +182,13 @@ export default {
   },
   computed: {
     showDownload() {
-      const excludedRoutes = ["login", "profile"];
+      const excludedRoutes = ["login", "landing", "profile", "recommend"];
       return excludedRoutes.every(r => r !== this.$route.name);
     }
   },
   methods: {
     bodyClick() {
+      
       let bodyClick = document.getElementById("bodyClick");
 
       if (bodyClick === null) {
@@ -170,7 +199,8 @@ export default {
 
         let bodyClick = document.getElementById("bodyClick");
         bodyClick.addEventListener("click", this.toggleNavbarMobile);
-      } else {
+      } 
+      else {
         bodyClick.remove();
       }
     },
@@ -211,4 +241,5 @@ export default {
     document.removeEventListener("scroll", this.scrollListener);
   }
 };
+
 </script>

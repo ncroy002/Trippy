@@ -4,6 +4,8 @@ import Index from "./views/Index.vue";
 
 import Login from "./views/Login.vue";
 import Profile from "./views/Profile.vue";
+import Recommend from "./views/Recommend.vue";
+import Forums from "./views/Forums.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import HomeNavbar from "./layout/HomeNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
