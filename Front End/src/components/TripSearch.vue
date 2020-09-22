@@ -40,7 +40,7 @@
 </template>
 <script>
 export default {	
-	name: "searchbar",
+	name: "trip-search",
 	data () {
     	return {
         	selectedDepartureDateLabeled: null,

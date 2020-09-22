@@ -19,7 +19,7 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <searchbar></searchbar>
+          <trip-search></trip-search>
           <div class="title">
             <h2>Basic Elements</h2>
           </div>
@@ -277,7 +277,7 @@ import Notifications from "./components/NotificationsSection";
 import TypographyImages from "./components/TypographyImagesSection";
 import JavascriptComponents from "./components/JavascriptComponentsSection";
 import { LoginCard } from "@/components";
-import { Searchbar } from "@/components";
+import { TripSearch } from "@/components";
 
 export default {
   components: {
@@ -290,7 +290,7 @@ export default {
     TypographyImages,
     JavascriptComponents,
     LoginCard,
-    Searchbar
+    TripSearch
   },
   name: "index",
   bodyClass: "index-page",
