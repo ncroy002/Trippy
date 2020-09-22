@@ -33,4 +33,14 @@ public class userController {
         }
     }
 
+    @PostMapping(value = "/create")
+    public ResponseEntity create(@RequestBody User user){
+
+
+        userService.createUser(user);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

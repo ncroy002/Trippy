@@ -4,6 +4,8 @@ import com.trippy.back.entities.User;
 import com.trippy.back.repos.UserRepo;
 import com.trippy.back.security.JwtGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +58,17 @@ public class UserService {
             System.out.println(e.getStackTrace());
         }
         return email;
+    }
+
+    public ResponseEntity createUser(User user){
+        if(userRepo.findByEmail(user.getEmail()) != null ){
+            return new ResponseEntity<>(HttpStatus.IM_USED);
+        }
+        else{
+            userRepo.save(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
     }
 
 }
