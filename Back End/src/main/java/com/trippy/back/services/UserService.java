@@ -18,7 +18,8 @@ public class UserService {
     UserRepo userRepo;
     @Autowired
     JwtGenerator jwtGenerator;
-     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     public String login(Account account){
@@ -65,6 +66,7 @@ public class UserService {
             return new ResponseEntity<>(HttpStatus.IM_USED);
         }
         else{
+            account.setPassword(passwordEncoder.encode(account.getPassword()));
             userRepo.save(account);
             return new ResponseEntity<>(HttpStatus.OK);
         }

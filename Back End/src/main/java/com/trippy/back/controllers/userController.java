@@ -18,7 +18,7 @@ public class userController {
 
     @JsonFormat
     @ResponseBody
-    @PostMapping(value = "/secure/login")
+    @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody Account account){
         String token = userService.login(account);
 
