@@ -6,6 +6,7 @@ import Login from "./views/Login.vue";
 import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
+import FAQ from "./views/Faq.vue";
 
 Vue.use(Router);
 
@@ -47,8 +48,8 @@ export default new Router({
       }
     },
     {
-      path: "/FAQ_page",
-      name: "FAQ_page",
+      path: "/Faq",
+      name: "faq",
       components: { default: FAQ, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
