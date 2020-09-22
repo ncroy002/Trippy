@@ -6,7 +6,7 @@
           <div
             class="md-layout-item md-size-50 md-small-size-70 md-xsmall-size-100"
           >
-            <h1 class="title">Frequently Asked Questions</h1>
+            <h1 class="title">User List</h1>
 
             <br />
           </div>
@@ -20,31 +20,14 @@
             <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
-              <h2 class="title text-center">Frequently Asked Questions</h2>
-            </div>
-            <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
-              <md-field class="md-form-group" slot="inputs">
-                <md-icon>add</md-icon>
-                <label>NEW FAQ</label>
-                <md-input v-model="faq" type="faq"></md-input>
-              </md-field>
+              <h2 class="title text-center">User List For Admin Edits</h2>
             </div>
 
             <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
               <h5 class="description">
-               {{faq}}
-              </h5>
-              <h5 class="description">
-                FAQ #2
-                ****************************************************************
-              </h5>
-              <h5 class="description">
-                FAQ #3
-                ****************************************************************
+               LIST USERS HERE
               </h5>
             </div>
           </div>
@@ -56,11 +39,11 @@
 
 <script>
 export default {
-  bodyClass: "FAQ_page-page",
+  bodyClass: "UserList-page",
   props: {
     header: {
       type: String,
-      default: require("@/assets/img/bg3.jpg"),
+      default: require("@/assets/img/nature.jpg"),
     },
   },
   data() {
@@ -68,8 +51,7 @@ export default {
       name: null,
       email: null,
       message: null,
-      faq: "",
-      
+  
     };
   },
   computed: {

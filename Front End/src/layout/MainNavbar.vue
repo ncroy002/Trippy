@@ -104,6 +104,12 @@
                             <p>FAQ Page</p>
                           </a>
                         </li>
+                        <li>
+                          <a href="#/UserList">
+                            <i class="material-icons">account_circle</i>
+                            <p>User List</p>
+                          </a>
+                        </li>
                       </ul>
                     </drop-down>
                   </div>
@@ -181,7 +187,7 @@ export default {
   },
   computed: {
     showDownload() {
-      const excludedRoutes = ["login", "landing", "profile", "FAQ_page"];
+      const excludedRoutes = ["login", "landing", "profile", "FAQ_page", "UserList"];
       return excludedRoutes.every(r => r !== this.$route.name);
     }
   },
