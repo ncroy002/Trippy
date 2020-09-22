@@ -1,16 +1,13 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Index from "./views/Index.vue";
-
+import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
+import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
+import FAQ from "./views/FAQ_page.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
-import HomeNavbar from "./layout/HomeNavbar.vue";
-import MainFooter from "./layout/MainFooter.vue";
-import FAQ from "./views/Faq.vue"
-import About from "./views/About.vue"
-import Trips from "./views/Trips.vue"
-import Recommend from "./views/Recommend.vue"
+
 
 Vue.use(Router);
 
@@ -19,16 +16,16 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      components: { default: Index, header: HomeNavbar, footer: MainFooter },
+      components: { default: Index, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
     {
-      path: "/trips",
-      name: "trips",
-      components: { default: Trips, header: MainNavbar, footer: MainFooter },
+      path: "/landing",
+      name: "landing",
+      components: { default: Landing, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
@@ -37,7 +34,7 @@ export default new Router({
     {
       path: "/login",
       name: "login",
-      components: { default: Login, header: MainNavbar, footer: MainFooter },
+      components: { default: Login, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 }
       }
@@ -45,40 +42,30 @@ export default new Router({
     {
       path: "/profile",
       name: "profile",
-      components: { default: Profile, header: MainNavbar, footer: MainFooter },
+      components: { default: Profile, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
     {
-      path: "/faq",
-      name: "faq",
-      components: { default: FAQ, header: MainNavbar, footer: MainFooter },
+      path: "/FAQ_page",
+      name: "FAQ_page",
+      components: { default: FAQ, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
     {
-      path: "/about",
-      name: "about",
-      components: { default: About, header: MainNavbar, footer: MainFooter },
+      path: "/UserList",
+      name: "userlist",
+      components: { default: UserList, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
-    {
-      path: "/recommendations",
-      name: "recommendations",
-      components: {
-        default: Recommend,
-        header: MainNavbar,
-        footer: MainFooter
-      },
-
-
 
       props: {
         header: {
