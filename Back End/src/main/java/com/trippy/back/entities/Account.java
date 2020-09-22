@@ -3,7 +3,7 @@ package com.trippy.back.entities;
 import javax.persistence.*;
 
 @Entity
-public class User {
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
@@ -47,10 +47,10 @@ public class User {
         return token;
     }
 
-    public User() {
+    public Account() {
 
     }
-    public User(String email, String password){
+    public Account(String email, String password){
         setEmail(email);
         setPassword(password);
     }
