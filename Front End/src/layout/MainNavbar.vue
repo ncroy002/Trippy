@@ -8,7 +8,7 @@
   >
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
-        <h3 class="md-title">Trippy</h3>
+        <h3 class="md-title"><a href="#/">Trippy</a></h3>
       </div>
       <div class="md-toolbar-section-end">
         <md-button
@@ -27,6 +27,7 @@
               <!-- Here you can add your items from the section-start of your toolbar -->
             </mobile-menu>
             <md-list>
+
                <md-list-item href="#/trips">
                 <i class="material-icons">explore</i>
                 <p>Home</p>
@@ -35,6 +36,24 @@
                <md-list-item href="#/faq">
                 <i class="material-icons">help_outline</i>
                 <p>FAQ</p>
+
+              
+              <md-list-item href="#/">
+                <i class="material-icons">explore</i>
+                <p>Home</p>
+
+              </md-list-item>
+
+              <md-list-item href="#/trips">
+                <i class="material-icons">loyalty</i>
+                <p>User Trips</p>
+
+              </md-list-item>
+
+              <md-list-item href="#/faq">
+                <i class="material-icons">help_outline</i>
+                <p>FAQ</p>
+
               </md-list-item>
               <li class="md-list-item" v-if="!user">
                 <a
@@ -64,8 +83,13 @@
                             <p>My Trips</p>
                           </a>
                         </li>
+
                         <li>
                           <a href="#/admin" v-if="!admin">
+
+                         <li>
+                          <a href="#/userlist" v-if="!admin">
+
                             <i class="material-icons">admin_panel_settings</i>
                             <p>Administrate</p>
                           </a>
@@ -76,10 +100,17 @@
                 </a>
               </li>
 
+
               <md-list-item href="#/login" v-if="user">
                 <i class="material-icons">logout</i>
                 <p>Logout</p>
                 <md-tooltip md-direction="bottom">See ya next time</md-tooltip>
+
+              <md-list-item href="#/login" v-if="!user">
+                <i class="material-icons">logout</i>
+                <p>Logout</p>
+                <md-tooltip md-direction="bottom"
+                  >See ya next time</md-tooltip>
               </md-list-item>
 
               <md-list-item href="#/login" v-if="!user">
@@ -87,6 +118,7 @@
                 <p>Login</p>
                 <md-tooltip md-direction="bottom">Already have an account</md-tooltip>
               </md-list-item>
+
             </md-list>
           </div>
         </div>
@@ -141,6 +173,8 @@ export default {
       toggledClass: false
     };
   },
+
+
   methods: {
     bodyClick() {
       let bodyClick = document.getElementById("bodyClick");

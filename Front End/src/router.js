@@ -95,17 +95,9 @@ export default new Router({
         default: UserList,
         header: MainNavbar,
         footer: MainFooter
-      },
-
-
-      props: {
-        header: {
-          colorOnScroll: 400
-        },
-        footer: {
-          backgroundColor: "black"
-        }
       }
+
+
     }
   ],
   scrollBehavior: to => {
