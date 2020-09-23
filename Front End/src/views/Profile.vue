@@ -11,10 +11,11 @@
                   <img :src="img" alt="Circle Image" class="img-raised rounded-circle img-fluid" />
                 </div>
                 <div class="name">
-                  <div id="edit-name">
+                  <div id="edit-name" v-show="toggle">
                     <h4>Edit Name</h4>
                     <form>
                       <input type="text" v-model.lazy="user.firstname" required />
+                      <input type="text" v-model.lazy="user.lastname" required />
                     </form>
                   </div>
                   <div id="name">
@@ -26,7 +27,7 @@
             </div>
           </div>
           <div class="description text-center">
-            <div id="edit-description">
+            <div id="edit-description" v-show="toggle">
               <h4>Edit Description</h4>
               <form>
                 <input type="text" v-model.lazy="user.descrip" required />
@@ -37,9 +38,56 @@
               <p>{{user.descrip}}</p>
             </div>
           </div>
-          <div class="profile-tabs">
+                    <div class="profile-tabs">
+            <tabs
+              :tab-name="['Recently viewed', 'Shared trips', 'Favorite']"
+              :tab-icon="['explore', 'share', 'favorite']"
+              plain
+              nav-pills-icons
+              color-button="success"
+            >
+              <!-- here you can add your content for tab-content -->
+              <template slot="tab-pane-1">
+                <div class="md-layout">
+                  <div class="md-layout-item md-size-25 ml-auto">
+                    <img :src="tabPane1[0].image" class="rounded" />
+                    <img :src="tabPane1[1].image" class="rounded" />
+                  </div>
+                  <div class="md-layout-item md-size-25 mr-auto">
+                    <img :src="tabPane1[3].image" class="rounded" />
+                    <img :src="tabPane1[2].image" class="rounded" />
+                  </div>
+                </div>
+              </template>
+              <template slot="tab-pane-2">
+                <div class="md-layout">
+                  <div class="md-layout-item md-size-25 ml-auto">
+                    <img :src="tabPane2[0].image" class="rounded" />
+                    <img :src="tabPane2[1].image" class="rounded" />
+                    <img :src="tabPane2[2].image" class="rounded" />
+                  </div>
+                  <div class="md-layout-item md-size-25 mr-auto">
+                    <img :src="tabPane2[3].image" class="rounded" />
+                    <img :src="tabPane2[4].image" class="rounded" />
+                  </div>
+                </div>
+              </template>
+              <template slot="tab-pane-3">
+                <div class="md-layout">
+                  <div class="md-layout-item md-size-25 ml-auto">
+                    <img :src="tabPane3[0].image" class="rounded" />
+                    <img :src="tabPane3[1].image" class="rounded" />
+                  </div>
+                  <div class="md-layout-item md-size-25 mr-auto">
+                    <img :src="tabPane3[2].image" class="rounded" />
+                    <img :src="tabPane3[3].image" class="rounded" />
+                    <img :src="tabPane3[4].image" class="rounded" />
+                  </div>
+                </div>
+              </template>
+            </tabs>
           </div>
-          <md-button v-on:click="updateUserDetails" class="md-warning">Edit</md-button>
+          <md-button @click='toggle = !toggle' v-on:click="updateUserDetails" class="md-warning">{{toggle ? 'save' : 'edit'}}</md-button>
         </div>
       </div>
     </div>
@@ -48,10 +96,17 @@
 
 <script>
 import axios from 'axios'
+import { Tabs } from "@/components";
+
 export default {
+  components: {
+    Tabs
+  },
   bodyClass: "profile-page",
+
   data() {
     return {
+      toggle: false,
       user: {
         firstname: 'Test',
         lastname: 'Test',
@@ -129,13 +184,7 @@ export default {
     }
   }
 };
-/*new Vue({
-  el: '#descrip',
-  data:{
-    cssClass: ''
-  }
-});
-*/
+
 </script>
 
 <style lang="scss" scoped>
