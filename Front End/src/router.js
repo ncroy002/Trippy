@@ -101,13 +101,13 @@ export default new Router({
     },
 
   {
-      path: "/register",
-      name: "register",
-      components: {
-        default: Register,
-        header: MainNavbar,
-        footer: MainFooter
       }
+        footer: MainFooter
+        header: MainNavbar,
+        default: Register,
+      components: {
+      name: "register",
+      path: "/register",
     }
 
     
