@@ -11,10 +11,11 @@
                   <img :src="img" alt="Circle Image" class="img-raised rounded-circle img-fluid" />
                 </div>
                 <div class="name">
-                  <div id="edit-name">
+                  <div id="edit-name" v-show="toggle">
                     <h4>Edit Name</h4>
                     <form>
                       <input type="text" v-model.lazy="user.firstname" required />
+                      <input type="text" v-model.lazy="user.lastname" required />
                     </form>
                   </div>
                   <div id="name">
@@ -26,7 +27,7 @@
             </div>
           </div>
           <div class="description text-center">
-            <div id="edit-description">
+            <div id="edit-description" v-show="toggle">
               <h4>Edit Description</h4>
               <form>
                 <input type="text" v-model.lazy="user.descrip" required />
@@ -39,7 +40,7 @@
           </div>
           <div class="profile-tabs">
           </div>
-          <md-button v-on:click="updateUserDetails" class="md-warning">Edit</md-button>
+          <md-button @click='toggle = !toggle' v-on:click="updateUserDetails" class="md-warning">{{toggle ? 'save' : 'edit'}}</md-button>
         </div>
       </div>
     </div>
@@ -50,8 +51,10 @@
 import axios from 'axios'
 export default {
   bodyClass: "profile-page",
+
   data() {
     return {
+      toggle: false,
       user: {
         firstname: 'Test',
         lastname: 'Test',
@@ -129,13 +132,7 @@ export default {
     }
   }
 };
-/*new Vue({
-  el: '#descrip',
-  data:{
-    cssClass: ''
-  }
-});
-*/
+
 </script>
 
 <style lang="scss" scoped>
