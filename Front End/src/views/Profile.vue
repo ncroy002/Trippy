@@ -38,7 +38,54 @@
               <p>{{user.descrip}}</p>
             </div>
           </div>
-          <div class="profile-tabs">
+                    <div class="profile-tabs">
+            <tabs
+              :tab-name="['Recently viewed', 'Shared trips', 'Favorite']"
+              :tab-icon="['explore', 'share', 'favorite']"
+              plain
+              nav-pills-icons
+              color-button="success"
+            >
+              <!-- here you can add your content for tab-content -->
+              <template slot="tab-pane-1">
+                <div class="md-layout">
+                  <div class="md-layout-item md-size-25 ml-auto">
+                    <img :src="tabPane1[0].image" class="rounded" />
+                    <img :src="tabPane1[1].image" class="rounded" />
+                  </div>
+                  <div class="md-layout-item md-size-25 mr-auto">
+                    <img :src="tabPane1[3].image" class="rounded" />
+                    <img :src="tabPane1[2].image" class="rounded" />
+                  </div>
+                </div>
+              </template>
+              <template slot="tab-pane-2">
+                <div class="md-layout">
+                  <div class="md-layout-item md-size-25 ml-auto">
+                    <img :src="tabPane2[0].image" class="rounded" />
+                    <img :src="tabPane2[1].image" class="rounded" />
+                    <img :src="tabPane2[2].image" class="rounded" />
+                  </div>
+                  <div class="md-layout-item md-size-25 mr-auto">
+                    <img :src="tabPane2[3].image" class="rounded" />
+                    <img :src="tabPane2[4].image" class="rounded" />
+                  </div>
+                </div>
+              </template>
+              <template slot="tab-pane-3">
+                <div class="md-layout">
+                  <div class="md-layout-item md-size-25 ml-auto">
+                    <img :src="tabPane3[0].image" class="rounded" />
+                    <img :src="tabPane3[1].image" class="rounded" />
+                  </div>
+                  <div class="md-layout-item md-size-25 mr-auto">
+                    <img :src="tabPane3[2].image" class="rounded" />
+                    <img :src="tabPane3[3].image" class="rounded" />
+                    <img :src="tabPane3[4].image" class="rounded" />
+                  </div>
+                </div>
+              </template>
+            </tabs>
           </div>
           <md-button @click='toggle = !toggle' v-on:click="updateUserDetails" class="md-warning">{{toggle ? 'save' : 'edit'}}</md-button>
         </div>
@@ -49,7 +96,12 @@
 
 <script>
 import axios from 'axios'
+import { Tabs } from "@/components";
+
 export default {
+  components: {
+    Tabs
+  },
   bodyClass: "profile-page",
 
   data() {
