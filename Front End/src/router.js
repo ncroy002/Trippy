@@ -11,6 +11,7 @@ import FAQ from "./views/Faq.vue"
 import About from "./views/About.vue"
 import Trips from "./views/Trips.vue"
 import Recommend from "./views/Recommend.vue"
+import UserList from "./views/UserList.vue"
 
 Vue.use(Router);
 
@@ -19,7 +20,7 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      components: { default: Index, header: HomeNavbar, footer: MainFooter },
+      components: { default: Index, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
@@ -78,6 +79,15 @@ export default new Router({
         footer: MainFooter
       },
 
+,
+    {
+      path: "/userlist",
+      name: "userlist",
+      components: {
+        default: UserList,
+        header: MainNavbar,
+        footer: MainFooter
+      },
 
 
       props: {

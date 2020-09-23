@@ -27,7 +27,16 @@
               <!-- Here you can add your items from the section-start of your toolbar -->
             </mobile-menu>
             <md-list>
-              <li class="md-list-item" v-if="!showDownload">
+               <md-list-item href="#/trips">
+                <i class="material-icons">explore</i>
+                <p>Home</p>
+              </md-list-item>
+
+               <md-list-item href="#/faq">
+                <i class="material-icons">help_outline</i>
+                <p>FAQ</p>
+              </md-list-item>
+              <li class="md-list-item" v-if="!user">
                 <a
                   href="javascript:void(0)"
                   class="md-list-item-router md-list-item-container md-button-clean dropdown"
@@ -44,70 +53,21 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
                         <li>
-                          <a href="#/">
-                            <i class="material-icons"></i>
-                            <p>All Components</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            href="https://demos.creative-tim.com/vue-material-kit/documentation/"
-                          >
-                            <i class="material-icons">content_paste</i>
-                            <p>Documentation</p>
-                          </a>
-                        </li>
-                      </ul>
-                    </drop-down>
-                  </div>
-                </a>
-              </li>
-
-
-              <li class="md-list-item">
-                <a
-                  href="javascript:void(0)"
-                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
-                >
-                  <div class="md-list-item-content">
-                    <drop-down direction="down">
-                      <md-button
-                        slot="title"
-                        class="md-button md-button-link md-white md-simple dropdown-toggle"
-                        data-toggle="dropdown"
-                      >
-                        <i class="material-icons">view_carousel</i>
-                        <p>Navigation</p>
-                      </md-button>
-                      <ul class="dropdown-menu dropdown-with-icons">
-                        <li>
-                          <a href="#/landing">
-                            <i class="material-icons">view_day</i>
-                            <p>Landing Page</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#/login">
-                            <i class="material-icons">fingerprint</i>
-                            <p>Login Page</p>
-                          </a>
-                        </li>
-                        <li>
                           <a href="#/profile">
-                            <i class="material-icons">account_circle</i>
-                            <p>Profile Page</p>
+                            <i class="material-icons">face</i>
+                            <p>Profile</p>
                           </a>
                         </li>
                         <li>
-                          <a href="#/FAQ_page">
-                            <i class="material-icons">account_circle</i>
-                            <p>FAQ Page</p>
+                          <a href="#/trips">
+                            <i class="material-icons">where_to_vote</i>
+                            <p>My Trips</p>
                           </a>
                         </li>
                         <li>
-                          <a href="#/UserList">
-                            <i class="material-icons">account_circle</i>
-                            <p>User List</p>
+                          <a href="#/admin" v-if="!admin">
+                            <i class="material-icons">admin_panel_settings</i>
+                            <p>Administrate</p>
                           </a>
                         </li>
                       </ul>
@@ -116,20 +76,16 @@
                 </a>
               </li>
 
-              <md-list-item
-               href="#login"
-              >
-                <i class="material-icons">fingerprint</i>
-                <p>Login</p>
-                <md-tooltip md-direction="bottom"
-                  >Already have an account</md-tooltip>
+              <md-list-item href="#/login" v-if="user">
+                <i class="material-icons">logout</i>
+                <p>Logout</p>
+                <md-tooltip md-direction="bottom">See ya next time</md-tooltip>
               </md-list-item>
-              <md-list-item
-                href="https://www.facebook.com/CreativeTim"
-                target="_blank"
-              >
-               
-             
+
+              <md-list-item href="#/login" v-if="!user">
+                <i class="material-icons">login</i>
+                <p>Login</p>
+                <md-tooltip md-direction="bottom">Already have an account</md-tooltip>
               </md-list-item>
             </md-list>
           </div>
@@ -184,12 +140,6 @@ export default {
       extraNavClasses: "",
       toggledClass: false
     };
-  },
-  computed: {
-    showDownload() {
-      const excludedRoutes = ["login", "landing", "profile", "FAQ_page", "UserList"];
-      return excludedRoutes.every(r => r !== this.$route.name);
-    }
   },
   methods: {
     bodyClick() {
