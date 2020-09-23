@@ -28,7 +28,7 @@
             </mobile-menu>
             <md-list>
 
-               <md-list-item href="#/index">
+               <md-list-item href="#/">
                 <i class="material-icons">explore</i>
                 <p>Home</p>
               </md-list-item>
