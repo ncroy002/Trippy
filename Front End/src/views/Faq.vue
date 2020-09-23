@@ -39,12 +39,13 @@
                {{faq}}
               </h5>
               <h5 class="description">
-                FAQ #2
-                ****************************************************************
+                How do I update my email address or account information?
               </h5>
               <h5 class="description">
-                FAQ #3
-                ****************************************************************
+                I had a great price yesterday, but now the rate is higher. Can you give me the original price?
+              </h5>
+               <h5 class="description">
+                Where is my reservation?
               </h5>
             </div>
           </div>
