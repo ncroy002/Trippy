@@ -28,7 +28,7 @@
             </mobile-menu>
             <md-list>
 
-               <md-list-item href="#/trips">
+               <md-list-item href="#/index">
                 <i class="material-icons">explore</i>
                 <p>Home</p>
               </md-list-item>
@@ -36,25 +36,9 @@
                <md-list-item href="#/faq">
                 <i class="material-icons">help_outline</i>
                 <p>FAQ</p>
-
-              
-              <md-list-item href="#/">
-                <i class="material-icons">explore</i>
-                <p>Home</p>
-
               </md-list-item>
 
-              <md-list-item href="#/trips">
-                <i class="material-icons">loyalty</i>
-                <p>User Trips</p>
 
-              </md-list-item>
-
-              <md-list-item href="#/faq">
-                <i class="material-icons">help_outline</i>
-                <p>FAQ</p>
-
-              </md-list-item>
               <li class="md-list-item" v-if="!user">
                 <a
                   href="javascript:void(0)"
@@ -77,19 +61,17 @@
                             <p>Profile</p>
                           </a>
                         </li>
+                        <!-- Commenting out until functionality is created
                         <li>
                           <a href="#/trips">
                             <i class="material-icons">where_to_vote</i>
                             <p>My Trips</p>
                           </a>
                         </li>
+                        -->
 
                         <li>
-                          <a href="#/admin" v-if="!admin">
-
-                         <li>
-                          <a href="#/userlist" v-if="!admin">
-
+                          <a href="#/userlist" v-if="admin">
                             <i class="material-icons">admin_panel_settings</i>
                             <p>Administrate</p>
                           </a>
@@ -100,11 +82,6 @@
                 </a>
               </li>
 
-
-              <md-list-item href="#/login" v-if="user">
-                <i class="material-icons">logout</i>
-                <p>Logout</p>
-                <md-tooltip md-direction="bottom">See ya next time</md-tooltip>
 
               <md-list-item href="#/login" v-if="!user">
                 <i class="material-icons">logout</i>

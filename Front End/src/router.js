@@ -1,14 +1,15 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Index from "./views/Index.vue";
-
-import Login from "./views/Login.vue";
-import Profile from "./views/Profile.vue";
+//Layout
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
+
+//Views
+import Index from "./views/Index.vue";
+import Login from "./views/Login.vue";
+import Profile from "./views/Profile.vue";
 import FAQ from "./views/Faq.vue"
 import About from "./views/About.vue"
-import Trips from "./views/Trips.vue"
 import Recommend from "./views/Recommend.vue"
 import UserList from "./views/UserList.vue"
 import Forums from "./views/Forums.vue"
@@ -27,15 +28,7 @@ export default new Router({
         footer: { backgroundColor: "black" }
       }
     },
-    {
-      path: "/trips",
-      name: "trips",
-      components: { default: Trips, header: MainNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" }
-      }
-    },
+    
     {
       path: "/login",
       name: "login",
@@ -99,17 +92,18 @@ export default new Router({
         footer: MainFooter
       }
     },
-
-  {
-      }
-        footer: MainFooter
-        header: MainNavbar,
-        default: Register,
-      components: {
-      name: "register",
+{
       path: "/register",
+      name: "register",
+      components: {
+        default: Register,
+        header: MainNavbar,
+        footer: MainFooter
+      }
     }
 
+  
+     
     
   ],
   scrollBehavior: to => {
