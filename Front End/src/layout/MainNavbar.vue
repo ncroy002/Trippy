@@ -68,7 +68,6 @@
                             <p>My Trips</p>
                           </a>
                         </li>
-                        -->
 
                         <li>
                           <a href="#/userlist" v-if="admin">
@@ -76,20 +75,21 @@
                             <p>Administrate</p>
                           </a>
                         </li>
+                        -->
                       </ul>
                     </drop-down>
                   </div>
                 </a>
               </li>
 
-
-              <md-list-item href="#/login" v-if="!user">
+  <!-- Commenting out until functionality is created
+              <md-list-item href="#/login">
                 <i class="material-icons">logout</i>
                 <p>Logout</p>
                 <md-tooltip md-direction="bottom"
                   >See ya next time</md-tooltip>
               </md-list-item>
-
+-->
               <md-list-item href="#/login" v-if="!user">
                 <i class="material-icons">login</i>
                 <p>Login</p>
