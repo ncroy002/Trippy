@@ -5,14 +5,13 @@ import Index from "./views/Index.vue";
 import Login from "./views/Login.vue";
 import Profile from "./views/Profile.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
-import HomeNavbar from "./layout/HomeNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
 import FAQ from "./views/Faq.vue"
 import About from "./views/About.vue"
 import Trips from "./views/Trips.vue"
 import Recommend from "./views/Recommend.vue"
 import UserList from "./views/UserList.vue"
-
+import Forums from "./views/Forums.vue"
 Vue.use(Router);
 
 export default new Router({
@@ -77,9 +76,18 @@ export default new Router({
         default: Recommend,
         header: MainNavbar,
         footer: MainFooter
-      },
+      }
+    },
+    {
+      path: "/forums",
+      name: "forums",
+      components: {
+        default: Forums,
+        header: MainNavbar,
+        footer: MainFooter
+      }
+    },
 
-,
     {
       path: "/userlist",
       name: "userlist",
