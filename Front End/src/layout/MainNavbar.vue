@@ -40,6 +40,12 @@
 
               </md-list-item>
 
+              <md-list-item href="#/events">
+                <i class="material-icons">loyalty</i>
+                <p>Events</p>
+
+              </md-list-item>
+
               <md-list-item href="#/faq">
                 <i class="material-icons">help_outline</i>
                 <p>FAQ</p>

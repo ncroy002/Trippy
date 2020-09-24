@@ -32,6 +32,11 @@
                 <p>User Trips</p>
               </md-list-item>
 
+              <md-list-item href="#/events">
+                <i class="material-icons">account_circle</i>
+                <p>Events</p>
+              </md-list-item>
+
               <md-list-item href="#/faq">
                 <i class="material-icons">help_outline</i>
                 <p>FAQ</p>

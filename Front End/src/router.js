@@ -7,6 +7,7 @@ import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import FAQ from "./views/Faq.vue";
+import Events from "./views/Events.vue";
 
 Vue.use(Router);
 
@@ -60,6 +61,15 @@ export default new Router({
       path: "/UserList",
       name: "userlist",
       components: { default: UserList, header: MainNavbar },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/Events",
+      name: "events",
+      components: { default: Events, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
