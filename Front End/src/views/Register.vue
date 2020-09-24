@@ -9,14 +9,32 @@
             <login-card header-color="green">
               <h4 slot="title" class="card-title">Create Account</h4>
               <md-field class="md-form-group" slot="inputs">
+                <md-icon>account_circle</md-icon>
+                <label>First Name</label>
+                <md-input type="text" v-model="firstName"></md-input>
+                <br>
+              </md-field>
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>account_circle</md-icon>
+                <label>Last Name</label>
+                <md-input type="text" v-model="lastName"></md-input>
+                <br>
+              </md-field>
+              <md-field class="md-form-group" slot="inputs">
                 <md-icon>email</md-icon>
                 <label>Email</label>
-                <md-input v-model="email" type="email"></md-input>
+                <md-input type="text" v-model="email"></md-input>
+                <br>
               </md-field>
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>lock_outline</md-icon>
-                <label>Password</label>
-                <md-input v-model="password"></md-input>
+                <label>New Password</label>
+                <md-input :type="'password'" v-model="password"></md-input>
+              </md-field>
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>lock_outline</md-icon>
+                <label>Confirm Password</label>
+                <md-input :type="'password'" v-model="confirmPassword"></md-input>
               </md-field>
               <md-button v-on:click="createUser()" slot="footer" class="md-simple md-success md-lg">Submit</md-button>
             </login-card>
@@ -39,10 +57,22 @@ export default {
   bodyClass: "login-page",
   data() {
     return {
+      firstName: null,
+      lastName: null,
       email: null,
-      password: null
+      password: null,
+      confirmPassword: null,
+
     };
   },
+
+  watch: {
+    email(value){
+      this.email = value;
+      this.validateEmail(value);
+    }
+  },
+
   props: {
     header: {
       type: String,
@@ -50,9 +80,11 @@ export default {
     }
   },
   methods: {
+ 
+
     createUser() {
       const url = "http://localhost:8081/user/create";
-      const account = new Account(this.email, this.password);
+      const account = new Account(this.email, this.password, this.firstName, this.lastName);
       Axios.post(url, account, {params: {
         header: {
           "Content-Type": "application/json",
