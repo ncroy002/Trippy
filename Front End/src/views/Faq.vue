@@ -22,6 +22,16 @@
             >
               <h2 class="title text-center">Frequently Asked Questions</h2>
             </div>
+             <div
+              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
+            >
+              <md-field class="md-form-group" slot="inputs">
+                <md-icon>search</md-icon>
+                <label>SEARCH FAQS</label>
+                <md-input v-model="faq" type="faq"></md-input>
+              </md-field>
+            </div>
+
             <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
@@ -39,13 +49,48 @@
                {{faq}}
               </h5>
               <h5 class="description">
-                FAQ #2
-                ****************************************************************
+                How do I update my email address or account information?
               </h5>
               <h5 class="description">
-                FAQ #3
-                ****************************************************************
+                I had a great price yesterday, but now the rate is higher. Can you give me the original price?
               </h5>
+               <h5 class="description">
+                Where is my reservation?
+              </h5>
+            </div>
+             <div
+              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
+            >
+              <h2 class="title text-center">Need Help?</h2>
+            </div>
+  <div
+              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
+            >
+                      <form class="contact-form">
+                <div class="md-layout">
+                  <div class="md-layout-item md-size-50">
+                    <md-field>
+                      <label>Your Name</label>
+                      <md-input v-model="name" type="text"></md-input>
+                    </md-field>
+                  </div>
+                  <div class="md-layout-item md-size-50">
+                    <md-field>
+                      <label>Your Email</label>
+                      <md-input v-model="email" type="email"></md-input>
+                    </md-field>
+                  </div>
+                </div>
+                <md-field maxlength="5">
+                  <label>Your Message</label>
+                  <md-textarea v-model="message"></md-textarea>
+                </md-field>
+                <div class="md-layout">
+                  <div class="md-layout-item md-size-33 mx-auto text-center">
+                    <md-button class="md-success">Send Message</md-button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
