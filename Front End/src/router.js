@@ -8,7 +8,7 @@ import Profile from "./views/Profile.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import HomeNavbar from "./layout/HomeNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
-import FAQ from "./views/FAQ.vue"
+import FAQ from "./views/Faq.vue"
 import About from "./views/About.vue"
 import Forums from "./views/Forums.vue"
 //import Trips from "./views/Trips.vue"
