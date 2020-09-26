@@ -28,7 +28,7 @@
             </mobile-menu>
             <md-list>
               
-              <md-list-item href="#/">
+              <md-list-item href="#/landing">
                 <i class="material-icons">explore</i>
                 <p>Home</p>
 
@@ -43,6 +43,12 @@
               <md-list-item href="#/faq">
                 <i class="material-icons">help_outline</i>
                 <p>FAQ</p>
+
+              </md-list-item>
+
+              <md-list-item href="#/forums">
+                <i class="material-icons">help_outline</i>
+                <p>Forums</p>
 
               </md-list-item>
               <li class="md-list-item" v-if="!user">
@@ -194,9 +200,11 @@ export default {
         }
       }
     },
+
     scrollListener() {
       resizeThrottler(this.handleScroll);
     },
+
     scrollToElement() {
       let element_id = document.getElementById("downloadSection");
       if (element_id) {
@@ -204,9 +212,11 @@ export default {
       }
     }
   },
+
   mounted() {
     document.addEventListener("scroll", this.scrollListener);
   },
+
   beforeDestroy() {
     document.removeEventListener("scroll", this.scrollListener);
   }
