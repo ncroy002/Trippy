@@ -155,11 +155,11 @@ export default {
   props: {
     header: {
       type: String,
-      default: require("@/assets/img/bgabout.jpg")
+      default: require("@/assets/img/bg.jpg")
     },
     img: {
       type: String,
-      default: require("@/assets/img/team.jpg")
+      default: require("@/assets/img/bg.jpg")
     },
      tw: {
       type: String,

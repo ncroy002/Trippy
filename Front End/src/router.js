@@ -6,7 +6,11 @@ import Login from "./views/Login.vue";
 import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
-import FAQ from "./views/Faq.vue";
+import HomeNavbar from "./layout/HomeNavbar.vue";
+import MainFooter from "./layout/MainFooter.vue";
+import FAQ from "./views/FAQ.vue"
+import About from "./views/About.vue"
+//import Trips from "./views/Trips.vue"
 
 Vue.use(Router);
 
@@ -21,6 +25,7 @@ export default new Router({
         footer: { backgroundColor: "black" }
       }
     },
+    /*
     {
       path: "/landing",
       name: "landing",
@@ -30,6 +35,7 @@ export default new Router({
         footer: { backgroundColor: "black" }
       }
     },
+    */
     {
       path: "/login",
       name: "login",
@@ -65,7 +71,32 @@ export default new Router({
         footer: { backgroundColor: "black" }
       }
     },
-
+    {
+      path: "/recommendations",
+      name: "recommendations",
+      components: { default: Recommend, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: {
+          colorOnScroll: 400
+        },
+        footer: {
+          backgroundColor: "black"
+        }
+      }
+    },
+    {
+      path: "/forums",
+      name: "forums",
+      components: { default: Forums, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: {
+          colorOnScroll: 400
+        },
+        footer: {
+          backgroundColor: "black"
+        }
+      }
+    }
   ],
   scrollBehavior: to => {
     if (to.hash) {

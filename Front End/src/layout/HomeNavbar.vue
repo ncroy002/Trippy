@@ -32,6 +32,11 @@
                 <p>User Trips</p>
               </md-list-item>
 
+              <md-list-item href="#/forums">
+                <i class="material-icons">loyalty</i>
+                <p>Forums</p>
+              </md-list-item>
+
               <md-list-item href="#/faq">
                 <i class="material-icons">help_outline</i>
                 <p>FAQ</p>
