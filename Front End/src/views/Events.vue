@@ -29,6 +29,14 @@
               <h5 class="description">
                LIST Events here
               </h5>
+
+			<div class="card">
+  				<img src="@/assets/img/tomorrowland.jpg" alt="Avatar" style="width:100%">
+  				<div class="container">
+    			<h4><b>TOMORROWLAND 2021</b></h4>
+    			<p>July 16-18, Belgium</p>
+  				</div>
+			</div>  
             </div>
           </div>
         </div>
