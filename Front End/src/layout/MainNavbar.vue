@@ -109,6 +109,10 @@
                 <md-tooltip md-direction="bottom">Create account</md-tooltip>
               </md-list-item>
 
+              <md-list-item href="#/forums">
+                <i class="material-icons">chat</i>
+                <p>Forums</p>
+              </md-list-item>
             </md-list>
           </div>
         </div>
