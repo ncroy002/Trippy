@@ -1,12 +1,20 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Index from "./views/Index.vue";
-import Landing from "./views/Landing.vue";
-import Login from "./views/Login.vue";
-import UserList from "./views/UserList.vue";
-import Profile from "./views/Profile.vue";
+//Layout
 import MainNavbar from "./layout/MainNavbar.vue";
-import FAQ from "./views/Faq.vue";
+import MainFooter from "./layout/MainFooter.vue";
+
+//Views
+import Index from "./views/Index.vue";
+import Login from "./views/Login.vue";
+import Profile from "./views/Profile.vue";
+import FAQ from "./views/Faq.vue"
+import About from "./views/About.vue"
+import Recommend from "./views/Recommend.vue"
+import UserList from "./views/UserList.vue"
+import Forums from "./views/Forums.vue"
+import Register from "./views/Register.vue"
+
 
 Vue.use(Router);
 
@@ -15,25 +23,17 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      components: { default: Index, header: MainNavbar },
+      components: { default: Index, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
-    {
-      path: "/landing",
-      name: "landing",
-      components: { default: Landing, header: MainNavbar },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" }
-      }
-    },
+    
     {
       path: "/login",
       name: "login",
-      components: { default: Login, header: MainNavbar },
+      components: { default: Login, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 }
       }
@@ -41,31 +41,80 @@ export default new Router({
     {
       path: "/profile",
       name: "profile",
-      components: { default: Profile, header: MainNavbar },
+      components: { default: Profile, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
     {
-      path: "/Faq",
+      path: "/faq",
       name: "faq",
-      components: { default: FAQ, header: MainNavbar },
+      components: { default: FAQ, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
     {
-      path: "/UserList",
-      name: "userlist",
-      components: { default: UserList, header: MainNavbar },
+      path: "/about",
+      name: "about",
+      components: { default: About, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
+    {
+      path: "/recommendations",
+      name: "recommendations",
+      components: {
+        default: Recommend,
+        header: MainNavbar,
+        footer: MainFooter
+      }
+    },
+    {
+      path: "/forums",
+      name: "forums",
+      components: {
+        default: Forums,
+        header: MainNavbar,
+        footer: MainFooter
+      }
+    },
+    {
+      path: "/Register",
+      name: "register",
+      components: { default: Register, header: MainNavbar },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    }
 
+    {
+      path: "/userlist",
+      name: "userlist",
+      components: {
+        default: UserList,
+        header: MainNavbar,
+        footer: MainFooter
+      }
+    },
+{
+      path: "/register",
+      name: "register",
+      components: {
+        default: Register,
+        header: MainNavbar,
+        footer: MainFooter
+      }
+    }
+
+  
+     
+    
   ],
   scrollBehavior: to => {
     if (to.hash) {

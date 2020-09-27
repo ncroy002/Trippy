@@ -108,9 +108,6 @@ export default {
         } else {
           this.valid = true;
         }
-      } else {
-        this.valid = true;
-      }
     },
     removeNotify(e, notifyClass){
       var target = e.target;
