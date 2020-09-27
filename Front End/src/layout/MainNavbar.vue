@@ -27,24 +27,18 @@
               <!-- Here you can add your items from the section-start of your toolbar -->
             </mobile-menu>
             <md-list>
-              
-              <md-list-item href="#/">
+
+               <md-list-item href="#/">
                 <i class="material-icons">explore</i>
                 <p>Home</p>
-
               </md-list-item>
 
-              <md-list-item href="#/trips">
-                <i class="material-icons">loyalty</i>
-                <p>User Trips</p>
-
-              </md-list-item>
-
-              <md-list-item href="#/faq">
+               <md-list-item href="#/faq">
                 <i class="material-icons">help_outline</i>
                 <p>FAQ</p>
-
               </md-list-item>
+
+
               <li class="md-list-item" v-if="!user">
                 <a
                   href="javascript:void(0)"
@@ -81,50 +75,28 @@
                             <p>My Trips</p>
                           </a>
                         </li>
-                         <li>
-                          <a href="#/userlist" v-if="!admin">
+
+                        <li>
+                          <a href="#/userlist" v-if="admin">
                             <i class="material-icons">admin_panel_settings</i>
                             <p>Administrate</p>
                           </a>
                         </li>
-                        <li>
-                          <a href="login">
-                            <i class="material-icons">fingerprint</i>
-                            <p>Login Page</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#/profile">
-                            <i class="material-icons">account_circle</i>
-                            <p>Profile Page</p>
-                          </a>
-                        </li>
-                        <li>
-                          <!-- Code I edited -->
-                          <a href="#/recommend">
-                            <i class="material-icons">help_center</i>
-                            <p>Recommendation Page</p>
-                          </a>
-                        </li>
-                        <li>
-                          <!-- Code I edited -->
-                          <a href="#/forums">
-                            <i class="material-icons">help_center</i>
-                            <p>Forums Page</p>
-                          </a>
-                        </li>
+                        -->
                       </ul>
                     </drop-down>
                   </div>
                 </a>
               </li>
 
-              <md-list-item href="#/login" v-if="!user">
+  <!-- Commenting out until functionality is created
+              <md-list-item href="#/login">
                 <i class="material-icons">logout</i>
                 <p>Logout</p>
                 <md-tooltip md-direction="bottom"
                   >See ya next time</md-tooltip>
               </md-list-item>
+-->
               <md-list-item href="#/login">
                 <i class="material-icons">login</i>
                 <p>Login</p>
@@ -138,11 +110,6 @@
               </md-list-item>
 
             </md-list>
-              <md-list-item href="#/register">
-                <i class="material-icons">person_add</i>
-                <p>Create Account</p>
-                <md-tooltip md-direction="bottom">Create account</md-tooltip>
-              </md-list-item>
           </div>
         </div>
       </div>
@@ -151,7 +118,6 @@
 </template>
 
 <script>
-
 let resizeTimeout;
 function resizeThrottler(actualResizeHandler) {
   // ignore resize events as long as an actualResizeHandler execution is in the queue
@@ -166,7 +132,6 @@ function resizeThrottler(actualResizeHandler) {
 }
 
 import MobileMenu from "@/layout/MobileMenu";
-
 export default {
   components: {
     MobileMenu
@@ -198,15 +163,10 @@ export default {
       toggledClass: false
     };
   },
-  computed: {
-    showDownload() {
-      const excludedRoutes = ["login", "landing", "profile", "recommend"];
-      return excludedRoutes.every(r => r !== this.$route.name);
-    }
-  },
+
+
   methods: {
     bodyClick() {
-      
       let bodyClick = document.getElementById("bodyClick");
 
       if (bodyClick === null) {
@@ -217,8 +177,7 @@ export default {
 
         let bodyClick = document.getElementById("bodyClick");
         bodyClick.addEventListener("click", this.toggleNavbarMobile);
-      } 
-      else {
+      } else {
         bodyClick.remove();
       }
     },
@@ -259,5 +218,4 @@ export default {
     document.removeEventListener("scroll", this.scrollListener);
   }
 };
-
 </script>

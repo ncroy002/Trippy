@@ -1,18 +1,17 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Index from "./views/Index.vue";
-import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
 import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
 import Recommend from "./views/Recommend.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
-import HomeNavbar from "./layout/HomeNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
-import FAQ from "./views/FAQ.vue"
 import About from "./views/About.vue"
-import FAQ from "./views/Faq.vue";
+import Forums from "./views/Forums.vue";
+import Faq from "./views/Faq.vue";
 import Register from "./views/Register.vue"
+import Events from "./views/Events.vue";
 
 Vue.use(Router);
 
@@ -60,11 +59,11 @@ export default new Router({
       }
     },
     {
-      path: "/Faq",
+      path: "/faq",
       name: "faq",
 
       components: {
-        default: FAQ,
+        default: Faq,
         header: MainNavbar,
         footer: MainFooter
       },
