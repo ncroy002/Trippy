@@ -9,8 +9,8 @@
             <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
             <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
-              <h1>Trippy</h1>
-              <h3>Discription.</h3>
+              <h1>Trippy Travel</h1>
+              <h3>Find the best vacation for YOU.</h3>
             </div>
           </div>
         </div>

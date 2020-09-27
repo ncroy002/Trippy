@@ -1,20 +1,18 @@
 import Vue from "vue";
 import Router from "vue-router";
-//Layout
-import MainNavbar from "./layout/MainNavbar.vue";
-import MainFooter from "./layout/MainFooter.vue";
-
-//Views
 import Index from "./views/Index.vue";
+import Landing from "./views/Landing.vue";
 import Login from "./views/Login.vue";
+import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
-import FAQ from "./views/Faq.vue"
+import Recommend from "./views/Recommend.vue";
+import MainNavbar from "./layout/MainNavbar.vue";
+import HomeNavbar from "./layout/HomeNavbar.vue";
+import MainFooter from "./layout/MainFooter.vue";
+import FAQ from "./views/FAQ.vue"
 import About from "./views/About.vue"
-import Recommend from "./views/Recommend.vue"
-import UserList from "./views/UserList.vue"
-import Forums from "./views/Forums.vue"
+import FAQ from "./views/Faq.vue";
 import Register from "./views/Register.vue"
-
 
 Vue.use(Router);
 
@@ -33,10 +31,10 @@ export default new Router({
         footer: { backgroundColor: "black" }
       }
     },
-    
     {
       path: "/login",
       name: "login",
+      
       components: {
         default: Login,
         header: MainNavbar,
@@ -50,6 +48,7 @@ export default new Router({
     {
       path: "/profile",
       name: "profile",
+      
       components: {
         default: Profile,
         header: MainNavbar,
@@ -61,8 +60,9 @@ export default new Router({
       }
     },
     {
-      path: "/faq",
+      path: "/Faq",
       name: "faq",
+
       components: {
         default: FAQ,
         header: MainNavbar,
@@ -89,6 +89,7 @@ export default new Router({
     {
       path: "/recommendations",
       name: "recommendations",
+      
       components: {
         default: Recommend,
         header: MainNavbar,
@@ -155,8 +156,6 @@ export default new Router({
         footer: MainFooter
       }
     },
-     
-    
   ],
   scrollBehavior: to => {
     if (to.hash) {
