@@ -68,6 +68,14 @@
                           </a>
                         </li>
                         <li>
+                          <a href="#/events">
+                            <i class="material-icons">event_note</i>
+                            <p>Events</p>
+                          </a>
+                        </li>
+
+                        <!-- Commenting out until functionality is created
+                        <li>
                           <a href="#/trips">
                             <i class="material-icons">where_to_vote</i>
                             <p>My Trips</p>
@@ -117,20 +125,24 @@
                 <md-tooltip md-direction="bottom"
                   >See ya next time</md-tooltip>
               </md-list-item>
-
-              <md-list-item href="#/login" v-if="!user">
+              <md-list-item href="#/login">
                 <i class="material-icons">login</i>
                 <p>Login</p>
                 <md-tooltip md-direction="bottom">Already have an account</md-tooltip>
               </md-list-item>
 
-              <md-list-item href="#/register" v-if="!user">
+              <md-list-item href="#/register">
                 <i class="material-icons">person_add</i>
                 <p>Create Account</p>
                 <md-tooltip md-direction="bottom">Create account</md-tooltip>
               </md-list-item>
 
             </md-list>
+              <md-list-item href="#/register">
+                <i class="material-icons">person_add</i>
+                <p>Create Account</p>
+                <md-tooltip md-direction="bottom">Create account</md-tooltip>
+              </md-list-item>
           </div>
         </div>
       </div>
