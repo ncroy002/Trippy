@@ -120,7 +120,7 @@
                 <p>Forums</p>
               </md-list-item>
 
-               <md-list-item href="#/recommentdations">
+               <md-list-item href="#/recommendations">
                 <i class="material-icons">assist</i>
                 <p>Recommendations</p>
               </md-list-item>
