@@ -67,6 +67,12 @@
                             <p>Events</p>
                           </a>
                         </li>
+                        <li>
+                          <a href="#/events">
+                            <i class="material-icons">people</i>
+                            <p>User List</p>
+                          </a>
+                        </li>
 
                         <!-- Commenting out until functionality is created
                         <li>
@@ -113,6 +119,14 @@
                 <i class="material-icons">chat</i>
                 <p>Forums</p>
               </md-list-item>
+
+               <md-list-item href="#/recommentdations">
+                <i class="material-icons">assist</i>
+                <p>Recommendations</p>
+              </md-list-item>
+
+
+
             </md-list>
           </div>
         </div>
