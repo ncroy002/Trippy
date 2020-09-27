@@ -5,14 +5,11 @@ import Index from "./views/Index.vue";
 import Login from "./views/Login.vue";
 import Profile from "./views/Profile.vue";
 import Recommend from "./views/Recommend.vue";
-import Forums from "./views/Forums.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import HomeNavbar from "./layout/HomeNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
-import FAQ from "./views/Faq.vue"
+import FAQ from "./views/FAQ.vue"
 import About from "./views/About.vue"
-import Trips from "./views/Trips.vue"
-import Recommend from "./views/Recommend.vue"
 
 Vue.use(Router);
 
@@ -22,15 +19,6 @@ export default new Router({
       path: "/",
       name: "index",
       components: { default: Index, header: HomeNavbar, footer: MainFooter },
-      props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" }
-      }
-    },
-    {
-      path: "/trips",
-      name: "trips",
-      components: { default: Trips, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
@@ -74,21 +62,10 @@ export default new Router({
     {
       path: "/recommendations",
       name: "recommendations",
-      components: {
-        default: Recommend,
-        header: MainNavbar,
-        footer: MainFooter
-      },
-
-
-
+      components: { default: Recommend, header: MainNavbar, footer: MainFooter },
       props: {
-        header: {
-          colorOnScroll: 400
-        },
-        footer: {
-          backgroundColor: "black"
-        }
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
       }
     }
   ],
