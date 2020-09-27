@@ -121,7 +121,7 @@
               </md-list-item>
 
                <md-list-item href="#/recommendations">
-                <i class="material-icons">assist</i>
+                <i class="material-icons">assistant</i>
                 <p>Recommendations</p>
               </md-list-item>
 
