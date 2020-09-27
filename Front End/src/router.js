@@ -23,7 +23,11 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      components: { default: Index, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: Index,
+        header: MainNavbar,
+        footer: MainFooter
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
@@ -33,15 +37,24 @@ export default new Router({
     {
       path: "/login",
       name: "login",
-      components: { default: Login, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: Login,
+        header: MainNavbar,
+        footer: MainFooter
+      },
       props: {
-        header: { colorOnScroll: 400 }
+        header: { colorOnScroll: 400 },
+        footer: {backgroundColor: "black"}
       }
     },
     {
       path: "/profile",
       name: "profile",
-      components: { default: Profile, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: Profile,
+        header: MainNavbar,
+        footer: MainFooter
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
@@ -50,7 +63,11 @@ export default new Router({
     {
       path: "/faq",
       name: "faq",
-      components: { default: FAQ, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: FAQ,
+        header: MainNavbar,
+        footer: MainFooter
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
@@ -59,7 +76,11 @@ export default new Router({
     {
       path: "/about",
       name: "about",
-      components: { default: About, header: MainNavbar, footer: MainFooter },
+      components: {
+        default: About,
+        header: MainNavbar,
+        footer: MainFooter
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
@@ -72,6 +93,10 @@ export default new Router({
         default: Recommend,
         header: MainNavbar,
         footer: MainFooter
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black"}
       }
     },
     {
@@ -81,18 +106,12 @@ export default new Router({
         default: Forums,
         header: MainNavbar,
         footer: MainFooter
-      }
-    },
-    {
-      path: "/Register",
-      name: "register",
-      components: { default: Register, header: MainNavbar },
+      },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
-    }
-
+    },
     {
       path: "/userlist",
       name: "userlist",
@@ -100,6 +119,14 @@ export default new Router({
         default: UserList,
         header: MainNavbar,
         footer: MainFooter
+      },
+      props: {
+        header: {
+          colorOnScroll: 400
+        },
+        footer: {
+          backgroundColor: "black"
+        }
       }
     },
 {
@@ -109,10 +136,25 @@ export default new Router({
         default: Register,
         header: MainNavbar,
         footer: MainFooter
+      },
+      props: {
+        header: {
+          colorOnScroll: 400
+        },
+        footer: {
+          backgroundColor: "black"
+        }
       }
-    }
-
-  
+    },
+    {
+      path: "/events",
+      name: "events",
+      components: {
+        default: Events,
+        header: MainNavbar,
+        footer: MainFooter
+      }
+    },
      
     
   ],
