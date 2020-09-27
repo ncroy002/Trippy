@@ -97,6 +97,13 @@
               </md-list-item>
 
             </md-list>
+
+              <md-list-item href="#/register" v-if="!user">
+                <i class="material-icons">person_add</i>
+                <p>Create Account</p>
+                <md-tooltip md-direction="bottom">Create account</md-tooltip>
+              </md-list-item>
+              
           </div>
         </div>
       </div>
