@@ -8,6 +8,7 @@ import Profile from "./views/Profile.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import FAQ from "./views/Faq.vue";
 import Register from "./views/Register.vue"
+import Events from "./views/Events.vue"
 
 
 Vue.use(Router);
@@ -75,7 +76,15 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
-    }
+    },
+    {
+      path: "/Events",
+      name: "event",
+      components: { default: Events, header: MainNavbar },
+      props: {
+        header: { colorOnScroll: 400 }
+      }
+    },
 
   ],
   scrollBehavior: to => {
