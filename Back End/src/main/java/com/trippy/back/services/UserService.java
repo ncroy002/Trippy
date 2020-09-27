@@ -1,5 +1,6 @@
 package com.trippy.back.services;
 
+import com.trippy.back.BackApplication;
 import com.trippy.back.entities.Account;
 import com.trippy.back.repos.UserRepo;
 import com.trippy.back.security.JwtGenerator;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Level;
 
 
 @Service
@@ -71,6 +73,24 @@ public class UserService {
             return new ResponseEntity<>(HttpStatus.OK);
         }
 
+    }
+
+    public void update(Account account){
+        try {
+            List<Account> list = getAllUsers();
+            if (list.contains(account)) {
+                Account dbAccount = list.get(list.indexOf(account));
+                dbAccount.setDescription(dbAccount.getDescription().equals(account.getDescription()) ?  dbAccount.getDescription(): account.getDescription());
+                dbAccount.setFirstname(dbAccount.getFirstname().equals(account.getFirstname()) ?  dbAccount.getFirstname(): account.getFirstname());
+                dbAccount.setLastname(dbAccount.getLastname().equals(account.getLastname()) ?  dbAccount.getLastname(): account.getLastname());
+                BackApplication.LOGGER.info("Updating user ["+dbAccount+"]");
+                userRepo.save(dbAccount);
+                return;
+            }
+        } catch(Exception e){
+            BackApplication.LOGGER.log(Level.SEVERE, "Failed to update User ["+account+"]", e);
+        }
+        throw new RuntimeException("User ["+account+"] does not exist in DB.");
     }
 
 }

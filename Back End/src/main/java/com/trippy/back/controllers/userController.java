@@ -6,7 +6,11 @@ import com.trippy.back.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 
 @CrossOrigin
@@ -26,6 +30,8 @@ public class userController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         else{
+            Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)    SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+            authorities.forEach(System.out::println);
             return new ResponseEntity<>(
                     token, HttpStatus.OK
             );
@@ -41,5 +47,16 @@ public class userController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    @PostMapping(value = "/update")
+    public ResponseEntity update(@RequestBody Account account){
+        userService.update(account);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getuser")
+    public ResponseEntity getUser(){
+        return new ResponseEntity<>(userService.getAllUsers().get(0), HttpStatus.OK);
+    }
 
 }

@@ -47,9 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
+
         //csrf: cross site filtering
         http.csrf().disable()
-                .authorizeRequests().antMatchers("**/**/secure/**").authenticated()
+                .authorizeRequests().antMatchers("**/**/secure/**").authenticated().antMatchers("/admin/*").hasAuthority("ADMIN")
                 .and()
                 .exceptionHandling().authenticationEntryPoint(entryPoint)
                 .and()
@@ -57,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         http.headers().cacheControl();
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth.authenticationProvider(authenticationProvider);
