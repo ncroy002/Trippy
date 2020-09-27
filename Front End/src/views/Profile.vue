@@ -97,11 +97,13 @@
 <script>
 import axios from 'axios'
 import { Tabs } from "@/components";
+
 export default {
   components: {
     Tabs
   },
   bodyClass: "profile-page",
+
   data() {
     return {
       toggle: false,
@@ -182,6 +184,7 @@ export default {
     }
   }
 };
+
 </script>
 
 <style lang="scss" scoped>
