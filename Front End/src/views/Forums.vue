@@ -167,7 +167,7 @@ export default {
 .centered {
   position: absolute;
   top: 0%;
-  left: 13%;
-  transform: translate(-0%, 13%);
+  left: 15%;
+  transform: translate(-0%, 15%);
 }
 </style>
