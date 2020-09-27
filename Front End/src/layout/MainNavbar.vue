@@ -201,9 +201,11 @@ export default {
         }
       }
     },
+
     scrollListener() {
       resizeThrottler(this.handleScroll);
     },
+
     scrollToElement() {
       let element_id = document.getElementById("downloadSection");
       if (element_id) {
@@ -211,9 +213,11 @@ export default {
       }
     }
   },
+
   mounted() {
     document.addEventListener("scroll", this.scrollListener);
   },
+
   beforeDestroy() {
     document.removeEventListener("scroll", this.scrollListener);
   }

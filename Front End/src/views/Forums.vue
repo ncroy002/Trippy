@@ -115,6 +115,7 @@ export default {
   components: {
     NavTabsCard
   },
+
   bodyClass: "landing-page",
   props: {
     header: {
