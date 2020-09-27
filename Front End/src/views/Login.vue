@@ -48,7 +48,8 @@
                 <div class="alert-icon">
                   <md-icon>info_outline</md-icon>
                 </div>
-                <b> ERROR ALERT </b> : Please enter a valid username and password.
+                <b> ERROR ALERT </b> : Please enter a valid username and
+                password.
               </div>
             </div>
           </div>
@@ -108,15 +109,18 @@ export default {
         } else {
           this.valid = true;
         }
+      } else {
+        this.valid = true;
+      }
     },
-    removeNotify(e, notifyClass){
+
+    removeNotify(e, notifyClass) {
       var target = e.target;
-      while(target.className.indexOf(notifyClass) === -1){
+      while (target.className.indexOf(notifyClass) === -1) {
         target = target.parentNode;
       }
       return target.parentNode.removeChild(target);
     }
-
   },
   computed: {
     headerStyle() {
