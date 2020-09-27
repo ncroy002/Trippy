@@ -8,12 +8,13 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-
+import Vuelidate from 'vuelidate';
 import MaterialKit from "./plugins/material-kit";
 
 Vue.config.productionTip = false;
 
-Vue.use(MaterialKit);
+//Added Vuelidate for validation on register page
+Vue.use(MaterialKit, Vuelidate);
 
 const NavbarStore = {
   showNavbar: false

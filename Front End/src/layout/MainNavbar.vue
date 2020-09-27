@@ -74,7 +74,7 @@
                           </a>
                         </li>
                          <li>
-                          <a href="#/admin" v-if="!admin">
+                          <a href="#/userlist" v-if="!admin">
                             <i class="material-icons">admin_panel_settings</i>
                             <p>Administrate</p>
                           </a>
@@ -122,6 +122,12 @@
                 <i class="material-icons">login</i>
                 <p>Login</p>
                 <md-tooltip md-direction="bottom">Already have an account</md-tooltip>
+              </md-list-item>
+
+              <md-list-item href="#/register" v-if="!user">
+                <i class="material-icons">person_add</i>
+                <p>Create Account</p>
+                <md-tooltip md-direction="bottom">Create account</md-tooltip>
               </md-list-item>
 
             </md-list>
