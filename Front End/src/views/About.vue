@@ -8,7 +8,7 @@
           <div
             class="md-layout-item md-size-50 md-small-size-70 md-xsmall-size-100"
           >
-            <h1 class="title">About</h1>
+            <h1 class="title">Our Team</h1>
             
             <br />
           </div>
@@ -22,7 +22,7 @@
         <div class="container">
       
           <div id="images">
-              <h3 align="center" class="title">Our Team</h3>
+            
             <div class="md-layout">
               <div class="md-layout-item md-size-20 md-xsmall-size-100 ml-auto">
                  
@@ -108,6 +108,9 @@
                   <small>Team Member</small></h4>
               </div>
 
+             
+           
+
               <div class="md-layout-item md-size-20 md-xsmall-size-100 ml-auto">
               <img
                   :src="urw"
@@ -117,6 +120,8 @@
                   <h4 align="center">Utsev Robby Walters<br>
                   <small>Git Master</small></h4>
               </div>
+
+            
 
               <div class="md-layout-item md-size-20 md-xsmall-size-100 ml-auto">
               <img
@@ -129,17 +134,10 @@
               </div>
             </div>
           </div>
-              <h3 align="center" class="title">About Our Project</h3>
-          <div class="md-layout about">
-         
-          <p align="center">This is our Senior Capstone project for Software Design and Development at the University of Central Oklahoma.<br>
-            Our site will allow a user to pick various search criteria such as cost, country, local activities, and dates of travel.  
-            With these criteria the site will fetch search items from multiple APIs to suggest cool potential 
-            destinations for the user.  The user will be able to save favorite trips, make comments, and share saved trips publicly.  
-        
-          </p>
-          
-        </div>
+          <div class="description text-center">
+           
+
+          </div>
 
         </div>
       </div>
@@ -228,10 +226,6 @@ title{
 }
 #images {
   margin-top: 50px;
-}
-
-.about {
-  margin-bottom: 50px;
 }
 
 </style>
