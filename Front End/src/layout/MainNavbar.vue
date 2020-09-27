@@ -68,9 +68,9 @@
                           </a>
                         </li>
                         <li>
-                          <a href="#/events">
+                          <a href="#/userlist">
                             <i class="material-icons">people</i>
-                            <p>User List</p>
+                            <p>User List/p>
                           </a>
                         </li>
 
