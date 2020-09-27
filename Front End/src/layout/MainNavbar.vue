@@ -27,24 +27,18 @@
               <!-- Here you can add your items from the section-start of your toolbar -->
             </mobile-menu>
             <md-list>
-              
-              <md-list-item href="#/">
+
+               <md-list-item href="#/">
                 <i class="material-icons">explore</i>
                 <p>Home</p>
-
               </md-list-item>
 
-              <md-list-item href="#/trips">
-                <i class="material-icons">loyalty</i>
-                <p>User Trips</p>
-
-              </md-list-item>
-
-              <md-list-item href="#/faq">
+               <md-list-item href="#/faq">
                 <i class="material-icons">help_outline</i>
                 <p>FAQ</p>
-
               </md-list-item>
+
+
               <li class="md-list-item" v-if="!user">
                 <a
                   href="javascript:void(0)"
@@ -67,31 +61,35 @@
                             <p>Profile</p>
                           </a>
                         </li>
+                        <!-- Commenting out until functionality is created
                         <li>
                           <a href="#/trips">
                             <i class="material-icons">where_to_vote</i>
                             <p>My Trips</p>
                           </a>
                         </li>
-                         <li>
-                          <a href="#/userlist" v-if="!admin">
+
+                        <li>
+                          <a href="#/userlist" v-if="admin">
                             <i class="material-icons">admin_panel_settings</i>
                             <p>Administrate</p>
                           </a>
                         </li>
+                        -->
                       </ul>
                     </drop-down>
                   </div>
                 </a>
               </li>
 
-              <md-list-item href="#/login" v-if="!user">
+  <!-- Commenting out until functionality is created
+              <md-list-item href="#/login">
                 <i class="material-icons">logout</i>
                 <p>Logout</p>
                 <md-tooltip md-direction="bottom"
                   >See ya next time</md-tooltip>
               </md-list-item>
-
+-->
               <md-list-item href="#/login" v-if="!user">
                 <i class="material-icons">login</i>
                 <p>Login</p>
@@ -105,6 +103,13 @@
               </md-list-item>
 
             </md-list>
+
+              <md-list-item href="#/register" v-if="!user">
+                <i class="material-icons">person_add</i>
+                <p>Create Account</p>
+                <md-tooltip md-direction="bottom">Create account</md-tooltip>
+              </md-list-item>
+              
           </div>
         </div>
       </div>
@@ -158,12 +163,8 @@ export default {
       toggledClass: false
     };
   },
-  computed: {
-    showDownload() {
-      const excludedRoutes = ["login", "profile"];
-      return excludedRoutes.every(r => r !== this.$route.name);
-    }
-  },
+
+
   methods: {
     bodyClick() {
       let bodyClick = document.getElementById("bodyClick");
