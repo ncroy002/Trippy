@@ -70,7 +70,7 @@
                         <li>
                           <a href="#/userlist">
                             <i class="material-icons">people</i>
-                            <p>User List/p>
+                            <p>User List</p>
                           </a>
                         </li>
 
