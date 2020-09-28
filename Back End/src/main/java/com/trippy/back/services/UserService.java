@@ -81,8 +81,8 @@ public class UserService {
             if (list.contains(account)) {
                 Account dbAccount = list.get(list.indexOf(account));
                 dbAccount.setDescription(dbAccount.getDescription().equals(account.getDescription()) ?  dbAccount.getDescription(): account.getDescription());
-                dbAccount.setFirstname(dbAccount.getFirstname().equals(account.getFirstname()) ?  dbAccount.getFirstname(): account.getFirstname());
-                dbAccount.setLastname(dbAccount.getLastname().equals(account.getLastname()) ?  dbAccount.getLastname(): account.getLastname());
+                dbAccount.setFirstName(dbAccount.getFirstName().equals(account.getFirstName()) ?  dbAccount.getFirstName(): account.getFirstName());
+                dbAccount.setLastName(dbAccount.getLastName().equals(account.getLastName()) ?  dbAccount.getLastName(): account.getLastName());
                 BackApplication.LOGGER.info("Updating user ["+dbAccount+"]");
                 userRepo.save(dbAccount);
                 return;

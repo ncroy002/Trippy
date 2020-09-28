@@ -16,16 +16,54 @@ public class Account {
     String password;
 
     @Column
-    String token;
+    String firstName;
 
-    @Column(name = "description")
+    @Column
+    String lastName;
+
+    @Column
     String description;
 
-    @Column(name = "firstname")
-    String firstname;
+    @Column
+    String profileImage;
 
-    @Column(name = "lastname")
-    String lastname;
+    @Column
+    String bannerImage;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public String getBannerImage() {
+        return bannerImage;
+    }
+
+    public void setBannerImage(String bannerImage) {
+        this.bannerImage = bannerImage;
+    }
+
+    @Column
+    String token;
 
     public Long getId() {
         return id;
@@ -60,9 +98,15 @@ public class Account {
     public Account() {
 
     }
-    public Account(String email, String password){
+
+    public Account(String email, String password, String firstName, String lastName){
         setEmail(email);
         setPassword(password);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setDescription("");
+        setProfileImage("");
+        setBannerImage("");
     }
 
     public String getDescription() {
@@ -73,21 +117,6 @@ public class Account {
         this.description = description;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
 
     @Override
     public String toString() {
@@ -97,8 +126,8 @@ public class Account {
                 ", password='" + password + '\'' +
                 ", token='" + token + '\'' +
                 ", description='" + description + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstName + '\'' +
+                ", lastname='" + lastName + '\'' +
                 '}';
     }
 
@@ -113,6 +142,6 @@ public class Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, token, description, firstname, lastname);
+        return Objects.hash(id, email, password, token, description, firstName, lastName);
     }
 }
