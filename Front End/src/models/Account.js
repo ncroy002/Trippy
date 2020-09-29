@@ -1,3 +1,4 @@
+//this is the account object from the backend
 export class Account {
     email;
     password;
