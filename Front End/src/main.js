@@ -18,14 +18,13 @@ Vue.config.productionTip = false;
 
 //Added Vuelidate for validation on register page
 Vue.use(MaterialKit, Vuelidate, Vuex);
-Vue.use(Vuex); //didn't add to previous expression
 
 const NavbarStore = {
   showNavbar: false
 };
 
 import { mapState } from 'vuex';
-/*
+
 const store = new Vuex.Store({
   state:{
     count: 0,
@@ -77,7 +76,7 @@ console.log(store.getters.doneToDosCount);
 console.log(store.getters.getToDoById(2));
 // Vue.set(obj, 'new prop', 123) how I can create a new object (FAQ)
 
-*/
+
 Vue.mixin({
   data() {
     return {

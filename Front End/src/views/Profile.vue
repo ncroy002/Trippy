@@ -19,7 +19,7 @@
                     </form>
                   </div>
                   <div id="name">
-                    <h3 class="title">{{currentUser.firstName}}{{currentUser.lastName}}</h3>
+                    <h3 class="title">{{user.firstname}} {{user.lastname}}</h3>
                   </div>
                   <h6>New User</h6>
                 </div>
@@ -147,18 +147,12 @@ export default {
     }
   },
   computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`
       };
     }
   },mounted () {
-    if(!this.currentUser) {
-      this.$router.push('/login');
-    }
     this.getUserDetails();
   },
   methods:{
