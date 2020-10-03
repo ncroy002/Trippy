@@ -44,22 +44,38 @@
 
 <script>
 import Axios, { axios } from "axios";
-
+import UserService from '../services/user.service';
 export default {
   bodyClass: "UserList-page",
+  
   props: {
     header: {
       type: String,
       default: require("@/assets/img/nature.jpg")
     }
   },
+  name: 'User',
   data() {
     return {
+      content: '',
       name: null,
       email: null,
       message: null,
       users: ["test1@test.com", "test2@test.com", "test3@test.com"]
     };
+  },
+  mounted() {
+    UserService.getUserBoard().then (
+      response => {
+        this.content = response.date;
+      },
+      error => {
+        this.content = 
+        (error.response && error.response.data) ||
+        error.message ||
+        error.toString();
+      }
+    );
   },
   created: function() {
     this.userList();

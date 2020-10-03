@@ -15,7 +15,8 @@
                 <md-input
                   aria-required="true"
                   type="email"
-                  v-model="email"
+                  v-model="user.email"
+                  name="email"
                 ></md-input>
               </md-field>
               <md-field class="md-form-group" slot="inputs">
@@ -24,11 +25,12 @@
                 <md-input
                   aria-required="true"
                   type="password"
-                  v-model="password"
+                  v-model="user.password"
+                  name="password"
                 ></md-input>
               </md-field>
               <md-button
-                v-on:click="login()"
+                v-on:click="handleLogin()"
                 slot="footer"
                 class="md-simple md-success md-lg"
                 >Login</md-button
@@ -62,18 +64,24 @@
 <script>
 import { LoginCard } from "@/components";
 import Axios, { axios } from "axios";
-import { Account } from "../models/Account";
+import { User } from "../models/user";
 
 export default {
+  
+
   components: {
     LoginCard
   },
   bodyClass: "login-page",
+  name: 'Login',
   data() {
     return {
-      email: null,
+      user: new User('', ''),
+      loading: false,
+      message: ''
+      /*email: null,
       password: null,
-      valid: false
+      valid: false*/
     };
   },
   props: {
@@ -81,9 +89,51 @@ export default {
       type: String,
       default: require("@/assets/img/profile_city.jpg")
     }
-  },
+  }, 
+  computed: {
+    loggedIn() {
+      return this.$store.sate.auth.status.loggedIn;
+      }
+    },
+    created() {
+      if(this.loggedIn) {
+        this.$router.push('/');
+      }
+    },
+    headerStyle() {
+      return {
+        backgroundImage: `url(${this.header})`
+      };
+    },
+  
   methods: {
-    login() {
+
+    handleLogin() {
+      /*this.loading = true;
+      this.$validator.validateAll().then(isValid => {
+        if (!isValid) {
+          this.loading = false;
+          return;
+        }*/
+
+        if (this.user.email && this.user.password) {
+          this.$store.dispatch('auth/login', this.user).then(
+            () => {
+              this.$router.push('/profile');
+            },
+            error => {
+              //this.loading = false;
+              this.message =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+            }
+          );
+        }
+      //});
+    },
+  
+   /* login() {
       const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (this.email && this.password) {
         if (
@@ -112,8 +162,7 @@ export default {
       } else {
         this.valid = true;
       }
-    },
-
+    },*/
     removeNotify(e, notifyClass) {
       var target = e.target;
       while (target.className.indexOf(notifyClass) === -1) {
@@ -122,13 +171,7 @@ export default {
       return target.parentNode.removeChild(target);
     }
   },
-  computed: {
-    headerStyle() {
-      return {
-        backgroundImage: `url(${this.header})`
-      };
-    }
-  }
+ 
 };
 </script>
 

@@ -8,14 +8,14 @@ import Recommend from "./views/Recommend.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
 import About from "./views/About.vue"
-import Forums from "./views/Forums.vue";
-import Faq from "./views/Faq.vue";
+import FAQ from "./views/Faq.vue";
 import Register from "./views/Register.vue"
-import Events from "./views/Events.vue";
+import Forums from "./views/Forums.vue"
+import Events from "./views/Events.vue"
 
 Vue.use(Router);
 
-export default new Router({
+export default new Router({name: 'User',
   routes: [
     {
       path: "/",
@@ -63,7 +63,7 @@ export default new Router({
       name: "faq",
 
       components: {
-        default: Faq,
+        default: FAQ,
         header: MainNavbar,
         footer: MainFooter
       },
@@ -163,4 +163,20 @@ export default new Router({
       return { x: 0, y: 0 };
     }
   }
+
+
 });
+
+  /*router.beforeEach((to, from, next) => {
+    const publicPages = ['/login', '/register', '/', '/forums', '/about', '/events', '/recommendations', '/Faq'];
+    const authRequired = !publicPages.includes(to.path);
+    const loggedIn = localStorage.getItem('user');
+
+    // trying to access a restricted page + not logged in
+    // redirect to login page
+    if (authRequired && !loggedIn) {
+      next('/login');
+    } else {
+      next();
+    }
+  });*/
