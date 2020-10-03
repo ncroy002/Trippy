@@ -39,7 +39,7 @@
               </md-list-item>
 
 
-              <li class="md-list-item" v-if="currentUser">
+              <li class="md-list-item" v-if="!user">
                 <a
                   href="javascript:void(0)"
                   class="md-list-item-router md-list-item-container md-button-clean dropdown"
@@ -74,26 +74,42 @@
                           </a>
                         </li>
 
+                        <!-- Commenting out until functionality is created
+                        <li>
+                          <a href="#/trips">
+                            <i class="material-icons">where_to_vote</i>
+                            <p>My Trips</p>
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="#/userlist" v-if="admin">
+                            <i class="material-icons">admin_panel_settings</i>
+                            <p>Administrate</p>
+                          </a>
+                        </li>
+                        -->
                       </ul>
                     </drop-down>
                   </div>
                 </a>
               </li>
 
-              <md-list-item href @click.prevent="logOut" v-if="currentUser">
+  <!-- Commenting out until functionality is created
+              <md-list-item href="#/login">
                 <i class="material-icons">logout</i>
                 <p>Logout</p>
                 <md-tooltip md-direction="bottom"
                   >See ya next time</md-tooltip>
               </md-list-item>
-
-              <md-list-item href="#/login" v-if="!currentUser">
+-->
+              <md-list-item href="#/login">
                 <i class="material-icons">login</i>
                 <p>Login</p>
                 <md-tooltip md-direction="bottom">Already have an account</md-tooltip>
               </md-list-item>
 
-              <md-list-item href="#/register" v-if="!currentUser">
+              <md-list-item href="#/register">
                 <i class="material-icons">person_add</i>
                 <p>Create Account</p>
                 <md-tooltip md-direction="bottom">Create account</md-tooltip>
@@ -135,17 +151,6 @@ function resizeThrottler(actualResizeHandler) {
 
 import MobileMenu from "@/layout/MobileMenu";
 export default {
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    },
-  /*  showAdminBoard() {
-      if (this.currentUser && this.currentUser.roles){
-        return this.currentUser.roles.includes('ROLE_ADMIN');
-      }
-      return false;
-    }*/
-  },
   components: {
     MobileMenu
   },
@@ -179,11 +184,21 @@ export default {
 
 
   methods: {
-    logout() {
-      this.$store.dispatch('auth/logout');
-      this.$router.push('/login');
-    },
+    bodyClick() {
+      let bodyClick = document.getElementById("bodyClick");
 
+      if (bodyClick === null) {
+        let body = document.querySelector("body");
+        let elem = document.createElement("div");
+        elem.setAttribute("id", "bodyClick");
+        body.appendChild(elem);
+
+        let bodyClick = document.getElementById("bodyClick");
+        bodyClick.addEventListener("click", this.toggleNavbarMobile);
+      } else {
+        bodyClick.remove();
+      }
+    },
     toggleNavbarMobile() {
       this.NavbarStore.showNavbar = !this.NavbarStore.showNavbar;
       this.toggledClass = !this.toggledClass;
@@ -209,7 +224,12 @@ export default {
       resizeThrottler(this.handleScroll);
     },
 
-    
+    scrollToElement() {
+      let element_id = document.getElementById("downloadSection");
+      if (element_id) {
+        element_id.scrollIntoView({ block: "end", behavior: "smooth" });
+      }
+    }
   },
 
   mounted() {
