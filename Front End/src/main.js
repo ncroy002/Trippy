@@ -11,43 +11,54 @@ import App from "./App.vue";
 import router from "./router";
 import Vuelidate from 'vuelidate';
 import MaterialKit from "./plugins/material-kit";
-import store from './store';
 import 'es6-promise/auto';
 
 Vue.config.productionTip = false;
 
 //Added Vuelidate for validation on register page
 Vue.use(MaterialKit, Vuelidate, Vuex);
+Vue.use(Vuex); //didn't add to previous expression
 
 const NavbarStore = {
   showNavbar: false
 };
 
-import { mapState } from 'vuex';
+import {
+  mapState
+} from 'vuex';
 
 const store = new Vuex.Store({
-  state:{
+  state: {
     count: 0,
-    todos: [
-      {id: 1, text: '...', done: true},
-      {id: 2, text: '...', done: false},
+    todos: [{
+        id: 1,
+        text: '...',
+        done: true
+      },
+      {
+        id: 2,
+        text: '...',
+        done: false
+      },
     ]
   },
-  actions: {                      //also an example of how to call from a database
-    incrementAsync ({ commit }) { //this call is an example of how to do API call as well
+  actions: { //also an example of how to call from a database
+    incrementAsync({
+      commit
+    }) { //this call is an example of how to do API call as well
       setTimeout(() => {
         commit('increment')
       }, 1000)
     }
   },
   mutations: {
-    increment (state){
+    increment(state) {
       state.count++;
     },
-    incrementBy (state, payload){
+    incrementBy(state, payload) {
       state.count += payload.amount
     },
-    decrement (state){
+    decrement(state) {
       state.count--;
     }
   },
