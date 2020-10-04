@@ -4,9 +4,9 @@ import javax.persistence.Entity;
 
 @Entity
 public class Admin extends Account {
-    int role = 1; //admin users have a role of one
+    String role = "1"; //admin users have a role of one
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 }
