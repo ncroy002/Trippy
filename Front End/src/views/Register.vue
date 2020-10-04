@@ -55,8 +55,10 @@ export default {
     LoginCard
   },
   bodyClass: "login-page",
+  name:'Register',
   data() {
-    return {
+
+  return {
       firstName: null,
       lastName: null,
       email: null,
@@ -79,8 +81,17 @@ export default {
       default: require("@/assets/img/profile_city.jpg")
     }
   },
+  computed: {
+
+    headerStyle() {
+      return {
+        backgroundImage: `url(${this.header})`
+      };
+    }
+  },
+
   methods: {
- 
+
 
     createUser() {
       const url = "http://localhost:8081/user/create";
@@ -99,13 +110,7 @@ export default {
         this.$router.push({path: "/login"});
     }
   },
-  computed: {
-    headerStyle() {
-      return {
-        backgroundImage: `url(${this.header})`
-      };
-    }
-  }
+  
 };
 </script>
 

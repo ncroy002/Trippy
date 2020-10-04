@@ -18,6 +18,7 @@ public class JwtValidator {
 
     public Account validate(String token){
         Account jwtAccount = null;
+        Account res = null;
         Date expirationDate = null;
         Date current = new Date();
         try{
@@ -26,12 +27,13 @@ public class JwtValidator {
                     .parseClaimsJws(token)
                     .getBody();
             jwtAccount = new Account();
-            jwtAccount.setId((Long) body.get("id"));
+            jwtAccount.setId(Long.parseLong(String.valueOf(body.get("id"))));
             jwtAccount.setEmail((String) body.get("email"));
             expirationDate = body.getExpiration();
+            res = userRepo.findByToken(token);
 
-            if(userRepo.findByToken(token) == null || current.after(expirationDate)){
-                jwtAccount = null;
+            if(res == null || current.after(expirationDate)){
+                res = null;
                 throw new Exception("JWT does not exist or is expired");
             }
 
@@ -39,6 +41,6 @@ public class JwtValidator {
         catch (Exception e){
             System.out.println(e);
         }
-        return jwtAccount;
+        return res;
     }
 }

@@ -48,6 +48,28 @@
               <h5 class="description">
                {{faq}}
               </h5>
+
+
+              ********TESTING
+
+               <div id="app">
+            {{count}}
+            <button @click='increment'>+</button>
+        </div>
+
+
+          <div id="app2">
+            {{count}}
+            <button @click='decrement'>-</button>
+        </div>
+
+
+             count: {{count}}
+             Completed todos: {{doneToDosCount}} 
+
+             *************TESTING
+
+
               <h5 class="description">
                 How do I update my email address or account information?
               </h5>
@@ -99,7 +121,11 @@
   </div>
 </template>
 
+
+
 <script>
+import { mapState, mapMutations} from 'vuex'
+import {mapGetters} from 'vuex';
 export default {
   bodyClass: "FAQ_page-page",
   props: {
@@ -114,17 +140,34 @@ export default {
       email: null,
       message: null,
       faq: "",
-      
+      localCount: 4,
     };
   },
-  computed: {
-    headerStyle() {
-      return {
-        backgroundImage: `url(${this.header})`,
-      };
-    },
-  },
+
+  methods: mapMutations([
+    'increment',
+    'incrementBy',
+    'decrement', 
+    ]),
+  computed: 
+    // mapGetters([
+    //   'doneToDos', 'doneToDosCount', 'getToDoById',
+    //   ]),
+    mapState ([
+        'count'
+      ]),
+  
+  //  headerStyle() {
+  //     return {
+  //       backgroundImage: `url(${this.header})`,
+  //      };
+  //    },
+  //   doneToDosCount() {
+  //     return this.$store.getters.doneToDosCount;
+  //   }
+  // },
 };
+
 </script>
 
 <style lang="scss" scoped>

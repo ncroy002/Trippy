@@ -6,6 +6,7 @@ import com.trippy.back.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -39,10 +40,11 @@ public class userController {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity create(@RequestBody Account account){
+    public ResponseEntity create(@RequestBody Account res){
 
+        Account newAccount = new Account(res.getEmail(), res.getPassword(), res.getFirstName(), res.getLastName());
 
-        userService.createUser(account);
+        userService.createUser(newAccount);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -54,9 +56,11 @@ public class userController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/getuser")
+    @RequestMapping(value = "/secure/getuser")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity getUser(){
         return new ResponseEntity<>(userService.getAllUsers().get(0), HttpStatus.OK);
     }
+
 
 }
