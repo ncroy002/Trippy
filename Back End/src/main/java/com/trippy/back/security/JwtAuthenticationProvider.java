@@ -1,7 +1,6 @@
 package com.trippy.back.security;
 
 import com.trippy.back.entities.Account;
-import com.trippy.back.entities.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -32,16 +31,10 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
         if(jwtAccount == null){
             throw new RuntimeException("Invalid JWT");
         }
-        String role = "0";
-        try {
 
-            Admin adminUser = (Admin)jwtAccount;
-            role = adminUser.getRole();
-        } catch(Exception e) {
-            System.out.println(e.getStackTrace());
-        }
 
-        List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(role);
+
+        List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(jwtAccount.getRole());
         return new JwtUserDetails(jwtAccount.getEmail(), jwtAccount.getPassword(), jwtAccount.getToken(), authorities);
     }
 

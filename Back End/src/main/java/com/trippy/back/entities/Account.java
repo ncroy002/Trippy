@@ -30,6 +30,23 @@ public class Account {
     @Column
     String bannerImage;
 
+    @Column
+    String role;
+
+    public boolean isUser() {
+        return ERole.USER.equals(role);
+    }
+    public boolean isAdmin() {
+        return ERole.ADMIN.equals(role);
+    }
+    public String getRole() {
+        return this.role;
+    }
+
+    public void setRole(ERole r) {
+        this.role = r.toString();
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -95,6 +112,7 @@ public class Account {
         return token;
     }
 
+
     public Account() {
 
     }
@@ -107,6 +125,7 @@ public class Account {
         setDescription("");
         setProfileImage("");
         setBannerImage("");
+        setRole(ERole.USER);
     }
 
     public String getDescription() {
