@@ -57,28 +57,23 @@ export default {
   bodyClass: "login-page",
   name:'Register',
   data() {
+
   return {
-    user: new User('','',''),
-    submitted: false,
-    successful: false,
-    message: ''
-  }
-  /*return {
       firstName: null,
       lastName: null,
       email: null,
       password: null,
       confirmPassword: null,
 
-    };*/
+    };
   },
-/*
+
   watch: {
     email(value){
       this.email = value;
       this.validateEmail(value);
     }
-  },*/
+  },
 
   props: {
     header: {
@@ -87,44 +82,17 @@ export default {
     }
   },
   computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    },
+
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`
       };
     }
   },
-    mounted() {
-      if(this.loggedIn){
-        this.$router.push('/');
-      }
-    },
+
   methods: {
-  handleRegister() {
-        this.message = '';
-        this.submitted = true;
-        this.$validator.validate().then(isValid => {
-          if (isValid) {
-            this.$store.dispatch('auth/register', this.user).then(
-              data => {
-                this.message = data.message;
-                this.successful = true;
-              },
-              error => {
-                this.message =
-                  (error.response && error.response.data) ||
-                  error.message ||
-                  error.toString();
-                this.successful = false;
-              }
-            );
-          }
-        });
-      }
-    },
-/*
+
+
     createUser() {
       const url = "http://localhost:8081/user/create";
       const account = new Account(this.email, this.password, this.firstName, this.lastName);
@@ -141,7 +109,7 @@ export default {
         });
         this.$router.push({path: "/login"});
     }
-  },*/
+  },
   
 };
 </script>
