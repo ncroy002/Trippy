@@ -40,10 +40,11 @@ public class userController {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity create(@RequestBody Account account){
+    public ResponseEntity create(@RequestBody Account res){
 
+        Account newAccount = new Account(res.getEmail(), res.getPassword(), res.getFirstName(), res.getLastName());
 
-        userService.createUser(account);
+        userService.createUser(newAccount);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -56,7 +57,7 @@ public class userController {
     }
 
     @RequestMapping(value = "/secure/getuser")
-//    @PreAuthorize("hasRole('one')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity getUser(){
         return new ResponseEntity<>(userService.getAllUsers().get(0), HttpStatus.OK);
     }
