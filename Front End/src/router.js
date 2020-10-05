@@ -1,12 +1,17 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from "./store.js"
+
+/*Layout*/
+import MainNavbar from "./layout/MainNavbar.vue";
+import MainFooter from "./layout/MainFooter.vue";
+
+/*Views*/
 import Index from "./views/Index.vue";
 import Login from "./views/Login.vue";
 import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
 import Recommend from "./views/Recommend.vue";
-import MainNavbar from "./layout/MainNavbar.vue";
-import MainFooter from "./layout/MainFooter.vue";
 import About from "./views/About.vue"
 import FAQ from "./views/Faq.vue";
 import Register from "./views/Register.vue"
@@ -49,6 +54,10 @@ export default new Router({name: 'User',
       name: "profile",
       
       components: {
+        Secure,
+        meta: {
+          requiresauth: true
+        },
         default: Profile,
         header: MainNavbar,
         footer: MainFooter
@@ -116,6 +125,10 @@ export default new Router({name: 'User',
       path: "/userlist",
       name: "userlist",
       components: {
+        Secure,
+        meta: {
+          requiresAuth: true
+        },
         default: UserList,
         header: MainNavbar,
         footer: MainFooter
@@ -166,17 +179,14 @@ export default new Router({name: 'User',
 
 
 });
-
- /* router.beforeEach((to, from, next) => {
-    const publicPages = ['/login', '/register', '/', '/forums', '/about', '/events', '/recommendations', '/Faq'];
-    const authRequired = !publicPages.includes(to.path);
-    const loggedIn = localStorage.getItem('user');
-
-    // trying to access a restricted page + not logged in
-    // redirect to login page
-    if (authRequired && !loggedIn) {
-      next('/login');
-    } else {
-      next();
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
     }
-  });*/
+    next('/login')
+  } else {
+    next()
+  }
+})
