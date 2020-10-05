@@ -3,7 +3,6 @@ package com.trippy.back.payload.request;
 public class LoginRequest {
 
     private String email;
-
     private String password;
 
     public String getEmail() {

@@ -44,12 +44,6 @@ public class Account {
         this.username = un;
     }
 
-    public boolean isUser() {
-        return ERole.ROLE_USER.equals(role);
-    }
-    public boolean isAdmin() {
-        return ERole.ROLE_ADMIN.equals(role);
-    }
     public String getRole() {
         return this.role;
     }
@@ -137,7 +131,6 @@ public class Account {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     @Override
     public String toString() {

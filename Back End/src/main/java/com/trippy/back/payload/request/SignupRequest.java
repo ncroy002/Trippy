@@ -3,11 +3,8 @@ package com.trippy.back.payload.request;
 public class SignupRequest {
 
     private String email;
-
     private String password;
-
     private String firstName;
-
     private String lastName;
 
     public String getEmail() {
