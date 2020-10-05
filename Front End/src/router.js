@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import store from "./store.js"
+import store from './store/store.js'
 
 /*Layout*/
 import MainNavbar from "./layout/MainNavbar.vue";
@@ -54,8 +54,7 @@ export default new Router({name: 'User',
       name: "profile",
       
       components: {
-        Secure,
-        meta: {
+       meta: {
           requiresauth: true
         },
         default: Profile,
@@ -125,7 +124,6 @@ export default new Router({name: 'User',
       path: "/secure/userlist",
       name: "userlist",
       components: {
-        Secure,
         meta: {
           requiresAuth: true
         },

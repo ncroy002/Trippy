@@ -12,7 +12,7 @@ import router from "./router";
 import Vuelidate from 'vuelidate';
 import MaterialKit from "./plugins/material-kit";
 import 'es6-promise/auto';
-import store from './store'
+import store from './store/store.js'
 
 Vue.config.productionTip = false;
 
