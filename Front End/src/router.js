@@ -50,7 +50,7 @@ export default new Router({name: 'User',
       }
     },
     {
-      path: "/profile",
+      path: "/secure/profile",
       name: "profile",
       
       components: {
@@ -122,7 +122,7 @@ export default new Router({name: 'User',
       }
     },
     {
-      path: "/userlist",
+      path: "/secure/userlist",
       name: "userlist",
       components: {
         Secure,
