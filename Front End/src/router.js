@@ -167,7 +167,7 @@ export default new Router({name: 'User',
 
 });
 
-  /*router.beforeEach((to, from, next) => {
+ /* router.beforeEach((to, from, next) => {
     const publicPages = ['/login', '/register', '/', '/forums', '/about', '/events', '/recommendations', '/Faq'];
     const authRequired = !publicPages.includes(to.path);
     const loggedIn = localStorage.getItem('user');

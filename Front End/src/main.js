@@ -12,6 +12,7 @@ import router from "./router";
 import Vuelidate from 'vuelidate';
 import MaterialKit from "./plugins/material-kit";
 import 'es6-promise/auto';
+import store from './store'
 
 Vue.config.productionTip = false;
 
@@ -23,6 +24,29 @@ const NavbarStore = {
   showNavbar: false
 };
 
+Vue.mixin({
+  data() {
+    return {
+      NavbarStore
+    };
+  }
+});
+
+new Vue({
+
+  store: store,
+  router,
+  render: h => h(App)
+}).$mount("#app");
+
+Vue.prototype.$http = Axios;
+const token = localStorage.getItem('token')
+if (token) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+}
+
+
+/*
 import {
   mapState
 } from 'vuex';
@@ -87,18 +111,4 @@ console.log(store.getters.doneToDosCount);
 console.log(store.getters.getToDoById(2));
 // Vue.set(obj, 'new prop', 123) how I can create a new object (FAQ)
 
-
-Vue.mixin({
-  data() {
-    return {
-      NavbarStore
-    };
-  }
-});
-
-new Vue({
-
-  store: store,
-  router,
-  render: h => h(App)
-}).$mount("#app");
+*/

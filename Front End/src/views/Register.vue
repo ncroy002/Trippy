@@ -59,21 +59,15 @@ export default {
   data() {
 
   return {
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-      confirmPassword: null,
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
 
     };
   },
 
-  watch: {
-    email(value){
-      this.email = value;
-      this.validateEmail(value);
-    }
-  },
 
   props: {
     header: {
@@ -92,24 +86,19 @@ export default {
 
   methods: {
 
-
     createUser() {
-      const url = "http://localhost:8081/user/create";
-      const account = new Account(this.email, this.password, this.firstName, this.lastName);
-      Axios.post(url, account, {params: {
-        header: {
-          "Content-Type": "application/json",
+      let data = {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password
         }
-      }})
-        .then(reponse => {
-          console.log(reponse);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-        this.$router.push({path: "/login"});
+        this.$store.dispatch('register', data)
+       .then(() => this.$router.push('/'))
+       .catch(err => console.log(err))
+      }
     }
-  },
+  
   
 };
 </script>
