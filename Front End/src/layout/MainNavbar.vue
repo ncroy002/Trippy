@@ -39,7 +39,7 @@
               </md-list-item>
 
 
-              <li class="md-list-item" v-if="!user">
+              <li class="md-list-item" v-if="isLoggedIn">
                 <a
                   href="javascript:void(0)"
                   class="md-list-item-router md-list-item-container md-button-clean dropdown"
@@ -68,53 +68,20 @@
                           </a>
                         </li>
                         <li>
-                          <a href="#/userlist">
+                          <a href="#/secure/userlist">
                             <i class="material-icons">people</i>
                             <p>User List</p>
                           </a>
                         </li>
-
-                        <!-- Commenting out until functionality is created
-                        <li>
-                          <a href="#/trips">
-                            <i class="material-icons">where_to_vote</i>
-                            <p>My Trips</p>
-                          </a>
-                        </li>
-
-                        <li>
-                          <a href="#/userlist" v-if="admin">
-                            <i class="material-icons">admin_panel_settings</i>
-                            <p>Administrate</p>
-                          </a>
-                        </li>
-                        -->
+                       
+                      
                       </ul>
                     </drop-down>
                   </div>
                 </a>
               </li>
 
-  <!-- Commenting out until functionality is created
-              <md-list-item href="#/login">
-                <i class="material-icons">logout</i>
-                <p>Logout</p>
-                <md-tooltip md-direction="bottom"
-                  >See ya next time</md-tooltip>
-              </md-list-item>
--->
-              <md-list-item href="#/login">
-                <i class="material-icons">login</i>
-                <p>Login</p>
-                <md-tooltip md-direction="bottom">Already have an account</md-tooltip>
-              </md-list-item>
-
-              <md-list-item href="#/register">
-                <i class="material-icons">person_add</i>
-                <p>Create Account</p>
-                <md-tooltip md-direction="bottom">Create account</md-tooltip>
-              </md-list-item>
-
+ 
               <md-list-item href="#/forums">
                 <i class="material-icons">chat</i>
                 <p>Forums</p>
