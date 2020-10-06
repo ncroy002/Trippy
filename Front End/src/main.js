@@ -17,8 +17,9 @@ import store from './store/store.js'
 Vue.config.productionTip = false;
 
 //Added Vuelidate for validation on register page
-Vue.use(MaterialKit, Vuelidate, Vuex);
+Vue.use(MaterialKit);
 Vue.use(Vuex); //didn't add to previous expression
+Vue.use(Vuelidate); //Multiple parameters in Vue.use() doesn't work
 
 const NavbarStore = {
   showNavbar: false
