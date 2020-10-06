@@ -20,7 +20,9 @@ import Events from "./views/Events.vue"
 
 Vue.use(Router);
 
-export default new Router({name: 'User',
+let router = new Router(
+  {
+    name: 'router',
   routes: [
     {
       path: "/",
@@ -50,10 +52,13 @@ export default new Router({name: 'User',
       }
     },
     {
-      path: "/secure/profile",
+      path: "/profile",
       name: "profile",
       
       components: {
+         meta: {
+           requiresAuth: true
+         },
         default: Profile,
         header: MainNavbar,
         footer: MainFooter
@@ -118,9 +123,12 @@ export default new Router({name: 'User',
       }
     },
     {
-      path: "/secure/userlist",
+      path: "/userlist",
       name: "userlist",
       components: {
+        meta: {
+          requiresAuth: true
+        },
         default: UserList,
         header: MainNavbar,
         footer: MainFooter
@@ -170,5 +178,17 @@ export default new Router({name: 'User',
   }
 
 
-});
+  }); export default router;
+
+  router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (store.getters.isLoggedIn) {
+        next()
+        return
+      }
+      next('/login')
+    } else {
+      next()
+    }
+  })
 

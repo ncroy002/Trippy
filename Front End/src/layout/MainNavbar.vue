@@ -68,7 +68,7 @@
                           </a>
                         </li>
                         <li>
-                          <a href="#/secure/userlist">
+                          <a href="#/userlist">
                             <i class="material-icons">people</i>
                             <p>User List</p>
                           </a>
