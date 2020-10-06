@@ -34,7 +34,7 @@ export default new Vuex.Store({
                 commit('auth_request')
                 axios({ url: 'http://localhost:8081/user/login', data: user, method: 'POST' })
                     .then(resp => {
-                        const token = resp.data.token
+                        const token = "Bearer " + resp.data.accessToken;
                         const user = resp.data.user
                         localStorage.setItem('token', token)
                         axios.defaults.headers.common['Authorization'] = token
@@ -53,7 +53,7 @@ export default new Vuex.Store({
                 commit('auth_request')
                 axios({ url: 'http://localhost:8081/user/create', data: user, method: 'POST' })
                     .then(resp => {
-                        const token = resp.data.token
+                        const token = Bearer + resp.data.accessToken
                         const user = resp.data.user
                         localStorage.setItem('token', token)
                         axios.defaults.headers.common['Authorization'] = token
