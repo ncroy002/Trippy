@@ -187,12 +187,12 @@ let router = new Router(
 
     const adminAuth = adminPages.includes(to.path)
     const userAuth = userPages.includes(to.path)
-    const loggedIn = localStorage.getItem('user');
 
     console.log("isLoggedIn: "+store.getters.isLoggedIn)
     console.log("authStatus: "+store.getters.authStatus)
     console.log("isAdmin: "+store.getters.isAdmin)
     console.log("isUser: "+store.getters.isUser)
+    console.log("token: "+store.getters.getJwtToken)
   
     // trying to access a restricted page + not logged in
     // redirect to login page

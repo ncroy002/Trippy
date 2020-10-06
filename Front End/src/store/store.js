@@ -102,7 +102,8 @@ export default new Vuex.Store({
             } else {
             return state.user.roles[0] == "ROLE_USER";
             }
-        }
-
+        },
+        getJwtToken: state => state.token,
+        getEmail: state =>  state.user.email,
     }
 })
