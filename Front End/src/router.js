@@ -1,21 +1,28 @@
 import Vue from "vue";
 import Router from "vue-router";
+import store from './store/store.js'
+
+/*Layout*/
+import MainNavbar from "./layout/MainNavbar.vue";
+import MainFooter from "./layout/MainFooter.vue";
+
+/*Views*/
 import Index from "./views/Index.vue";
 import Login from "./views/Login.vue";
 import UserList from "./views/UserList.vue";
 import Profile from "./views/Profile.vue";
 import Recommend from "./views/Recommend.vue";
-import MainNavbar from "./layout/MainNavbar.vue";
-import MainFooter from "./layout/MainFooter.vue";
 import About from "./views/About.vue"
-import Forums from "./views/Forums.vue";
-import Faq from "./views/Faq.vue";
+import FAQ from "./views/Faq.vue";
 import Register from "./views/Register.vue"
-import Events from "./views/Events.vue";
+import Forums from "./views/Forums.vue"
+import Events from "./views/Events.vue"
 
 Vue.use(Router);
 
-export default new Router({
+let router = new Router(
+  {
+    name: 'router',
   routes: [
     {
       path: "/",
@@ -49,6 +56,9 @@ export default new Router({
       name: "profile",
       
       components: {
+         meta: {
+           requiresAuth: true
+         },
         default: Profile,
         header: MainNavbar,
         footer: MainFooter
@@ -63,7 +73,7 @@ export default new Router({
       name: "faq",
 
       components: {
-        default: Faq,
+        default: FAQ,
         header: MainNavbar,
         footer: MainFooter
       },
@@ -116,6 +126,9 @@ export default new Router({
       path: "/userlist",
       name: "userlist",
       components: {
+        meta: {
+          requiresAuth: true
+        },
         default: UserList,
         header: MainNavbar,
         footer: MainFooter
@@ -163,4 +176,44 @@ export default new Router({
       return { x: 0, y: 0 };
     }
   }
-});
+
+
+  }); export default router;
+
+  router.beforeEach((to, from, next) => {
+    const publicPages = ['/', '/login', '/home', '/faq', '/about', '/recommendations', '/forums', '/register', '/events'];
+    const userPages = ['/profile'];
+    const adminPages = ['/userlist'];
+
+    const adminAuth = adminPages.includes(to.path)
+    const userAuth = userPages.includes(to.path)
+    const loggedIn = localStorage.getItem('user');
+
+    console.log("isLoggedIn: "+store.getters.isLoggedIn)
+    console.log("authStatus: "+store.getters.authStatus)
+    console.log("isAdmin: "+store.getters.isAdmin)
+    console.log("isUser: "+store.getters.isUser)
+  
+    // trying to access a restricted page + not logged in
+    // redirect to login page
+    if (adminAuth) {
+      if (store.getters.isAdmin) {
+        next();
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        next('/login');
+      }
+    } else if (userAuth) {
+      if (store.getters.isUser) {
+        next();
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        next('/login');
+      }
+    } else {
+      next();
+    }
+  });
+
