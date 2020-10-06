@@ -33,9 +33,8 @@ Vue.mixin({
 });
 
 new Vue({
-
-  store: store,
   router,
+  store: store,
   render: h => h(App)
 }).$mount("#app");
 

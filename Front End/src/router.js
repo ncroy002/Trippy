@@ -181,14 +181,39 @@ let router = new Router(
   }); export default router;
 
   router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (store.getters.isLoggedIn) {
-        next()
-        return
+    const publicPages = ['/', '/login', '/home', '/faq', '/about', '/recommendations', '/forums', '/register', '/events'];
+    const userPages = ['/profile'];
+    const adminPages = ['/userlist'];
+
+    const adminAuth = adminPages.includes(to.path)
+    const userAuth = userPages.includes(to.path)
+    const loggedIn = localStorage.getItem('user');
+
+    console.log("isLoggedIn: "+store.getters.isLoggedIn)
+    console.log("authStatus: "+store.getters.authStatus)
+    console.log("isAdmin: "+store.getters.isAdmin)
+    console.log("isUser: "+store.getters.isUser)
+  
+    // trying to access a restricted page + not logged in
+    // redirect to login page
+    if (adminAuth) {
+      if (store.getters.isAdmin) {
+        next();
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        next('/login');
       }
-      next('/login')
+    } else if (userAuth) {
+      if (store.getters.isUser) {
+        next();
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        next('/login');
+      }
     } else {
-      next()
+      next();
     }
-  })
+  });
 
