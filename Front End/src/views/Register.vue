@@ -36,7 +36,7 @@
                 <label>Confirm Password</label>
                 <md-input :type="'password'" v-model="confirmPassword"></md-input>
               </md-field>
-              <md-button v-on:click="createUser()" slot="footer" class="md-simple md-success md-lg">Submit</md-button>
+              <md-button v-on:click="register()" slot="footer" class="md-simple md-success md-lg">Submit</md-button>
             </login-card>
           </div>
         </div>
@@ -86,7 +86,7 @@ export default {
 
   methods: {
 
-    createUser() {
+    register() {
       let data = {
           firstName: this.firstName,
           lastName: this.lastName,

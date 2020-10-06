@@ -54,9 +54,6 @@ export default new Router({name: 'User',
       name: "profile",
       
       components: {
-       meta: {
-          requiresauth: true
-        },
         default: Profile,
         header: MainNavbar,
         footer: MainFooter
@@ -124,9 +121,6 @@ export default new Router({name: 'User',
       path: "/secure/userlist",
       name: "userlist",
       components: {
-        meta: {
-          requiresAuth: true
-        },
         default: UserList,
         header: MainNavbar,
         footer: MainFooter
@@ -177,14 +171,4 @@ export default new Router({name: 'User',
 
 
 });
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
-      next()
-      return
-    }
-    next('/login')
-  } else {
-    next()
-  }
-})
+
