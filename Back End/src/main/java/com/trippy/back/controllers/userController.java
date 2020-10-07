@@ -8,6 +8,7 @@ import com.trippy.back.payload.response.MessageResponse;
 import com.trippy.back.repos.UserRepo;
 import com.trippy.back.security.JwtUtils;
 import com.trippy.back.security.services.UserDetailsImpl;
+import com.trippy.back.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,24 +18,21 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 @CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin
 @RestController
 @RequestMapping(value = "/user")
 public class userController {
-    //@Autowired
-    //UserService userService = new UserService();
+    @Autowired
+    private UserService userService;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -47,6 +45,18 @@ public class userController {
 
     @Autowired
     JwtUtils jwtUtils;
+
+    @GetMapping(value = "/listUsers")
+    public ResponseEntity listUsers(){
+        return new ResponseEntity(userService.findAll(), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/deleteUser")
+    public ResponseEntity deleteUser(long ID){
+        userService.deleteUser(ID);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
     @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody LoginRequest req){
