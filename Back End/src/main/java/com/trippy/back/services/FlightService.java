@@ -1,17 +1,21 @@
 package com.trippy.back.services;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.squareup.okhttp.ResponseBody;
+import com.trippy.back.entities.Airport;
 import com.trippy.back.entities.Flight;
+import com.trippy.back.entities.Trip;
 import net.minidev.json.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class FlightService {
@@ -72,6 +76,26 @@ public class FlightService {
 
         //List<FlightPriceResult> resultList = objectMapper.readValue(response.body().string(), new TypeReference<List<FlightPriceResult>>(){});
         return  response.body();
+    }
+
+    public void getAirports(Trip trip) throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("https://rapidapi.p.rapidapi.com/apiservices/autosuggest/v1.0/"+ trip.getCountry()+"/GBP/en-GB/?query="+trip.getFlight().getCity2())
+                .get()
+                .addHeader("x-rapidapi-host", "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com")
+                .addHeader("x-rapidapi-key", "1b25331decmsh2220286ae9fedcdp1e87f4jsn270397c114a4")
+                .build();
+
+
+        Response response = client.newCall(request).execute();
+        String json = response.body().string();
+        //List<Airport> airports = objectMapper.readValue(response.body().string(), new TypeReference<List<Airport>>() {});
+        System.out.print("done");
     }
 
 }

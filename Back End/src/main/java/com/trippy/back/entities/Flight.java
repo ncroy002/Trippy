@@ -31,10 +31,13 @@ public class Flight {
     int child;
 //    nineRange child;
 
+    //todo: ignore this field and get it from trips in the future
     //Departure City IATA Code. ie. NYC
     String city1;
+    //todo: ignore this field and get it from trips in the future
     //Destination City IATA Code. ie. NYC
     String city2;
+    //todo: add this to trip
     //Departure Date (YYYY-MM-DD)
     Date date1;
     //number of youth (ages of 12-17)
@@ -67,13 +70,10 @@ public class Flight {
     //id to get results after initial api call is conducted
     String SearchID;
 
-    String originPlace;
-    String destinationPlace;
-
     //__________________________________________________________
     //OPTIONAL VARIABLES
     //----------------------------------------------------------
-
+    //todo: add this to trip
     //Return Date (YYYY-MM-DD)
     Date date2;
 
