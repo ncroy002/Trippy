@@ -33,7 +33,7 @@ public class UserService {
         try {
             if (userRepo.existsById(ID)) {
                 Account account = userRepo.getOne(ID);
-                BackApplication.LOGGER.info("Updating userID: " + account.getId() + "password...");
+                BackApplication.LOGGER.info("Resetting password for userID: " + account.getId());
                 account.setPassword(encoder.encode(password));
                 userRepo.save(account);
                 BackApplication.LOGGER.info("Password reset");

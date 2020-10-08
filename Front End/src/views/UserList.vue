@@ -55,9 +55,6 @@
                     </div>
 
                     <div class="col col-5" data-label="Reset/Delete">
-                      <!-- <md-button class="md-warning md-sm"
-                        >Reset Password</md-button
-                      > -->
                       <md-dialog-prompt
                         :md-active.sync="active"
                         v-model="newPassword"
@@ -65,16 +62,11 @@
                         md-input-maxlength="15"
                         md-input-placeholder="Password..."
                         md-confirm-text="Confirm"
-                        @md-closed="resetPassword(user.id)"
+                        @md-confirm="resetPassword(user.id)"
                       />
-                      <md-button
-                        class="md-warning md-sm"
-                        @click="
-                          active = true;
-                        "
+                      <md-button class="md-warning md-sm" @click="active = true"
                         >Reset Password</md-button
                       >
-                      <span v-if="newPassword"></span>
 
                       <md-button
                         class="md-danger md-sm"
@@ -128,33 +120,33 @@ export default {
         });
     },
     deleteUser(id) {
-      if(confirm("Are you sure you want to delete user ID: " + id + "?")){
-      console.log(id);
-      const url = "http://localhost:8081/user/deleteUser";
-      Axios.delete(url, {
-        params: {
-          ID: id
-        },
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(response => {
-          console.log(response);
-          this.users = this.users.filter(e => e.id != id);
+      if (confirm("Are you sure you want to delete user ID: " + id + "?")) {
+        const url = "http://localhost:8081/user/deleteUser";
+        Axios.delete(url, {
+          params: {
+            ID: id
+          },
+          headers: {
+            "Content-Type": "application/json"
+          }
         })
-        .catch(error => {
-          console.warn("Error encountered: " + error);
-        });
+          .then(response => {
+            console.log(response);
+            this.users = this.users.filter(e => e.id != id);
+          })
+          .catch(error => {
+            console.warn("Error encountered: " + error);
+          });
       }
     },
     resetPassword: function(id) {
-      console.log("yyyyeeeeeeeeeeettttttt");
+      console.log(id);
+      console.log(this.newPassword);
       const url = "http://localhost:8081/user/resetPassword";
-      Axios.post(url, {
+      Axios.post(url, null, {
         params: {
           ID: id,
-          password: data.newPassword
+          password: this.newPassword
         },
         headers: {
           "Content-Type": "application/json"
