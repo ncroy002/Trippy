@@ -1,7 +1,5 @@
 package com.trippy.back.entities;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.trippy.back.enumeration.nineRange;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,7 +37,8 @@ public class Flight {
     String city2;
     //todo: add this to trip
     //Departure Date (YYYY-MM-DD)
-    Date date1;
+    //Date date1;
+    String date1;
     //number of youth (ages of 12-17)
     //limit: 0-9
     int  youth;
@@ -75,7 +74,8 @@ public class Flight {
     //----------------------------------------------------------
     //todo: add this to trip
     //Return Date (YYYY-MM-DD)
-    Date date2;
+    String date2;
+    //Date date2;
 
 
 //    JsonNode details;
@@ -88,7 +88,7 @@ public class Flight {
         this.city2 = city2;
     }
 
-    public Flight(int lapInfant, int infant, int child, String city1, String city2, Date date1, int youth, int flightType, int adults, int cabin, int seniors) {
+    public Flight(int lapInfant, int infant, int child, String city1, String city2, String date1, int youth, int flightType, int adults, int cabin, int seniors) {
         this.lapInfant = lapInfant;
         this.infant = infant;
         this.child = child;
@@ -142,11 +142,11 @@ public class Flight {
         this.city2 = city2;
     }
 
-    public Date getDate1() {
+    public String getDate1() {
         return date1;
     }
 
-    public void setDate1(Date date1) {
+    public void setDate1(String date1) {
         this.date1 = date1;
     }
 
@@ -198,7 +198,7 @@ public class Flight {
         SearchID = searchID;
     }
 
-    public Date getDate2() {
+    public String getDate2() {
         return date2;
     }
     public String dateToString(Date date){
@@ -207,7 +207,7 @@ public class Flight {
             return strDate;
     }
 
-    public void setDate2(Date date) {
+    public void setDate2(String date) {
         this.date2 = date;
     }
 
@@ -220,7 +220,7 @@ public class Flight {
 //    }
 
 
-    public Flight(int lapInfant, int infant, int child, String city1, String city2, Date date1, int youth, int flightType, int adults, int cabin, int seniors, Date date2) {
+    public Flight(int lapInfant, int infant, int child, String city1, String city2, String date1, int youth, int flightType, int adults, int cabin, int seniors, String date2) {
         this.lapInfant = lapInfant;
         this.infant = infant;
         this.child = child;

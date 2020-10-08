@@ -32,4 +32,9 @@ public class FlightController {
     JSONObject findAirports(@RequestBody Trip trip) throws IOException {
         return flightService.getAirports(trip);
     }
+
+    @RequestMapping(value = "/browse/routes")
+    String  browse(@RequestBody Flight flight) throws IOException {
+        return flightService.browseRoutes(flight);
+    }
 }
