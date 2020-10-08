@@ -6,10 +6,7 @@ import com.trippy.back.services.FlightService;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -29,7 +26,9 @@ public class FlightController {
     }
 
     @RequestMapping(value = "/find/airports")
-    JSONObject findAirports(@RequestBody Trip trip) throws IOException {
+    JSONObject findAirports(@RequestParam(name="city1") String city1, @RequestParam(name="city2") String city2) throws IOException {
+        Flight flight = new Flight(city1, city2);
+        Trip trip = new Trip(flight);
         return flightService.getAirports(trip);
     }
 

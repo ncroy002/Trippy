@@ -133,9 +133,9 @@ public class FlightService {
        // Airport[] airports = gson.fromJson(test, Airport[].class);
         //listPlaces.getPlaces().setAirports(airports);
 
-
-          returnObject.put("city1", listPlaces);
-//        returnObject.put("city2", responseTo.body().string());
+        
+        returnObject.put("city1", responseFrom.body().string());
+        returnObject.put("city2", responseTo.body().string());
 
 
         return returnObject;
