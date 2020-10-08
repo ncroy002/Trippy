@@ -46,16 +46,23 @@ public class userController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @GetMapping(value = "/listUsers")
+    @GetMapping (value = "/listUsers") @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity listUsers(){
         return new ResponseEntity(userService.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/deleteUser")
-    public ResponseEntity deleteUser(long ID){
+    @DeleteMapping(value = "/deleteUser") @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity deleteUser(@RequestParam(name="ID") Long ID){
         userService.deleteUser(ID);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PostMapping (value = "/resetPassword") @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity resetPassword(@RequestParam(name="ID") Long ID, @RequestParam(name="password") String password) {
+        userService.resetPassword(ID, password);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
 
     @PostMapping(value = "/login")

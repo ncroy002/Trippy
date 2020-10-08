@@ -21,17 +21,13 @@
             >
               <h2 class="title text-center">Account Modification</h2>
             </div>
-            
-            <div class="form-group bmd-form-group">
-              <label class="bmd-label-floating">Fist Name</label>
-              <input type="text" class="form-control" />
-            </div>
 
             <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
               <div class="container">
                 <h2>User List</h2>
+
                 <ul class="responsive-table">
                   <li class="table-header">
                     <div class="col col-1">User ID</div>
@@ -57,10 +53,29 @@
                     <div class="col col-4" data-label="Last Name">
                       {{ user.lastName }}
                     </div>
+
                     <div class="col col-5" data-label="Reset/Delete">
-                      <md-button class="md-warning md-sm"
+                      <!-- <md-button class="md-warning md-sm"
+                        >Reset Password</md-button
+                      > -->
+                      <md-dialog-prompt
+                        :md-active.sync="active"
+                        v-model="newPassword"
+                        md-title="Enter New Password"
+                        md-input-maxlength="15"
+                        md-input-placeholder="Password..."
+                        md-confirm-text="Confirm"
+                        @md-closed="resetPassword(user.id)"
+                      />
+                      <md-button
+                        class="md-warning md-sm"
+                        @click="
+                          active = true;
+                        "
                         >Reset Password</md-button
                       >
+                      <span v-if="newPassword"></span>
+
                       <md-button
                         class="md-danger md-sm"
                         @click="deleteUser(user.id)"
@@ -93,67 +108,67 @@ export default {
   },
   data() {
     return {
-      name: null,
-      email: null,
-      message: null,
-      users: {}
+      name: "DialogPrompt",
+      users: {},
+      active: false,
+      newPassword: null
     };
   },
   mounted: function() {
     this.userList();
   },
   methods: {
-    deleteUser(id) {
-      // console.log("yeeeeeeeeeeeeetttttttttt");
-      // const url = "http://localhost:8081/user/deleteUser";
-      // Axios.post(url, id, {
-      //   params: {
-      //     header: {
-      //       "Content-Type": "application/json"
-      //     }
-      //   }
-      // })
-      //   .then(response => {
-      //     console.log(response);
-      //   })
-      //   .catch(error => {
-      //     console.log("This is an error: " + error);
-      //   });
-
-      // Axios({
-      //   url: "http://localhost:8080/user/deleteUser",
-      //   method: "post",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: {}
-      // })
-      //   .then(response => {
-      //     console.log(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.error(error);
-      //   });
-
-      url: "http://localhost:8080/user/deleteUser";
-      Axios.post(url, {
-        ID: id
-      })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(error => {
-          console.log("Error encountered: " + error);
-        });
-    },
     userList: function() {
       const url = "http://localhost:8081/user/listUsers";
       Axios.get(url)
         .then(response => (this.users = response.data))
 
         .catch(function(error) {
-          console.log("error occured" + error);
+          console.warn("error occured" + error);
+        });
+    },
+    deleteUser(id) {
+      if(confirm("Are you sure you want to delete user ID: " + id + "?")){
+      console.log(id);
+      const url = "http://localhost:8081/user/deleteUser";
+      Axios.delete(url, {
+        params: {
+          ID: id
+        },
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(response => {
+          console.log(response);
+          this.users = this.users.filter(e => e.id != id);
+        })
+        .catch(error => {
+          console.warn("Error encountered: " + error);
+        });
+      }
+    },
+    resetPassword: function(id) {
+      console.log("yyyyeeeeeeeeeeettttttt");
+      const url = "http://localhost:8081/user/resetPassword";
+      Axios.post(url, {
+        params: {
+          ID: id,
+          password: data.newPassword
+        },
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.warn("error occured" + error);
         });
     }
   },
+
   computed: {
     headerStyle() {
       return {
