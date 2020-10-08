@@ -102,7 +102,7 @@
                 >
               </form>
             </login-card>
-            <div class="modal-mask" v-if="submitted && modal">
+            <!-- <div class="modal-mask" v-if="submitted && modal">
               <div class="modal-wrapper">
                 <div class="modal-container">
                   <div class="modal-header">
@@ -110,7 +110,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -140,7 +140,10 @@ export default {
       confirmPassword: "",
       submitted: false,
       modal: false,
-      response: ""
+      response: null,
+      error: "",
+      success: false,
+      fail: false,
     };
   },
 
@@ -194,8 +197,8 @@ export default {
         };
         this.$store
           .dispatch("register", data)
-          .then(resp => console.log(resp.data.message), this.modal=true)
-          .catch(err => console.log(err.data.messsage));
+          .then(resp => alert(resp.data.message), this.$router.push("/login"))
+          .catch(err => alert("Something went wrong: " + err))
       }
     }
   }
