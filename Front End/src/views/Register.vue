@@ -198,7 +198,7 @@ export default {
         this.$store
           .dispatch("register", data)
           .then(resp => alert(resp.data.message), this.$router.push("/login"))
-          .catch(err => alert("Something went wrong: " + err))
+          .catch(err => alert("Something went wrong: " + err), this.$router.push("/register"))
       }
     }
   }
