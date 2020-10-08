@@ -19,7 +19,6 @@ public class FlightController {
 
     @RequestMapping(value="/search/external/site")
     String searchFlight(@RequestBody Flight flight) throws IOException, ParseException {
-
         String flightID= flightService.generateSearchID(flight);
         //List<FlightPriceResult> flightPriceResults = flightService.searchResults(flightID);
         return flightService.searchResults(flightID).string();
@@ -33,7 +32,8 @@ public class FlightController {
     }
 
     @RequestMapping(value = "/browse/routes")
-    String  browse(@RequestBody Flight flight) throws IOException {
+    String  browse(@RequestParam(name="city1") String city1, @RequestParam(name="city2") String city2, @RequestParam(name="date1") String date1, @RequestParam(name="date2") String date2) throws IOException {
+        Flight flight = new Flight(city1, city2, date1, date2);
         return flightService.browseRoutes(flight);
     }
 }

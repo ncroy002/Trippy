@@ -19,5 +19,5 @@ export {
   LoginCard,
   Tabs,
   Modal,
-  TripSearch
+  TripSearch,
 };

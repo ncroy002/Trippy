@@ -90,7 +90,7 @@ public class FlightService {
            url = "https://rapidapi.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/"+flight.getCity1()+"/"+flight.getCity2()+"/"+flight.getDate1();
         }
         else{
-            url = "https://rapidapi.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/"+flight.getCity1()+"/"+flight.getCity2()+"/"+flight.getDate1()+"inboundpartialdate="+flight.getDate2();
+            url = "https://rapidapi.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/"+flight.getCity1()+"/"+flight.getCity2()+"/"+flight.getDate1()+"?inboundpartialdate="+flight.getDate2();
         }
         Request request = new Request.Builder()
                 .url(url)
@@ -126,10 +126,10 @@ public class FlightService {
         Response responseTo= client.newCall(requestTo).execute();
         Response responseFrom = client.newCall(requestFrom).execute();
 
-        String test = responseFrom.body().string();
+        /*String test = responseFrom.body().string();
         Gson gson = new Gson();
         ListPlaces listPlaces = gson.fromJson(test, ListPlaces.class);
-        listPlaces.setPlaces(gson.fromJson(test, Places.class));
+        listPlaces.setPlaces(gson.fromJson(test, Places.class));*/
        // Airport[] airports = gson.fromJson(test, Airport[].class);
         //listPlaces.getPlaces().setAirports(airports);
 
