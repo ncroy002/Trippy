@@ -102,6 +102,15 @@
                 >
               </form>
             </login-card>
+            <div class="modal-mask" v-if="submitted && modal">
+              <div class="modal-wrapper">
+                <div class="modal-container">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Modal Title</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -111,6 +120,7 @@
 
 <script>
 import { LoginCard } from "@/components";
+import { Modal } from "@/components";
 import Axios, { axios } from "axios";
 import { Account } from "../models/Account";
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
@@ -128,7 +138,9 @@ export default {
       email: "",
       password: "",
       confirmPassword: "",
-      submitted: false
+      submitted: false,
+      modal: false,
+      response: ""
     };
   },
 
@@ -182,8 +194,8 @@ export default {
         };
         this.$store
           .dispatch("register", data)
-          .then(() => this.$router.push("/"))
-          .catch(err => console.log(err));
+          .then(resp => console.log(resp.data.message), this.modal=true)
+          .catch(err => console.log(err.data.messsage));
       }
     }
   }
