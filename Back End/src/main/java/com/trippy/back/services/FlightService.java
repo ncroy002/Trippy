@@ -4,6 +4,7 @@ package com.trippy.back.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.google.gson.JsonParser;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -11,6 +12,8 @@ import com.squareup.okhttp.ResponseBody;
 import com.trippy.back.entities.Airport;
 import com.trippy.back.entities.Flight;
 import com.trippy.back.entities.Trip;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ import java.util.List;
 @Service
 public class FlightService {
     OkHttpClient client = new OkHttpClient();
+
 
     public String generateSearchID(Flight flight) throws IOException {
         String url;
@@ -78,24 +82,37 @@ public class FlightService {
         return  response.body();
     }
 
-    public void getAirports(Trip trip) throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
+    public JSONObject getAirports(Trip trip) throws IOException {
 
+        JSONObject returnObject = new JSONObject();
 
         OkHttpClient client = new OkHttpClient();
 
-        Request request = new Request.Builder()
+        Request requestTo = new Request.Builder()
                 .url("https://rapidapi.p.rapidapi.com/apiservices/autosuggest/v1.0/"+ trip.getCountry()+"/GBP/en-GB/?query="+trip.getFlight().getCity2())
                 .get()
                 .addHeader("x-rapidapi-host", "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "1b25331decmsh2220286ae9fedcdp1e87f4jsn270397c114a4")
                 .build();
 
+        Request requestFrom = new Request.Builder()
+                .url("https://rapidapi.p.rapidapi.com/apiservices/autosuggest/v1.0/"+ trip.getCountry()+"/GBP/en-GB/?query="+trip.getFlight().getCity1())
+                .get()
+                .addHeader("x-rapidapi-host", "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com")
+                .addHeader("x-rapidapi-key", "1b25331decmsh2220286ae9fedcdp1e87f4jsn270397c114a4")
+                .build();
 
-        Response response = client.newCall(request).execute();
-        String json = response.body().string();
+        Response responseTo= client.newCall(requestTo).execute();
+        Response responseFrom = client.newCall(requestFrom).execute();
+
+
+        
+//        returnObject.put("city1", responseFrom.body().string());
+//        returnObject.put("city2", responseTo.body().string());
+
+
+        return returnObject;
         //List<Airport> airports = objectMapper.readValue(response.body().string(), new TypeReference<List<Airport>>() {});
-        System.out.print("done");
     }
 
 }

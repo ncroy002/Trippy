@@ -83,6 +83,11 @@ public class Flight {
     public Flight() {
     }
 
+    public Flight(String city1, String city2) {
+        this.city1 = city1;
+        this.city2 = city2;
+    }
+
     public Flight(int lapInfant, int infant, int child, String city1, String city2, Date date1, int youth, int flightType, int adults, int cabin, int seniors) {
         this.lapInfant = lapInfant;
         this.infant = infant;

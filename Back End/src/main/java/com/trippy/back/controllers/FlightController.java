@@ -3,6 +3,7 @@ package com.trippy.back.controllers;
 import com.trippy.back.entities.Flight;
 import com.trippy.back.entities.Trip;
 import com.trippy.back.services.FlightService;
+import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,7 +29,7 @@ public class FlightController {
     }
 
     @RequestMapping(value = "/find/airports")
-    void findAirports(@RequestBody Trip trip) throws IOException {
-        flightService.getAirports(trip);
+    JSONObject findAirports(@RequestBody Trip trip) throws IOException {
+        return flightService.getAirports(trip);
     }
 }
