@@ -15,6 +15,10 @@ public class Faq{
 //    @Column
 //    String description;
 
+
+    public Faq() {
+    }
+
     public String getMessage() {
         return message;
     }
