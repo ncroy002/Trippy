@@ -1,4 +1,4 @@
-package com.trippy.back.entities;
+package com.trippy.back.enumeration;
 
 public enum ERole {
     ROLE_USER("ROLE_USER"),
