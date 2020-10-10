@@ -71,9 +71,8 @@ export default {
   bodyClass: "login-page",
   data() {
     return {
-      email: null,
-      password: null,
-      valid: false
+      email: "",
+      password: "",
     };
   },
   props: {
@@ -83,34 +82,12 @@ export default {
     }
   },
   methods: {
-    login() {
-      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if (this.email && this.password) {
-        if (
-          this.password.length >= 6 &&
-          re.test(String(this.email).toLowerCase())
-        ) {
-          this.valid = false;
-          const url = "http://localhost:8081/user/login";
-          const account = new Account(this.email, this.password);
-          Axios.post(url, account, {
-            params: {
-              header: {
-                "Content-Type": "application/json"
-              }
-            }
-          })
-            .then(reponse => {
-              console.log(reponse);
-            })
-            .catch(error => {
-              console.log(error);
-            });
-        } else {
-          this.valid = true;
-        }
-      } else {
-        this.valid = true;
+    login: function () {
+        let email = this.email
+        let password = this.password
+        this.$store.dispatch('login', { email, password })
+       .then(() => this.$router.push('/'))
+       .catch(err => console.log(err))
       }
     },
 
@@ -120,8 +97,8 @@ export default {
         target = target.parentNode;
       }
       return target.parentNode.removeChild(target);
-    }
-  },
+    },
+  
   computed: {
     headerStyle() {
       return {

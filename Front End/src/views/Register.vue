@@ -36,7 +36,7 @@
                 <label>Confirm Password</label>
                 <md-input :type="'password'" v-model="confirmPassword"></md-input>
               </md-field>
-              <md-button v-on:click="createUser()" slot="footer" class="md-simple md-success md-lg">Submit</md-button>
+              <md-button v-on:click="register()" slot="footer" class="md-simple md-success md-lg">Submit</md-button>
             </login-card>
           </div>
         </div>
@@ -55,23 +55,19 @@ export default {
     LoginCard
   },
   bodyClass: "login-page",
+  name:'Register',
   data() {
-    return {
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-      confirmPassword: null,
+
+  return {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
 
     };
   },
 
-  watch: {
-    email(value){
-      this.email = value;
-      this.validateEmail(value);
-    }
-  },
 
   props: {
     header: {
@@ -79,33 +75,31 @@ export default {
       default: require("@/assets/img/profile_city.jpg")
     }
   },
-  methods: {
- 
-
-    createUser() {
-      const url = "http://localhost:8081/user/create";
-      const account = new Account(this.email, this.password, this.firstName, this.lastName);
-      Axios.post(url, account, {params: {
-        header: {
-          "Content-Type": "application/json",
-        }
-      }})
-        .then(reponse => {
-          console.log(reponse);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-        this.$router.push({path: "/login"});
-    }
-  },
   computed: {
+
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`
       };
     }
-  }
+  },
+
+  methods: {
+
+    register() {
+      let data = {
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          password: this.password
+        }
+        this.$store.dispatch('register', data)
+       .then(() => this.$router.push('/'))
+       .catch(err => console.log(err))
+      }
+    }
+  
+  
 };
 </script>
 

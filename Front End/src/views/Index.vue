@@ -25,7 +25,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { TripSearch } from "@/components";
 
@@ -105,6 +104,7 @@ export default {
   beforeDestroy() {
     window.removeEventListener("resize", this.leafActive);
   }
+  
 };
 </script>
 <style lang="scss">

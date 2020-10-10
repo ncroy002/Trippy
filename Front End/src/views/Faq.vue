@@ -50,7 +50,6 @@
               <h5 class="description">
                {{message}}
               </h5>
-
               <h5 class="description">
                 How do I update my email address or account information?
               </h5>
@@ -148,7 +147,6 @@ export default {
       };
     }
  }
-
 };
 
 </script>

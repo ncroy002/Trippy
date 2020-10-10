@@ -1,62 +1,98 @@
 package com.trippy.back.controllers;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.trippy.back.entities.Account;
-import com.trippy.back.services.UserService;
+import com.trippy.back.payload.request.LoginRequest;
+import com.trippy.back.payload.request.SignupRequest;
+import com.trippy.back.payload.response.JwtResponse;
+import com.trippy.back.payload.response.MessageResponse;
+import com.trippy.back.repos.UserRepo;
+import com.trippy.back.security.JwtUtils;
+import com.trippy.back.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
-@CrossOrigin
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/user")
 public class userController {
+    //@Autowired
+    //UserService userService = new UserService();
+
     @Autowired
-    UserService userService = new UserService();
+    AuthenticationManager authenticationManager;
 
-    @JsonFormat
-    @ResponseBody
+    @Autowired
+    UserRepo userRepository;
+
+    @Autowired
+    PasswordEncoder encoder;
+
+    @Autowired
+    JwtUtils jwtUtils;
+
     @PostMapping(value = "/login")
-    public ResponseEntity login(@RequestBody Account account){
-        String token = userService.login(account);
-
-        if(token.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        else{
-            Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)    SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-            authorities.forEach(System.out::println);
-            return new ResponseEntity<>(
-                    token, HttpStatus.OK
-            );
-        }
+    public ResponseEntity login(@RequestBody LoginRequest req){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new JwtResponse(jwt,
+                userDetails.getId(),
+                userDetails.getUsername(),
+                userDetails.getEmail(),
+                roles));
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity create(@RequestBody Account account){
-
-
-        userService.createUser(account);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity create(@RequestBody SignupRequest req){
+        try {
+            if (userRepository.existsByEmail(req.getEmail())) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Error: Email is already taken!"));
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        Account user = new Account(req.getEmail(),
+                req.getFirstName(),
+                req.getLastName(),
+                encoder.encode(req.getPassword()));
+        userRepository.save(user);
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    //@PostMapping(value = "/update")
+    //public ResponseEntity update(@RequestBody Account account){
+    //    userService.update(account);
+    //    return new ResponseEntity<>(HttpStatus.OK);
+    //}
 
-    @PostMapping(value = "/update")
-    public ResponseEntity update(@RequestBody Account account){
-        userService.update(account);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/getuser")
+    @RequestMapping(value = "/secure/getuser")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity getUser(){
-        return new ResponseEntity<>(userService.getAllUsers().get(0), HttpStatus.OK);
+        return new ResponseEntity<>(userRepository.findAll().get(0), HttpStatus.OK);
     }
-
 }
