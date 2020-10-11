@@ -141,7 +141,6 @@ export default {
       })
         .then(result => {
           let { city1: value1, city2: value2 } = result.data;
-          console.log(result);
           let city1Places = Object.values(JSON.parse(value1).Places);
           let city2Places = Object.values(JSON.parse(value2).Places);
           city1Places.forEach(element => {
@@ -184,6 +183,9 @@ export default {
       })
         .then(result => {
           console.log(result);
+          let { Quotes, Carriers, Places } = result.data;
+          let flightData  = { Quotes: Quotes, Carriers: Carriers, Places: Places};
+          this.$emit('flightData', flightData);
         })
         .catch(err => {
           console.log(err);

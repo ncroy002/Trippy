@@ -19,7 +19,14 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <trip-search></trip-search>
+          <trip-search v-on:flightData="onFlightData"></trip-search>
+        </div>
+      </div>
+    </div>
+    <div v-if="flightData" class="main main-raised">
+      <div class="section section-basic">
+        <div class="container">
+          <flight-card :flight_data="flightData"></flight-card>
         </div>
       </div>
     </div>
@@ -27,10 +34,11 @@
 </template>
 <script>
 import { TripSearch } from "@/components";
-
+import FlightCard from "./components/FlightCard";
 export default {
   components: {
-    TripSearch
+    TripSearch,
+    FlightCard
   },
   name: "index",
   bodyClass: "index-page",
@@ -73,7 +81,8 @@ export default {
       firstname: null,
       email: null,
       password: null,
-      leafShow: false
+      leafShow: false,
+      flightData: undefined,
     };
   },
   methods: {
@@ -83,6 +92,9 @@ export default {
       } else {
         this.leafShow = true;
       }
+    },
+    onFlightData(data){
+      this.flightData = data;
     }
   },
   computed: {
