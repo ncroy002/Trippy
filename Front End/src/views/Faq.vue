@@ -28,7 +28,7 @@
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>search</md-icon>
                 <label>SEARCH FAQS</label>
-                <md-input v-model="faq" type="faq"></md-input>
+                <md-input v-model="search" type="search"></md-input>
               </md-field>
             </div>
 
@@ -38,38 +38,18 @@
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>add</md-icon>
                 <label>NEW FAQ</label>
-                <md-input v-model="faq" type="faq"></md-input>
+                <md-input v-model="message" type="message"></md-input>
               </md-field>
+              <md-button v-on:click="addFaq()" slot="footer" class="md-simple md-success md-lg">Add</md-button>
+
             </div>
 
             <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
               <h5 class="description">
-               {{faq}}
+               {{message}}
               </h5>
-
-
-              ********TESTING
-
-               <div id="app">
-            {{count}}
-            <button @click='increment'>+</button>
-        </div>
-
-
-          <div id="app2">
-            {{count}}
-            <button @click='decrement'>-</button>
-        </div>
-
-
-             count: {{count}}
-             Completed todos: {{doneToDosCount}} 
-
-             *************TESTING
-
-
               <h5 class="description">
                 How do I update my email address or account information?
               </h5>
@@ -124,8 +104,8 @@
 
 
 <script>
-import { mapState, mapMutations} from 'vuex'
-import {mapGetters} from 'vuex';
+import Axios, { axios } from "axios";
+import { Faq } from "../models/Faq";
 export default {
   bodyClass: "FAQ_page-page",
   props: {
@@ -138,34 +118,35 @@ export default {
     return {
       name: null,
       email: null,
-      message: null,
-      faq: "",
-      localCount: 4,
+      message: "",
+      search: "",
     };
   },
-
-  methods: mapMutations([
-    'increment',
-    'incrementBy',
-    'decrement', 
-    ]),
-  computed: 
-    // mapGetters([
-    //   'doneToDos', 'doneToDosCount', 'getToDoById',
-    //   ]),
-    mapState ([
-        'count'
-      ]),
-  
-  //  headerStyle() {
-  //     return {
-  //       backgroundImage: `url(${this.header})`,
-  //      };
-  //    },
-  //   doneToDosCount() {
-  //     return this.$store.getters.doneToDosCount;
-  //   }
-  // },
+  methods:   {
+      addFaq() {
+        console.log(this.message);
+      const url = "http://localhost:8081/faq/newFaq";
+      const faq = new Faq(this.message);
+      Axios.post(url, faq, {params: {
+        header: {
+          "Content-Type": "application/json",
+        }
+      }})
+        .then(reponse => {
+          console.log(reponse);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+},
+ computed: {
+    headerStyle() {
+      return {
+        backgroundImage: `url(${this.header})`
+      };
+    }
+ }
 };
 
 </script>
