@@ -19,6 +19,7 @@ Vue.config.productionTip = false;
 //Added Vuelidate for validation on register page
 Vue.use(MaterialKit, Vuelidate, Vuex);
 Vue.use(Vuex); //didn't add to previous expression
+Vue.use(Vuelidate);
 
 const NavbarStore = {
   showNavbar: false

@@ -33,6 +33,13 @@
                 class="md-simple md-success md-lg"
                 >Login</md-button
               >
+              <md-button
+                v-on:click="forgotPassword()"
+                slot="belowfooter"
+                class="md-simple md-success md-lg"
+              >
+                Forgot Password?
+              </md-button>
             </login-card>
 
             <div v-if="valid" class="alert alert-danger">
@@ -72,7 +79,7 @@ export default {
   data() {
     return {
       email: "",
-      password: "",
+      password: ""
     };
   },
   props: {
@@ -82,23 +89,28 @@ export default {
     }
   },
   methods: {
-    login: function () {
-        let email = this.email
-        let password = this.password
-        this.$store.dispatch('login', { email, password })
-       .then(() => this.$router.push('/'))
-       .catch(err => console.log(err))
-      }
+    login: function() {
+      let email = this.email;
+      let password = this.password;
+      this.$store
+        .dispatch("login", { email, password })
+        .then(() => this.$router.push("/"))
+        .catch(err => console.log(err));
     },
 
-    removeNotify(e, notifyClass) {
-      var target = e.target;
-      while (target.className.indexOf(notifyClass) === -1) {
-        target = target.parentNode;
-      }
-      return target.parentNode.removeChild(target);
-    },
-  
+    forgotPassword() {
+      this.$router.push({ path: "/forgotpassword" });
+    }
+  },
+
+  removeNotify(e, notifyClass) {
+    var target = e.target;
+    while (target.className.indexOf(notifyClass) === -1) {
+      target = target.parentNode;
+    }
+    return target.parentNode.removeChild(target);
+  },
+
   computed: {
     headerStyle() {
       return {
