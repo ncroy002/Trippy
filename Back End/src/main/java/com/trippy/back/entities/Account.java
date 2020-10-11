@@ -1,7 +1,9 @@
 package com.trippy.back.entities;
 
+import com.trippy.back.enumeration.ERole;
+
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Account {
@@ -35,6 +37,10 @@ public class Account {
 
     @Column
     String role;
+
+    @ManyToMany(targetEntity = FoundTrip.class,cascade = CascadeType.ALL )
+    List<FoundTrip> trips;
+
 
     public String getUsername() {
         return username;
@@ -106,6 +112,14 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<FoundTrip> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(List<FoundTrip> trips) {
+        this.trips = trips;
     }
 
     public Account() {
