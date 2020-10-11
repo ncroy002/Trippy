@@ -172,3 +172,4 @@ public class Account {
         return Objects.hash(id, email, password, description, firstName, lastName);
     }
 }
+

@@ -5,6 +5,7 @@ import Slider from "./Slider.vue";
 import Badge from "./Badge.vue";
 import NavTabsCard from "./cards/NavTabsCard.vue";
 import LoginCard from "./cards/LoginCard.vue";
+import EventCard from "./cards/EventCard";
 import Tabs from "./Tabs.vue";
 import Modal from "./Modal.vue";
 import TripSearch from "./TripSearch.vue";
@@ -20,4 +21,5 @@ export {
   Tabs,
   Modal,
   TripSearch,
+  EventCard
 };
