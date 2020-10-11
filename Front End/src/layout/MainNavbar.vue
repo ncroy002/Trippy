@@ -68,7 +68,7 @@
                           </a>
                         </li>
                         <li>
-                          <a href="#/userlist">
+                          <a href="#/userlist" v-if="isAdmin">
                             <i class="material-icons">people</i>
                             <p>User List</p>
                           </a>
@@ -93,47 +93,24 @@
               </md-list-item>
 
 
-          <!-- login dropdown -->
-             <li class="md-list-item">
-                <a
-                  href="javascript:void(0)"
-                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
-                >
-                  <div class="md-list-item-content">
-                    <drop-down direction="down">
-                      <md-button
-                        slot="title"
-                        class="md-button md-button-link md-white md-simple dropdown-toggle"
-                        data-toggle="dropdown"
-                      >
-                        <i class="material-icons">fingerprint</i>
-                 
-                      </md-button>
-                      <ul class="dropdown-menu dropdown-with-icons">
-                        <li v-if="!isLoggedIn">
-                          <a href="#/login">
-                            <i class="material-icons">login</i>
-                            <p>Login</p>
-                          </a>
-                        </li>
-                        <li v-if="isLoggedIn">
-                          <a  @click=logout>
-                            <i class="material-icons">logout</i>
-                            <p>Logout</p>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#/register">
-                            <i class="material-icons">person_add</i>
-                            <p>Register</p>
-                          </a>
-                        </li>                        
-                      </ul>
-                    </drop-down>
-                  </div>
+          <!-- login  -->
+            <md-list-item href="#/login"  v-if="!isLoggedIn">
+                <i class="material-icons">login</i>
+                <p>Login</p>
+              </md-list-item>
+<!-- logout  -->
+            <md-list-item v-if="isLoggedIn">
+              <a  @click=logout>
+                <i class="material-icons">logout</i>
+                <p>Logout</p>
                 </a>
-              </li>
- 
+              </md-list-item>
+              
+            <md-list-item href="#/register" v-if="!isLoggedIn">
+                <i class="material-icons">person_add</i>
+                <p>Register</p>
+              </md-list-item>
+            
 
             </md-list>
           </div>
@@ -191,13 +168,13 @@ export default {
   },
    computed : {
       isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+      ,isUser : function(){ return this.$store.getters.isUser}
+      ,isAdmin : function(){ return this.$store.getters.isAdmin}
     },
     methods: {
       logout: function () {
         this.$store.dispatch('logout')
-        .then(() => {
-          this.$router.push('/login')
-        })
+        .then(() => this.$router.push('/login'))
       }
     },
     bodyClick() {

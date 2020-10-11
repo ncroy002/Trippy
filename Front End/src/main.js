@@ -17,13 +17,68 @@ import store from './store/store.js'
 Vue.config.productionTip = false;
 
 //Added Vuelidate for validation on register page
-Vue.use(MaterialKit, Vuelidate, Vuex);
+Vue.use(MaterialKit);
 Vue.use(Vuex); //didn't add to previous expression
+Vue.use(Vuelidate); //Multiple parameters in Vue.use() doesn't work
 
 const NavbarStore = {
   showNavbar: false
 };
 
+import { mapState } from 'vuex';
+/*
+const store = new Vuex.Store({
+  state:{
+    count: 0,
+    todos: [
+      {id: 1, text: '...', done: true},
+      {id: 2, text: '...', done: false},
+    ]
+  },
+  actions: {                      //also an example of how to call from a database
+    incrementAsync ({ commit }) { //this call is an example of how to do API call as well
+      setTimeout(() => {
+        commit('increment')
+      }, 1000)
+    }
+  },
+  mutations: {
+    increment (state){
+      state.count++;
+    },
+    incrementBy (state, payload){
+      state.count += payload.amount
+    },
+    decrement (state){
+      state.count--;
+    }
+  },
+  getters: {
+    doneToDos: state => {
+      return state.todos.filter(todo => todo.done);
+    },
+    doneToDosCount: (state, getters) => {
+      return getters.doneToDos.length;
+    },
+    getToDoById: (state) => (id) => { //USE THIS FOR FAQ ITEMS
+      return state.todos.find(todo => todo.id === id);
+    },
+  }
+});
+
+// store.commit('increment');
+store.commit({
+  type: 'incrementBy',
+  amount: 40
+})
+// store.commit('incrementBy', {amount: 29});
+console.log(store.state.count);
+console.log(store.getters.doneToDos);
+console.log(store.getters.doneToDosCount);
+console.log(store.getters.getToDoById(2));
+// Vue.set(obj, 'new prop', 123) how I can create a new object (FAQ)
+
+*/
 Vue.mixin({
   data() {
     return {
@@ -34,8 +89,9 @@ Vue.mixin({
 
 new Vue({
 
-  store: store,
+ // store: store,
   router,
+  store: store,
   render: h => h(App)
 }).$mount("#app");
 
