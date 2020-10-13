@@ -38,7 +38,6 @@
                 <p>FAQ</p>
               </md-list-item>
 
-
               <li class="md-list-item" v-if="isLoggedIn">
                 <a
                   href="javascript:void(0)"
