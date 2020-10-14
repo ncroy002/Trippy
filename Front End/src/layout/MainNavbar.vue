@@ -39,7 +39,7 @@
               </md-list-item>
 
 
-              <li class="md-list-item" v-if="!user">
+              <li class="md-list-item" v-if="isLoggedIn">
                 <a
                   href="javascript:void(0)"
                   class="md-list-item-router md-list-item-container md-button-clean dropdown"
@@ -68,53 +68,20 @@
                           </a>
                         </li>
                         <li>
-                          <a href="#/userlist">
+                          <a href="#/userlist" v-if="isAdmin">
                             <i class="material-icons">people</i>
                             <p>User List</p>
                           </a>
                         </li>
-
-                        <!-- Commenting out until functionality is created
-                        <li>
-                          <a href="#/trips">
-                            <i class="material-icons">where_to_vote</i>
-                            <p>My Trips</p>
-                          </a>
-                        </li>
-
-                        <li>
-                          <a href="#/userlist" v-if="admin">
-                            <i class="material-icons">admin_panel_settings</i>
-                            <p>Administrate</p>
-                          </a>
-                        </li>
-                        -->
+                       
+                      
                       </ul>
                     </drop-down>
                   </div>
                 </a>
               </li>
 
-  <!-- Commenting out until functionality is created
-              <md-list-item href="#/login">
-                <i class="material-icons">logout</i>
-                <p>Logout</p>
-                <md-tooltip md-direction="bottom"
-                  >See ya next time</md-tooltip>
-              </md-list-item>
--->
-              <md-list-item href="#/login">
-                <i class="material-icons">login</i>
-                <p>Login</p>
-                <md-tooltip md-direction="bottom">Already have an account</md-tooltip>
-              </md-list-item>
-
-              <md-list-item href="#/register">
-                <i class="material-icons">person_add</i>
-                <p>Create Account</p>
-                <md-tooltip md-direction="bottom">Create account</md-tooltip>
-              </md-list-item>
-
+ 
               <md-list-item href="#/forums">
                 <i class="material-icons">chat</i>
                 <p>Forums</p>
@@ -126,6 +93,24 @@
               </md-list-item>
 
 
+          <!-- login  -->
+            <md-list-item href="#/login"  v-if="!isLoggedIn">
+                <i class="material-icons">login</i>
+                <p>Login</p>
+              </md-list-item>
+<!-- logout  -->
+            <md-list-item v-if="isLoggedIn">
+              <a  @click=logout>
+                <i class="material-icons">logout</i>
+                <p>Logout</p>
+                </a>
+              </md-list-item>
+              
+            <md-list-item href="#/register" v-if="!isLoggedIn">
+                <i class="material-icons">person_add</i>
+                <p>Register</p>
+              </md-list-item>
+            
 
             </md-list>
           </div>
@@ -181,9 +166,17 @@ export default {
       toggledClass: false
     };
   },
-
-
-  methods: {
+   computed : {
+      isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+      ,isUser : function(){ return this.$store.getters.isUser}
+      ,isAdmin : function(){ return this.$store.getters.isAdmin}
+    },
+    methods: {
+      logout: function () {
+        this.$store.dispatch('logout')
+        .then(() => this.$router.push('/login'))
+      }
+    },
     bodyClick() {
       let bodyClick = document.getElementById("bodyClick");
 
@@ -229,8 +222,8 @@ export default {
       if (element_id) {
         element_id.scrollIntoView({ block: "end", behavior: "smooth" });
       }
-    }
-  },
+    },
+  
 
   mounted() {
     document.addEventListener("scroll", this.scrollListener);

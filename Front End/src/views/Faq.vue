@@ -28,7 +28,7 @@
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>search</md-icon>
                 <label>SEARCH FAQS</label>
-                <md-input v-model="faq" type="faq"></md-input>
+                <md-input v-model="search" type="search"></md-input>
               </md-field>
             </div>
 
@@ -38,15 +38,17 @@
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>add</md-icon>
                 <label>NEW FAQ</label>
-                <md-input v-model="faq" type="faq"></md-input>
+                <md-input v-model="message" type="message"></md-input>
               </md-field>
+              <md-button v-on:click="addFaq()" slot="footer" class="md-simple md-success md-lg">Add</md-button>
+
             </div>
 
             <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
               <h5 class="description">
-               {{faq}}
+               {{message}}
               </h5>
               <h5 class="description">
                 How do I update my email address or account information?
@@ -99,7 +101,11 @@
   </div>
 </template>
 
+
+
 <script>
+import Axios, { axios } from "axios";
+import { Faq } from "../models/Faq";
 export default {
   bodyClass: "FAQ_page-page",
   props: {
@@ -112,19 +118,37 @@ export default {
     return {
       name: null,
       email: null,
-      message: null,
-      faq: "",
-      
+      message: "",
+      search: "",
     };
   },
-  computed: {
+  methods:   {
+      addFaq() {
+        console.log(this.message);
+      const url = "http://localhost:8081/faq/newFaq";
+      const faq = new Faq(this.message);
+      Axios.post(url, faq, {params: {
+        header: {
+          "Content-Type": "application/json",
+        }
+      }})
+        .then(reponse => {
+          console.log(reponse);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+},
+ computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.header})`,
+        backgroundImage: `url(${this.header})`
       };
-    },
-  },
+    }
+ }
 };
+
 </script>
 
 <style lang="scss" scoped>
