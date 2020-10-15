@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HelpRepo extends JpaRepository <Help, Long> {
- //   Help findById(Long id);
+
 
 }

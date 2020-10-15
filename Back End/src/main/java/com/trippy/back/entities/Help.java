@@ -1,12 +1,10 @@
 package com.trippy.back.entities;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
-public class Help {
+@Entity
+public class Help{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -15,7 +13,10 @@ public class Help {
     String message;
 
     @Column
-    Boolean completed ;
+    Boolean completed;
+
+    @Column
+    Long userId;
 
     public Help() {
     }
@@ -28,14 +29,6 @@ public class Help {
         this.message= message;
     }
 
-    public Boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed= completed;
-    }
-
     public Long getId() {
         return id;
     }
@@ -44,32 +37,30 @@ public class Help {
         this.id = id;
     }
 
-
-    public Help(String message){
-        setMessage(message);
-
-    }
-    public Help(Boolean completed){
-        setCompleted(completed);
-
+    public Long getUserId() {
+        return userId;
     }
 
-
-    @Override
-    public String toString() {
-        return "Help{" +
-                "id=" + id +
-                "completed=" + completed +
-                ", message='" + message + '\'' +
-                '}';
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Help help = (Help) o;
-        return Objects.equals(id, help.id) &&
-                Objects.equals(message, help.message);
+    public Boolean getCompleted() {
+        return completed;
     }
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
+
+    public Help(Long id, String message, Boolean completed, Long userId ){
+        this.id = id;
+        this.message = message;
+        this.completed = completed;
+        this.userId = userId;
+    }
+
+
+
 }
+
+
