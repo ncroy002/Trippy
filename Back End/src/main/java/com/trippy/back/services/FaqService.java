@@ -1,6 +1,7 @@
 package com.trippy.back.services;
 
 import com.trippy.back.BackApplication;
+import com.trippy.back.entities.Account;
 import com.trippy.back.entities.Faq;
 import com.trippy.back.repos.FaqRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,20 @@ public class FaqService {
         return FaqRepo.findAll();
     }
     //todo: potentially return http status or confirmation
-    public void deleteFaq(Long id){
-        if(FaqRepo.existsById(id)){
-            FaqRepo.deleteById(id);
-        }
-    }
 
     public ResponseEntity addFaq(Faq faq){
-        //maybe check for existing message
             FaqRepo.save(faq);
             return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public List<Faq> findAll(){
+        return FaqRepo.findAll();
+    }
+
+    public void deleteFaq(Long ID){
+        if(FaqRepo.existsById(ID)){
+            FaqRepo.deleteById(ID);
+        }
     }
 
     public void updateFaq(Faq faq){

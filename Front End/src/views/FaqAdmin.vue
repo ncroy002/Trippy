@@ -6,7 +6,7 @@
           <div
             class="md-layout-item md-size-50 md-small-size-70 md-xsmall-size-100"
           >
-            <h1 class="title">Frequently Asked Questions</h1>
+            <h1 class="title">FAQ Admin Page</h1>
 
             <br />
           </div>
@@ -22,20 +22,22 @@
             >
               <h2 class="title text-center">Frequently Asked Questions</h2>
             </div>
-             <div
+   
+
+            <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
               <md-field class="md-form-group" slot="inputs">
-                <md-icon>search</md-icon>
-                <label>SEARCH FAQS</label>
-                <md-input v-model="search" type="search"></md-input>
+                <md-icon>add</md-icon>
+                <label>NEW FAQ</label>
+                <md-input v-model="message" type="message"></md-input>
               </md-field>
-            </div>
-             <div
+              <md-button v-on:click="addFaq()" slot="footer" class="md-simple md-success md-lg">Add</md-button>
+            <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
-              <div class="container">
-
+              <div>
+				
                 <ul class="responsive-table">
                   <li class="table-header">
                     <div class="col col-5"></div>
@@ -48,45 +50,20 @@
                     <div class="col col-2" data-label="Faq">
                       {{ faq.message }}
                     </div>
+
+					<div class="col col-5" data-label="delete">
+					<md-button
+                        class="d-raised md-primary"
+                        @click="deleteFaq(faq.id)">
+						Remove Faq
+						</md-button>
+					</div>
 					</li>
 					</ul>
            	 </div>
 			</div>
-             <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
-              <h2 class="title text-center">Need Help?</h2>
+			</div>
             </div>
-  <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
-                      <form class="contact-form">
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-50">
-                    <md-field>
-                      <label>Your Name</label>
-                      <md-input v-model="name" type="text"></md-input>
-                    </md-field>
-                  </div>
-                  <div class="md-layout-item md-size-50">
-                    <md-field>
-                      <label>Your Email</label>
-                      <md-input v-model="email" type="email"></md-input>
-                    </md-field>
-                  </div>
-                </div>
-                <md-field maxlength="5">
-                  <label>Your Message</label>
-                  <md-textarea v-model="message"></md-textarea>
-                </md-field>
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-33 mx-auto text-center">
-                    <md-button class="md-success">Send Message</md-button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -99,7 +76,7 @@
 import Axios, { axios } from "axios";
 import { Faq } from "../models/Faq";
 export default {
-  bodyClass: "FAQ_page-page",
+  bodyClass: "FaqAdmin",
   props: {
     header: {
       type: String,
@@ -111,21 +88,38 @@ export default {
       name: null,
       email: null,
       message: "",
-      search: "",
+	  search: "",
+	  faqs: {},
     };
   },
- computed: {
+  computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.header})`
+        backgroundImage: `url(${this.header})`,
       };
-    }
- },
- mounted: function() {
+	},
+  },
+  mounted: function() {
     this.faqList();
   },
-  methods: {
-    faqList: function() {
+  methods:   {
+      addFaq() {
+      console.log(this.message);
+      const url = "http://localhost:8081/faq/newFaq";
+      const faq = new Faq(this.message);
+      Axios.post(url, faq, {params: {
+        header: {
+          "Content-Type": "application/json",
+        }
+      }})
+        .then(reponse => {
+          console.log(reponse);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+	},
+	faqList: function() {
 
 	  const url = "http://localhost:8081/faq/listFaqs";
 
@@ -136,8 +130,27 @@ export default {
           console.warn("error occured" + error);
         });	
 		},
-  },
-
+	deleteFaq(id) {
+      if (confirm("Confirm faq deletion: " + id )) {
+        const url = "http://localhost:8081/faq/deleteFaq";
+        Axios.delete(url, {
+          params: {
+            ID: id
+          },
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then(response => {
+            console.log(response);
+            this.faqs = this.faqs.filter(e => e.id != id);
+          })
+          .catch(error => {
+            console.warn("Error: " + error);
+          });
+      }
+    },
+ 	},
 };
 
 </script>
