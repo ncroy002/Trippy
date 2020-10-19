@@ -38,15 +38,15 @@
                         -->
                         <md-field>
                           <label>Title...</label>
-                          <md-input v-model="forumTitle"></md-input>
+                          <md-input v-model="forumTitle" type="forumTitle"></md-input>
                         </md-field>
 
                         <md-field>
                           <label>Post...</label>
-                          <md-textarea v-model="forumPost"></md-textarea>
+                          <md-input v-model="forumPost" type="forumPost"></md-input>
                         </md-field>
 
-                        <md-button v-on:click="addForumsPost" class="md-success">post</md-button>
+                        <md-button v-on:click="addForumsBackend()" class="md-success">post</md-button>
                       </md-tab>
 
                       <md-tab id="tab-images-video" md-label="Images & Video" md-icon="chat">
@@ -59,7 +59,7 @@
                           <input type="file" id="myPostImage" name="imagename" accept="image/x-png,image/gif,image/jpeg" />
                         </form>
                         <br />
-                        <md-button v-on:click="addForumsBackend" class="md-success">post</md-button>
+                        <md-button v-on:click="addForumsBackend()" class="md-success">post</md-button>
                       </md-tab>
                     </md-tabs>
                   </template>
@@ -98,6 +98,8 @@ export default {
     return {
       forumTitle: "",
       forumPost: "",
+      forumPostDate: "",
+      forumUser: "",
       forumspostcard:[
         { 
           id: 1,
@@ -121,22 +123,26 @@ export default {
   },
   methods:{
     addForumsBackend(){
-      console.log(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
-      const url = "http://localhost8081/forums/newForums";
-      const forum = new Forum(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
+      console.log(this.forumTitle);
+      console.log(this.forumPostDate);
+      console.log(this.forumPost);
+      console.log(this.forumUser);
+      const url = "http://localhost:8081/forums/newForums";
+      const forum = new Forums(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
       Axios.post(url, form, {params: {
         header: {
           "Content-Type": "application/json",
         }
       }})
-      .then(response => {
-        console.log(response);
+      .then(reponse => {
+        console.log(reponse);
       })
       .catch(error => {
         console.log(error);
       })
-      addForumsPost();
-    },
+      //addForumsPost();
+    }
+    /*
     addForumsPost(e){
       e.preventDefault();
       const newForumsPost = {
@@ -146,6 +152,7 @@ export default {
       }
       this.forumspostcard = [...this.forumspostcard, newForumsPost];
     },
+    */
   },
   computed: {
     headerStyle() {

@@ -11,54 +11,54 @@ public class Forums {
     int id;
 
     @Column
-    String username;
+    String forumUser;
 
     @Column
-    String title;
+    String forumTitle;
 
     @Column
-    String postDate;
+    String forumPostDate;
 
     @Column
-    String post;
+    String forumPost;
 
     public Forums(){}
 
-    public Forums(int id, String username, String title, String postDate, String post){
+    public Forums(int id, String forumUser, String forumTitle, String forumPostDate, String forumPost){
         this.id = id;
-        this.username = username;
-        this.title = title;
-        this.postDate = postDate;
-        this.post = post;
+        this.forumUser = forumUser;
+        this.forumTitle = forumTitle;
+        this.forumPostDate = forumPostDate;
+        this.forumPost = forumPost;
     }
 
     public int getId(){ return id; }
 
-    public String getUsername(){ return username; }
+    public String getForumUser(){ return forumUser; }
 
-    public String title(){ return title; }
+    public String getForumTitle(){ return forumTitle; }
 
-    public String postDate(){ return postDate; }
+    public String getForumPostDate(){ return forumPostDate; }
 
-    public String getPost(){ return post; }
+    public String getForumPost(){ return forumPost; }
 
     public void setId(int id){ this.id = id; }
 
-    public void setUsername(String username){ this.username = username; }
+    public void setForumUser(String forumUser){ this.forumUser = forumUser; }
 
-    public void setTitle(String title){ this.title = title; }
+    public void setForumTitle(String forumTitle){ this.forumTitle = forumTitle; }
 
-    public void setPostDate(String postDate){ this.postDate = postDate; }
+    public void setForumPostDate(String forumPostDate){ this.forumPostDate = forumPostDate; }
 
-    public void setPost(String post){ this.post = post; }
+    public void setForumPost(String forumPost){ this.forumPost = forumPost; }
 
     @Override
     public String toString(){
         return "Forums{" + "id=" + id +
-                            ", username" + username + '\'' +
-                            ", title" + title +  '\'' +
-                            ", postDate" + postDate + '\'' +
-                            ", post" + post + '\'' +
+                            ", username" + forumUser + '\'' +
+                            ", title" + forumTitle +  '\'' +
+                            ", postDate" + forumPostDate + '\'' +
+                            ", post" + forumPost + '\'' +
                             '}';
     }
 
@@ -71,6 +71,10 @@ public class Forums {
             return false;
         }
         Forums forums = (Forums) o;
-        return Objects.equals(id, forums.id) && Objects.equals(post, forums.post);
+        return Objects.equals(id, forums.id)
+                && Objects.equals(forumUser, forums.forumUser)
+                && Objects.equals(forumTitle, forums.forumTitle)
+                && Objects.equals(forumPostDate, forums.forumPostDate)
+                && Objects.equals(forumPost, forums.forumPost);
     }
 }

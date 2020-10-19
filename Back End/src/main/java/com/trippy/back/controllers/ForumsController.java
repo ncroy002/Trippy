@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/forums")
 public class ForumsController {
     @Autowired
-    ForumsService forumsservice;
+    ForumsService forumsservice = new ForumsService();
 
     @JsonFormat
     @ResponseBody

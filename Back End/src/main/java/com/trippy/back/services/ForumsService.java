@@ -14,32 +14,57 @@ import java.util.logging.Level;
 @Service
 public class ForumsService {
     @Autowired
-    ForumsRepo forumsrepo;
+    ForumsRepo ForumsRepo;
 
     public List<Forums> findAllForums(){
-        return forumsrepo.findAll();
+        return ForumsRepo.findAll();
     }
 
     public ResponseEntity addForums(Forums forums){
-        forumsrepo.save(forums);
+        ForumsRepo.save(forums);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /*
+
     public void updateForums(Forums forums){
         try{
             List<Forums> list = findAllForums();
             if(list.contains(forums)){
                 Forums forumsItems = list.get(list.indexOf(forums));
 
-                if(forumsItems.getPost().equals(forums.getPost())){
-                    forumsItems.setPost(forumsItems.getPost());
+                //Forum User
+                if(forumsItems.getForumUser().equals(forums.getForumUser())){
+                    forumsItems.setForumUser(forumsItems.getForumUser());
                 }
                 else{
-                    forums.getPost();
+                    forumsItems.setForumUser(forums.getForumUser());
+                }
+
+                //Forum Title
+                if(forumsItems.getForumTitle().equals(forums.getForumTitle())){
+                    forumsItems.setForumTitle(forumsItems.getForumTitle());
+                }
+                else{
+                    forumsItems.setForumTitle(forums.getForumTitle());
+                }
+
+                //Forum Post Date
+                if(forumsItems.getForumPostDate().equals(forums.getForumPostDate())){
+                    forumsItems.setForumPostDate(forumsItems.getForumPostDate());
+                }
+                else{
+                    forumsItems.setForumPostDate(forums.getForumPostDate());
+                }
+
+                //Forum Post
+                if(forumsItems.getForumPost().equals(forums.getForumPost())){
+                    forumsItems.setForumPost(forumsItems.getForumPost());
+                }
+                else{
+                    forumsItems.setForumPost(forums.getForumPost());
                 }
                 BackApplication.LOGGER.info("Updating the forums ["+forumsItems+"]");
-                forumsrepo.save(forumsItems);
+                ForumsRepo.save(forumsItems);
             }
         }
         catch(Exception e){
@@ -47,5 +72,4 @@ public class ForumsService {
         }
         throw new RuntimeException("Forums ["+forums+"] does not exist in the database.");
     }
-    */
 }
