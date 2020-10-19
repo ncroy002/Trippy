@@ -75,6 +75,8 @@
 </template>
 
 <script>
+import Axios, { axios } from "axios";
+import { Forums } from "../models/Forums";
 import { NavTabsCard } from "@/components";
 import { ForumsPostCard } from "@/components";
 
@@ -85,7 +87,7 @@ export default {
     ForumsPostCard
   },
 
-  bodyClass: "landing-page",
+  bodyClass: "forums-page",
   props: {
     header: {
       type: String,
@@ -94,6 +96,8 @@ export default {
   },
   data() {
     return {
+      forumTitle: "",
+      forumPost: "",
       forumspostcard:[
         { 
           id: 1,
@@ -124,6 +128,23 @@ export default {
         forumPost: this.forumPost
       }
       this.forumspostcard = [...this.forumspostcard, newForumsPost];
+      addForumsBackend();
+    },
+    addForumsBackend(){
+      console.log(this.forumPost);
+      const url = "http://localhost8081/forums/newForums";
+      const forum = new Forum(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
+      Axios.post(url, form, {params: {
+        header: {
+          "Content-Type": "application/json",
+        }
+      }})
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      })
     }
   },
   computed: {
