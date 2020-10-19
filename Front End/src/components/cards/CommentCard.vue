@@ -20,7 +20,9 @@ export default {
   props: ["commentcard"],
   components: {},
   data() {
-    return {};
+    return {
+      comment: ""
+    };
   },
   methods: {
     commentDate() {

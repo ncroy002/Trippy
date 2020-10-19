@@ -29,16 +29,7 @@ public class Flight {
     int child;
 //    nineRange child;
 
-    //todo: ignore this field and get it from trips in the future
-    //Departure City IATA Code. ie. NYC
-    String city1;
-    //todo: ignore this field and get it from trips in the future
-    //Destination City IATA Code. ie. NYC
-    String city2;
-    //todo: add this to trip
-    //Departure Date (YYYY-MM-DD)
-    //Date date1;
-    String date1;
+
     //number of youth (ages of 12-17)
     //limit: 0-9
     int  youth;
@@ -73,28 +64,16 @@ public class Flight {
     //OPTIONAL VARIABLES
     //----------------------------------------------------------
     //todo: add this to trip
-    //Return Date (YYYY-MM-DD)
-    String date2;
-    //Date date2;
 
-
-//    JsonNode details;
 
     public Flight() {
     }
 
-    public Flight(String city1, String city2) {
-        this.city1 = city1;
-        this.city2 = city2;
-    }
 
-    public Flight(int lapInfant, int infant, int child, String city1, String city2, String date1, int youth, int flightType, int adults, int cabin, int seniors) {
+    public Flight(int lapInfant, int infant, int child, int youth, int flightType, int adults, int cabin, int seniors) {
         this.lapInfant = lapInfant;
         this.infant = infant;
         this.child = child;
-        this.city1 = city1;
-        this.city2 = city2;
-        this.date1 = date1;
         this.youth = youth;
         this.flightType = flightType;
         this.adults = adults;
@@ -102,12 +81,6 @@ public class Flight {
         this.seniors = seniors;
     }
 
-    public Flight(String city1, String city2, String date1, String date2) {
-        this.city1 = city1;
-        this.city2 = city2;
-        this.date1 = date1;
-        this.date2 = date2;
-    }
 
     public int getLapInfant() {
         return lapInfant;
@@ -131,30 +104,6 @@ public class Flight {
 
     public void setChild(int child) {
         this.child = child;
-    }
-
-    public String getCity1() {
-        return city1;
-    }
-
-    public void setCity1(String city1) {
-        this.city1 = city1;
-    }
-
-    public String getCity2() {
-        return city2;
-    }
-
-    public void setCity2(String city2) {
-        this.city2 = city2;
-    }
-
-    public String getDate1() {
-        return date1;
-    }
-
-    public void setDate1(String date1) {
-        this.date1 = date1;
     }
 
     public int getYouth() {
@@ -205,40 +154,10 @@ public class Flight {
         SearchID = searchID;
     }
 
-    public String getDate2() {
-        return date2;
-    }
     public String dateToString(Date date){
             DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
             String strDate = dateFormat.format(date);
             return strDate;
     }
 
-    public void setDate2(String date) {
-        this.date2 = date;
-    }
-
-//    public JsonNode getDetails() {
-//        return details;
-//    }
-//
-//    public void setDetails(JsonNode details) {
-//        this.details = details;
-//    }
-
-
-    public Flight(int lapInfant, int infant, int child, String city1, String city2, String date1, int youth, int flightType, int adults, int cabin, int seniors, String date2) {
-        this.lapInfant = lapInfant;
-        this.infant = infant;
-        this.child = child;
-        this.city1 = city1;
-        this.city2 = city2;
-        this.date1 = date1;
-        this.youth = youth;
-        this.flightType = flightType;
-        this.adults = adults;
-        this.cabin = cabin;
-        this.seniors = seniors;
-        this.date2 = date2;
-    }
 }

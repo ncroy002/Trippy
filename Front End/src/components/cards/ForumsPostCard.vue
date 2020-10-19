@@ -39,7 +39,7 @@
               </div>
 
               <md-field></md-field>
-              <CommentCard v-bind:commentcard="commentcard"/>
+              <!--<CommentCard v-bind:commentcard="commentcard"/>-->
             </md-card>
           </div>
         </div>
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { CommentCard } from "@/components"
+//import { CommentCard } from "@/components"
 //import Axios, { axios } from "axios";
 //import { Account } from "../models/Account";
 
@@ -57,15 +57,18 @@ export default {
   name: "Forum-Post-Card",
   props: ["forumspostcard"],
   components: {
-    CommentCard
+    //CommentCard
   },
   data() {
     return {
+      comment: ""
+      /*
       commentcard:[{
         idc: 1,
         commentUser: "User10",
         comment: "Comment"
       }]
+      */
     };
   },
   methods: {

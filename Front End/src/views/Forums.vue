@@ -59,7 +59,7 @@
                           <input type="file" id="myPostImage" name="imagename" accept="image/x-png,image/gif,image/jpeg" />
                         </form>
                         <br />
-                        <md-button v-on:click="addForumsPost" class="md-success">post</md-button>
+                        <md-button v-on:click="addForumsBackend" class="md-success">post</md-button>
                       </md-tab>
                     </md-tabs>
                   </template>
@@ -120,18 +120,8 @@ export default {
     };
   },
   methods:{
-    addForumsPost(e){
-      e.preventDefault();
-      const newForumsPost = {
-        id: 4,
-        forumTitle: this.forumTitle,
-        forumPost: this.forumPost
-      }
-      this.forumspostcard = [...this.forumspostcard, newForumsPost];
-      addForumsBackend();
-    },
     addForumsBackend(){
-      console.log(this.forumPost);
+      console.log(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
       const url = "http://localhost8081/forums/newForums";
       const forum = new Forum(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
       Axios.post(url, form, {params: {
@@ -145,7 +135,17 @@ export default {
       .catch(error => {
         console.log(error);
       })
-    }
+      addForumsPost();
+    },
+    addForumsPost(e){
+      e.preventDefault();
+      const newForumsPost = {
+        id: 4,
+        forumTitle: this.forumTitle,
+        forumPost: this.forumPost
+      }
+      this.forumspostcard = [...this.forumspostcard, newForumsPost];
+    },
   },
   computed: {
     headerStyle() {
