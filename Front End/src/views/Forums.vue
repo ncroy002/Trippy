@@ -123,9 +123,6 @@ export default {
         forumTitle: this.forumTitle,
         forumPost: this.forumPost
       }
-      this.addMethod(newForumsPost);
-    },
-    addMethod(newForumsPost){
       this.forumspostcard = [...this.forumspostcard, newForumsPost];
     }
   },
