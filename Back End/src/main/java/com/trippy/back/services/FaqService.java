@@ -1,7 +1,6 @@
 package com.trippy.back.services;
 
 import com.trippy.back.BackApplication;
-import com.trippy.back.entities.Account;
 import com.trippy.back.entities.Faq;
 import com.trippy.back.repos.FaqRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +27,6 @@ public class FaqService {
             return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public List<Faq> findAll(){
-        return FaqRepo.findAll();
-    }
-
     public void deleteFaq(Long ID){
         if(FaqRepo.existsById(ID)){
             FaqRepo.deleteById(ID);
@@ -43,8 +38,8 @@ public class FaqService {
             List<Faq> list = getAllFaqs();
             if (list.contains(faq)) {
                 Faq faqItems = list.get(list.indexOf(faq));
-//                faqItems.setDescription(faqItems.getDescription().equals(faq.getDescription()) ?  faqItems.getDescription(): faq.getDescription());
                 faqItems.setMessage(faqItems.getMessage().equals(faq.getMessage()) ?  faqItems.getMessage(): faq.getMessage());
+                faqItems.setAnswer(faqItems.getAnswer().equals(faq.getAnswer()) ?  faqItems.getAnswer(): faq.getAnswer());
                 BackApplication.LOGGER.info("Updating faq ["+faqItems+"]");
                 FaqRepo.save(faqItems);
                 return;

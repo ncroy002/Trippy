@@ -25,16 +25,13 @@ public class faqController {
     @ResponseBody
     @PostMapping(value = "/newFaq")
     public ResponseEntity newFaq(@RequestBody Faq faq){
-
-
         faqservice.addFaq(faq);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping (value = "/listFaqs") @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity listUsers(){
-        return new ResponseEntity(faqservice.findAll(), HttpStatus.OK);
+    @GetMapping (value = "/listFaqs")
+    public ResponseEntity list(){
+        return new ResponseEntity(faqservice.getAllFaqs(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/getFaq")

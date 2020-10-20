@@ -38,12 +38,6 @@
                 <p>FAQ</p>
               </md-list-item>
 
-                <md-list-item href="#/faqadmin">
-                <i class="material-icons">help_outline</i>
-                <p>FAQ - Admin</p>
-              </md-list-item>
-
-
               <li class="md-list-item" v-if="isLoggedIn">
                 <a
                   href="javascript:void(0)"
