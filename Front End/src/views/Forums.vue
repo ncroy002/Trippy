@@ -123,13 +123,10 @@ export default {
   },
   methods:{
     addForumsBackend(){
-      console.log(this.forumTitle);
-      console.log(this.forumPostDate);
-      console.log(this.forumPost);
-      console.log(this.forumUser);
+      console.log(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
       const url = "http://localhost:8081/forums/newForums";
       const forum = new Forums(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
-      Axios.post(url, form, {params: {
+      Axios.post(url, forum, {params: {
         header: {
           "Content-Type": "application/json",
         }
