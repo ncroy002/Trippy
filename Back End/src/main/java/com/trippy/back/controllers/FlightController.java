@@ -36,14 +36,15 @@ public class FlightController {
     }
 
     @RequestMapping(value = "/browse/routes")
-    String  browse(@RequestParam(name="city1") String city1, @RequestParam(name="city2") String city2, @RequestParam(name="date1") String date1, @RequestParam(name="date2") String date2) throws IOException {
-        Trip trip = new Trip(city1, city2, date1, date2);
+    String  browse(@RequestParam(name="city1") String city1, @RequestParam(name="city2") String city2, @RequestParam(name="date1") String date1, @RequestParam(name="date2") String date2,@RequestParam(name="noOfTravelers") String noOfTravelers) throws Exception {
+        Trip trip = new Trip(city1, city2, date1, date2, noOfTravelers);
         return flightService.browseRoutes(trip);
     }
 
    // @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(value = "/save")
     void saveTrip(@RequestHeader(value = "email")String email, @RequestBody FoundFlight foundFlight){
+        System.out.println(foundFlight);
         tripService.saveTrip(email, foundFlight);
     }
 
