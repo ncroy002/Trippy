@@ -20,14 +20,55 @@
             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
               <h2 class="title text-center">Frequently Asked Questions</h2>
             </div>
-             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
-              <md-field class="md-form-group" slot="inputs">
+
+            <div
+              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
+            >
+              <md-field v-if="isAdmin"
+              class="md-form-group" 
+              slot="inputs">
+
+              <md-icon >add</md-icon>
+              <label>NEW FAQ QUESTION</label>
+              <md-input v-model="message" type="message"></md-input>
+              </md-field>
+              </div>
+              <div
+              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
+            >
+
+              <md-field v-if="isAdmin"
+              class="md-form-group" 
+              slot="inputs">
+
+               <md-icon >add</md-icon>
+              <label>NEW FAQ ANSWER</label>
+               <md-input v-model="answer" type="answer"></md-input>
+              </md-field>
+
+              <md-button 
+              v-if="isAdmin" 
+              v-on:click="addFaq()" 
+              slot="footer" 
+              class="md-simple md-success md-lg">Add</md-button>
+              </div>
+
+              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
+              <md-field 
+              class="md-form-group" 
+              slot="inputs">
+
                 <md-icon>search</md-icon>
                 <label>SEARCH FAQS</label>
-                <md-input v-model="search" type="search"></md-input>
+
+                <md-input 
+                v-model="search" 
+                type="search"></md-input>
               </md-field>
             </div>
+
              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-left" >
+
               <div class="container">
 
                 <ul class="responsive-table">
@@ -105,6 +146,7 @@ export default {
       name: null,
       email: null,
       message: "",
+      answer: "",
       search: "",
       faqs: [],
     };
@@ -138,6 +180,43 @@ export default {
           console.warn("error occured" + error);
         });	
 		},
+     addFaq() {
+      console.log(this.message);
+      console.log(this.answer);
+      const url = "http://localhost:8081/faq/newFaq";
+      const faq = new Faq(this.message, this.answer);
+      Axios.post(url, faq, {params: {
+        header: {
+          "Content-Type": "application/json",
+        }
+      }})
+        .then(reponse => {
+          console.log(reponse);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+	},
+  	deleteFaq(id) {
+      if (confirm("Confirm faq deletion: " + id )) {
+        const url = "http://localhost:8081/faq/deleteFaq";
+        Axios.delete(url, {
+          params: {
+            ID: id
+          },
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then(response => {
+            console.log(response);
+            this.faqs = this.faqs.filter(e => e.id != id);
+          })
+          .catch(error => {
+            console.warn("Error: " + error);
+          });
+      }
+    },
   },
 
 };

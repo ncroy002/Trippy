@@ -14,7 +14,6 @@ import Profile from "./views/Profile.vue";
 import Recommend from "./views/Recommend.vue";
 import About from "./views/About.vue"
 import FAQ from "./views/Faq.vue";
-import FAQAdmin from "./views/FaqAdmin.vue";
 import Register from "./views/Register.vue";
 import Forums from "./views/Forums.vue"
 import Events from "./views/Events.vue"
@@ -82,26 +81,6 @@ let router = new Router(
         props: {
           header: { colorOnScroll: 400 },
           footer: { backgroundColor: "black" }
-        }
-      },
-      {
-        path: "/faqadmin",
-        name: "faqadmin",
-        components: {
-          meta: {
-            requiresAuth: true
-          },
-          default: FAQAdmin,
-          header: MainNavbar,
-          footer: MainFooter
-        },
-        props: {
-          header: {
-            colorOnScroll: 400
-          },
-          footer: {
-            backgroundColor: "black"
-          }
         }
       },
       {
@@ -222,7 +201,7 @@ let router = new Router(
 router.beforeEach((to, from, next) => {
   const publicPages = ['/', '/login', '/home', '/faq', '/about', '/recommendations', '/forums', '/register', '/events'];
   const userPages = ['/profile'];
-  const adminPages = ['/userlist', '/faqadmin'];
+  const adminPages = ['/userlist'];
 
   const adminAuth = adminPages.includes(to.path)
   const userAuth = userPages.includes(to.path)
