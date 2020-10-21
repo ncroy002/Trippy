@@ -9,7 +9,7 @@
             <login-card header-color="green">
               <h4 slot="title" class="card-title">Password Reset</h4>
               <p slot="description" class="description">Enter Email Address to Send Password Reset Email</p>
-              <form @submit.prevent="submit" slot="inputs">
+              <form @submit.prevent="submit($v.email.$model)" slot="inputs">
                 <md-field class="md-form-group" slot="inputs">
                   <md-icon>email</md-icon>
                   <label>Email</label>
@@ -42,7 +42,7 @@
 
 <script>
 import { LoginCard } from "@/components";
-import Axios, { axios } from "axios";
+import Axios from "axios";
 import { Account } from "../models/Account";
 import { required, email } from "vuelidate/lib/validators";
 export default {
@@ -69,10 +69,29 @@ export default {
     }
   },
   methods: {
-    submit() {
+    submit(email) {
       this.submitted = true;
-      console.log('submit');
       
+      console.log('submit');
+      const url = "http://localhost:8081/user/forgotPassword";
+      if (!this.$v.$invalid) {
+        Axios({
+          url: url,
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          params: {
+            email: this.email
+          }
+        })
+          .then(result => {
+            console.log(result);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     }
   },
   computed: {
