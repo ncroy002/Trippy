@@ -287,23 +287,6 @@ export default {
           console.warn("error occured" + error);
       });
 		},
-     addFaq() {
-      console.log(this.message);
-      console.log(this.answer);
-      const url = "http://localhost:8081/faq/newFaq";
-      const faq = new Faq(this.message, this.answer);
-      Axios.post(url, faq, {params: {
-        header: {
-          "Content-Type": "application/json",
-        }
-      }})
-        .then(reponse => {
-          console.log(reponse);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-	},
   	deleteFaq(id) {
       if (confirm("Confirm faq deletion: " + id )) {
         const url = "http://localhost:8081/faq/deleteFaq";
