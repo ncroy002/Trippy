@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class FoundTrip {
+public class FoundFlight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -79,7 +79,7 @@ public class FoundTrip {
     }
 
 
-    public FoundTrip(String city1Name,String city1ID ,String city2Name , String city2ID ,Date saveDate, double minCost, String carrierName) {
+    public FoundFlight(String city1Name, String city1ID , String city2Name , String city2ID , Date saveDate, double minCost, String carrierName) {
         this.city1ID = city1ID;
         this.city2ID = city2ID;
         this.city1Name = city1Name;
@@ -89,6 +89,6 @@ public class FoundTrip {
         this.saveDate = saveDate;
     }
 
-    public FoundTrip() {
+    public FoundFlight() {
     }
 }
