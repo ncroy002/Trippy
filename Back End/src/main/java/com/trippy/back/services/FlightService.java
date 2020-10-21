@@ -1,18 +1,23 @@
 package com.trippy.back.services;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
+import com.trippy.back.entities.FlightUrlResult;
 import com.trippy.back.entities.Trip;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;
+import org.springframework.security.config.annotation.web.configurers.UrlAuthorizationConfigurer;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 @Service
@@ -59,20 +64,50 @@ public class FlightService {
         json = json.substring(0,ending);
         return json;
     }
-    public ResponseBody searchResults(String flightSearchID) throws IOException, ParseException {
+
+    public List<FlightUrlResult> searchResults(String flightSearchID) throws IOException, ParseException {
         ObjectMapper objectMapper = new ObjectMapper();
+        List<FlightUrlResult> flightUrlResults = new ArrayList<>();
         Request request = new Request.Builder()
                 .url("https://compare-flight-prices.p.rapidapi.com/GetPricesAPI/GetPrices.aspx?SearchID="+ flightSearchID)
                 .get()
                 .addHeader("x-rapidapi-host", "compare-flight-prices.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "1b25331decmsh2220286ae9fedcdp1e87f4jsn270397c114a4")
                 .build();
-//todo: could return response body
         Response response = client.newCall(request).execute();
         //map json response body to list of Flight Price Results
-
-        return  response.body();
+        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        FlightUrlResult urlResult = new FlightUrlResult();
+        for(int i = 0; i < rootNode.size(); i++){
+            urlResult = new FlightUrlResult();
+            urlResult.setSite(rootNode.get(i).get("site").toString());
+            urlResult.setUrl(rootNode.get(i).get("url").toString());
+            flightUrlResults.add(urlResult);
+        }
+        return flightUrlResults;
     }
+
+    public String expediaURL(/*String departureCityName, String departureCityAbbrev, String destinationCityName, String destinationCityAbbrev, String cabinClass, int children, int adults, int seniors, int month1, int day1, int year1, int month2, int day2, int year2 */){
+        FlightUrlResult url = new FlightUrlResult();
+        url.setSite("Expedia");
+        url.setDepartureCityAbbrev("OKC");
+        url.setDepartureCityName("Oklahoma City");
+        url.setDestinationCityAbbrev("ATL");
+        url.setDestinationCityName("Atlanta");
+        url.setCabinClass("economy");
+        url.setChildren(0);
+        url.setAdults(1);
+        url.setSeniors(0);
+        url.setMonth1(10);
+        url.setDay1(25);
+        url.setYear1(2020);
+        url.setMonth2(11);
+        url.setDay2(10);
+        url.setYear2(2020);
+        url.setUrl(url.getUrl());
+        return url.getUrl();
+    }
+
     public String browseRoutes(Trip trip) throws IOException{
         OkHttpClient client = new OkHttpClient();
         String url = null;

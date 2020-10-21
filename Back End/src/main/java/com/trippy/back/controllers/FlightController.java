@@ -1,5 +1,7 @@
 package com.trippy.back.controllers;
 
+import com.trippy.back.entities.Flight;
+import com.trippy.back.entities.FlightUrlResult;
 import com.trippy.back.entities.FoundFlight;
 import com.trippy.back.entities.Trip;
 import com.trippy.back.services.FlightService;
@@ -23,10 +25,17 @@ public class FlightController {
 
     //todo: might need to specify a flight as well to set flight object within trip.
     @RequestMapping(value="/search/external/site")
-    String searchFlight(@RequestBody Trip trip) throws IOException, ParseException {
+    List<FlightUrlResult> searchFlight(@RequestParam (name = "lapInfant") int lapInfant, @RequestParam int infant, @RequestParam int child, @RequestParam String city1, @RequestParam String city2, @RequestParam int youth, @RequestParam int flightType, @RequestParam int adults, @RequestParam int cabin, @RequestParam int seniors, @RequestParam String date1, @RequestParam String date2 ) throws IOException, ParseException {
+        Flight flight = new Flight(lapInfant, infant, child, youth, flightType, adults, cabin, seniors);
+        Trip trip = new Trip(city1, city2,date1, date2);
+        trip.setFlight(flight);
         String flightID= flightService.generateSearchID(trip);
         //List<FlightPriceResult> flightPriceResults = flightService.searchResults(flightID);
-        return flightService.searchResults(flightID).string();
+        return flightService.searchResults(flightID);
+    }
+    @RequestMapping(value="/test/url")
+    String url(){
+        return flightService.expediaURL();
     }
 
     @RequestMapping(value = "/find/airports")
