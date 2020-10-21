@@ -1,10 +1,7 @@
 package com.trippy.back.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.trippy.back.enumeration.Site;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.trippy.back.enumeration.TripType;
 
 public class FlightUrlResult {
     String site;
@@ -24,6 +21,7 @@ public class FlightUrlResult {
     String d2;
 
     //variables that will need to be filled out to make the url
+    TripType tripType;
     String departureCityName;
     String departureCityAbbrev;
     String destinationCityName;
@@ -58,7 +56,22 @@ public class FlightUrlResult {
     }
 
     public String getUrl() {
-        url = "https://"+site+"/Flights-Search?flight-type="+flightType+"&mode="+mode+"&trip="+trip+"&leg1="+getLeg1()+"&options="+getOption()+"&leg2="+getLeg2()+"&passengers="+getPassengers()+"&fromDate="+getFromDate()+"&toDate="+getToDate()+"&d1="+getD1()+"&d2="+getD2();
+        if(d2 == null){
+            tripType = TripType.ONE;
+        }
+        else{
+            tripType = TripType.TWO;
+        }
+        switch (tripType){
+            case ONE:
+                trip = "oneway";
+                url = "https://"+site+"/Flights-Search?flight-type="+flightType+"&mode="+mode+"&trip="+trip+"&leg1="+getLeg1()+"&options="+getOption()+"&passengers="+getPassengers()+"&fromDate="+getFromDate()+"&d1="+getD1();
+                break;
+            case TWO:
+                trip="roundtrip";
+                url = "https://"+site+"/Flights-Search?flight-type="+flightType+"&mode="+mode+"&trip="+trip+"&leg1="+getLeg1()+"&options="+getOption()+"&leg2="+getLeg2()+"&passengers="+getPassengers()+"&fromDate="+getFromDate()+"&toDate="+getToDate()+"&d1="+getD1()+"&d2="+getD2();
+                break;
+        }
         return  url;
     }
 
@@ -175,10 +188,13 @@ public class FlightUrlResult {
         day1= setDateVariable(yearMonthDay[2]);
         month1 = setDateVariable(yearMonthDay[1]);
         year1 = setDateVariable(yearMonthDay[0]);
-        String[] yearMonthDay2 = d2.split("-");
-        day2= setDateVariable(yearMonthDay2[2]);
-        month2 = setDateVariable(yearMonthDay2[1]);
-        year2 = setDateVariable(yearMonthDay2[0]);
+        if(d2 != null){
+            String[] yearMonthDay2 = d2.split("-");
+            day2= setDateVariable(yearMonthDay2[2]);
+            month2 = setDateVariable(yearMonthDay2[1]);
+            year2 = setDateVariable(yearMonthDay2[0]);
+        }
+
     }
     private int setDateVariable(String variable){
      return Integer.parseInt(variable);

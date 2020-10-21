@@ -35,8 +35,8 @@ public class FlightController {
         //List<FlightPriceResult> flightPriceResults = flightService.searchResults(flightID);
         return flightService.searchResults(flightID);
     }
-    @RequestMapping(value="/url/expedia")
-    List<String> url(@RequestParam String city1, @RequestParam String city1ID, @RequestParam String city2, @RequestParam String city2ID,@RequestParam String cabin, @RequestParam int children, @RequestParam int adults, @RequestParam int seniors, @RequestParam String date1, @RequestParam String date2 ){
+    @RequestMapping(value="/generate/url")
+    List<String> url(@RequestParam String city1, @RequestParam String city1ID, @RequestParam String city2, @RequestParam String city2ID,@RequestParam String cabin, @RequestParam int children, @RequestParam int adults, @RequestParam int seniors, @RequestParam String date1, @RequestParam(required = false) String date2 ){
         List<String> urlStrings = new ArrayList<>();
         FlightUrlResult flightUrlResult = new FlightUrlResult(city1, city1ID, city2, city2ID, cabin, children, adults, seniors,date1, date2);
         for(Site site: flightUrlResult.getSiteList()){
