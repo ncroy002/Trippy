@@ -9,6 +9,7 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.trippy.back.entities.FlightUrlResult;
 import com.trippy.back.entities.Trip;
+import com.trippy.back.enumeration.Site;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;
 import org.springframework.security.config.annotation.web.configurers.UrlAuthorizationConfigurer;
@@ -87,25 +88,23 @@ public class FlightService {
         return flightUrlResults;
     }
 
-    public String expediaURL(/*String departureCityName, String departureCityAbbrev, String destinationCityName, String destinationCityAbbrev, String cabinClass, int children, int adults, int seniors, int month1, int day1, int year1, int month2, int day2, int year2 */){
-        FlightUrlResult url = new FlightUrlResult();
-        url.setSite("Expedia");
-        url.setDepartureCityAbbrev("OKC");
-        url.setDepartureCityName("Oklahoma City");
-        url.setDestinationCityAbbrev("ATL");
-        url.setDestinationCityName("Atlanta");
-        url.setCabinClass("economy");
-        url.setChildren(0);
-        url.setAdults(1);
-        url.setSeniors(0);
-        url.setMonth1(10);
-        url.setDay1(25);
-        url.setYear1(2020);
-        url.setMonth2(11);
-        url.setDay2(10);
-        url.setYear2(2020);
-        url.setUrl(url.getUrl());
-        return url.getUrl();
+    public String generateUrl(FlightUrlResult flightUrlResult){
+        //creates url
+        flightUrlResult.setUrl(flightUrlResult.getUrl());
+        return flightUrlResult.getUrl();
+    }
+
+    public String determineSite(Site site){
+        String website = null;
+        switch(site) {
+            case EXPEDIA:
+                website = "www.expedia.com";
+                break;
+            case TRAVELOCITY:
+                website = "www.travelocity.com";
+                break;
+        }
+        return website;
     }
 
     public String browseRoutes(Trip trip) throws IOException{

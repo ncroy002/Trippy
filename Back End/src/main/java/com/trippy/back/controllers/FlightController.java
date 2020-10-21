@@ -4,6 +4,7 @@ import com.trippy.back.entities.Flight;
 import com.trippy.back.entities.FlightUrlResult;
 import com.trippy.back.entities.FoundFlight;
 import com.trippy.back.entities.Trip;
+import com.trippy.back.enumeration.Site;
 import com.trippy.back.services.FlightService;
 import com.trippy.back.services.TripService;
 import net.minidev.json.JSONObject;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -33,9 +35,15 @@ public class FlightController {
         //List<FlightPriceResult> flightPriceResults = flightService.searchResults(flightID);
         return flightService.searchResults(flightID);
     }
-    @RequestMapping(value="/test/url")
-    String url(){
-        return flightService.expediaURL();
+    @RequestMapping(value="/url/expedia")
+    List<String> url(@RequestParam String city1, @RequestParam String city1ID, @RequestParam String city2, @RequestParam String city2ID,@RequestParam String cabin, @RequestParam int children, @RequestParam int adults, @RequestParam int seniors, @RequestParam String date1, @RequestParam String date2 ){
+        List<String> urlStrings = new ArrayList<>();
+        FlightUrlResult flightUrlResult = new FlightUrlResult(city1, city1ID, city2, city2ID, cabin, children, adults, seniors,date1, date2);
+        for(Site site: flightUrlResult.getSiteList()){
+            flightUrlResult.setSite(flightService.determineSite(site));
+            urlStrings.add(flightService.generateUrl(flightUrlResult));
+        }
+        return urlStrings;
     }
 
     @RequestMapping(value = "/find/airports")

@@ -1,12 +1,15 @@
 package com.trippy.back.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.trippy.back.enumeration.Site;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FlightUrlResult {
-    @JsonProperty
     String site;
-    @JsonProperty
     String url;
+    Site[] siteList = Site.values();
 
     String flightType = "on";
     String mode = "search";
@@ -55,7 +58,7 @@ public class FlightUrlResult {
     }
 
     public String getUrl() {
-        url = "https://www.expedia.com/Flights-Search?flight-type="+flightType+"&mode="+mode+"&trip="+trip+"&leg1="+getLeg1()+"&options="+getOption()+"&leg2="+getLeg2()+"&passengers="+getPassengers()+"&fromDate="+getFromDate()+"&toDate="+getToDate()+"&d1="+getD1()+"&d2="+getD2();
+        url = "https://"+site+"/Flights-Search?flight-type="+flightType+"&mode="+mode+"&trip="+trip+"&leg1="+getLeg1()+"&options="+getOption()+"&leg2="+getLeg2()+"&passengers="+getPassengers()+"&fromDate="+getFromDate()+"&toDate="+getToDate()+"&d1="+getD1()+"&d2="+getD2();
         return  url;
     }
 
@@ -89,11 +92,12 @@ public class FlightUrlResult {
         return toDate;
     }
     public String getD1(){
-        d1=year1+"-"+month1+"-"+day1;
+       // d1=year1+"-"+month1+"-"+day1;
         return d1;
     }
+
     public String getD2(){
-        d2= year2+"-"+month2+"-"+day2;
+        //d2= year2+"-"+month2+"-"+day2;
         return d2;
     }
 
@@ -153,7 +157,7 @@ public class FlightUrlResult {
         this.year2 = year2;
     }
 
-    public FlightUrlResult(String departureCityName, String departureCityAbbrev, String destinationCityName, String destinationCityAbbrev, String cabinClass, int children, int adults, int seniors, int month1, int day1, int year1, int month2, int day2, int year2) {
+    public FlightUrlResult(String departureCityName, String departureCityAbbrev, String destinationCityName, String destinationCityAbbrev, String cabinClass, int children, int adults, int seniors,String d1, String d2) {
         this.departureCityName = departureCityName;
         this.departureCityAbbrev = departureCityAbbrev;
         this.destinationCityName = destinationCityName;
@@ -162,11 +166,25 @@ public class FlightUrlResult {
         this.children = children;
         this.adults = adults;
         this.seniors = seniors;
-        this.month1 = month1;
-        this.day1 = day1;
-        this.year1 = year1;
-        this.month2 = month2;
-        this.day2 = day2;
-        this.year2 = year2;
+        this.d1 = d1;
+        this.d2 = d2;
+        parseDate();
+    }
+    private void parseDate(){
+        String[] yearMonthDay = d1.split("-");
+        day1= setDateVariable(yearMonthDay[2]);
+        month1 = setDateVariable(yearMonthDay[1]);
+        year1 = setDateVariable(yearMonthDay[0]);
+        String[] yearMonthDay2 = d2.split("-");
+        day2= setDateVariable(yearMonthDay2[2]);
+        month2 = setDateVariable(yearMonthDay2[1]);
+        year2 = setDateVariable(yearMonthDay2[0]);
+    }
+    private int setDateVariable(String variable){
+     return Integer.parseInt(variable);
+    }
+
+    public Site[] getSiteList() {
+        return siteList;
     }
 }
