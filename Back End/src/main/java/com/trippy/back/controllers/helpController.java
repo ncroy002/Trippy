@@ -28,7 +28,7 @@ public class helpController {
     }
 
 
-    @GetMapping(value = "/getHelp")
+    @GetMapping(value = "/listHelps")
     public ResponseEntity getHelp(){
         return new ResponseEntity<>(helpservice.getAllHelps().get(0), HttpStatus.OK);
     }
