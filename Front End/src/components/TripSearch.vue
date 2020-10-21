@@ -72,6 +72,18 @@
               </md-datepicker>
             </div>
           </div>
+          <div class="md-layout">
+          <div class="md-layout-item">
+            <md-field class="md-form-group">
+              <label>Number of Travelers</label>
+              <md-input type="number"
+                v-model="noOfTravelers"
+                placeholder="Number of Travelers"
+              ></md-input>
+            </md-field>
+          </div>
+          </div>
+
           <div class="md-layout md-alignment-center-center">
             <md-button v-on:click="getFlightDetails()"
               >Find Flight Details</md-button
@@ -110,7 +122,8 @@ export default {
       selectedLocation1: null,
       selectedLocation2: null,
       selectedDepartureDate: null,
-      selectedReturnDate: null
+      selectedReturnDate: null,
+      noOfTravelers: null
     };
   },
   validations: {
@@ -166,6 +179,7 @@ export default {
       let city2PlaceId = this.selectedLocation2;
       let outbountDate = this.selectedDepartureDate.toISOString().split("T")[0];
       let inboundDate = this.selectedReturnDate.toISOString().split("T")[0];
+      let noOfpassengers = this.noOfTravelers;
       const url = "http://localhost:8081/flight/browse/routes";
 
       Axios({
@@ -178,13 +192,14 @@ export default {
           city1: city1PlaceId,
           city2: city2PlaceId,
           date1: outbountDate,
-          date2: inboundDate
+          date2: inboundDate,
+          noOfTravelers: noOfpassengers,
         }
       })
         .then(result => {
           console.log(result);
           let { Quotes, Carriers, Places } = result.data;
-          let flightData  = { Quotes: Quotes, Carriers: Carriers, Places: Places};
+          let flightData  = { Quotes: Quotes, Carriers: Carriers, Places: Places, noOfTravelers: this.noOfTravelers};
           this.$emit('flightData', flightData);
         })
         .catch(err => {

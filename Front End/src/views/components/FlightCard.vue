@@ -39,6 +39,7 @@
             </span>
           </p>
           <p>Departure Date: {{ flight.OutboundLeg.DepartureDate }}</p>
+          <p>Number of Travelers: {{ flight_data.noOfTravelers }}</p>
         </md-card-content>
         <md-card-actions>
           <md-button v-if="userEmail" class="md-primary" v-on:click="saveFlight(flight.QuoteId)"
@@ -80,6 +81,7 @@ export default {
       )[0].Name;
       let saveDate = new Date().toUTCString();
       let minCost = flight.MinPrice;
+      let noOfTravelers = this.flight_data.noOfTravelers;
 
       if (this.userEmail !== undefined) {
         this.valid = true;
@@ -102,7 +104,8 @@ export default {
             city2Name: city2Name,
             minCost: minCost,
             carrierName: carrier,
-            saveDate: saveDate
+            saveDate: saveDate,
+            noOfTravelers: noOfTravelers,
           }
         })
           .then(result => {
