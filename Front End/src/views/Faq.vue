@@ -20,7 +20,32 @@
             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
               <h2 class="title text-center">Frequently Asked Questions</h2>
             </div>
-             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
+             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" v-if="isAdmin"  >
+                <md-icon>add</md-icon>
+                  <div class="md-layout">
+                  <div class="md-layout-item md-size-50">
+                    <md-field>
+                      <label>Question</label>
+                      <md-input v-model="message" type="text"></md-input>
+                    </md-field>
+                  </div>
+                  <div class="md-layout-item md-size-50">
+                    <md-field>
+                      <label>Answer</label>
+                      <md-input v-model="answer" type="text"></md-input>
+                    </md-field>
+                  </div>
+                </div>
+                <div class="md-layout">
+                  <div class="md-layout-item md-size-33 mx-auto text-center">
+                    <md-button v-on:click="addFaq()" class="md-success">Add Faq</md-button>
+                  </div>
+                </div>
+
+              </div>
+               <br />
+          
+             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"  v-if="isUser" >
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>search</md-icon>
                 <label>SEARCH FAQS</label>
@@ -50,7 +75,8 @@
 					</ul>
            	 </div>
 			</div>
-             <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"  >
+      <div class="container" v-if="isUser">
+             <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Need Help?</h2>
             </div>
           <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
@@ -81,6 +107,63 @@
               </form>
             </div>
           </div>
+
+ <div class="container" v-if="isAdmin">
+             <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
+              <h2 class="title text-center">Help</h2>
+            </div>
+          <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
+          <ul class="responsive-table">
+                  <li class="table-header">
+                    <div class="col col-1">Name</div>
+                    <div class="col col-2">Email</div>
+                    <div class="col col-3">Question</div>
+                    <div class="col col-4">Completed</div>
+                    <div class="col col-5"></div>
+                  </li>
+                  <li
+                    class="table-row"
+                    v-for="help in helps"
+                    v-bind:key="help.id"
+                  >
+                    <div class="col col-1" data-label="User ID">
+                      {{ help.name }}
+                    </div>
+                    <div class="col col-2" data-label="Email">
+                      {{ help.email }}
+                    </div>
+                    <div class="col col-3" data-label="First Name">
+                      {{ help.question }}
+                    </div>
+                    <div class="col col-4" data-label="Last Name">
+                      {{ question.completed }}
+                    </div>
+
+                    <div class="col col-5" data-label="Reset/Delete">
+                      <md-dialog-prompt
+                        :md-active.sync="active"
+                        v-model="newPassword"
+                        md-title="Enter New Password"
+                        md-input-maxlength="15"
+                        md-input-placeholder="Password..."
+                        md-confirm-text="Confirm"
+                        @md-confirm="resetPassword(user.id)"
+                      />
+                      <md-button class="md-warning md-sm" @click="active = true"
+                        >Reset Password</md-button
+                      >
+
+                      <md-button
+                        class="md-danger md-sm"
+                        @click="deleteUser(user.id)"
+                        >Delete Account</md-button
+                      >
+                    </div>
+                  </li>
+                </ul>
+                </div>
+                </div>
+        </div>
         </div>
       </div>
     </div>
@@ -92,6 +175,8 @@
 <script>
 import Axios, { axios } from "axios";
 import { Faq } from "../models/Faq";
+import { Help } from "../models/Help"
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 export default {
   bodyClass: "FAQ_page-page",
   props: {
@@ -105,9 +190,24 @@ export default {
       name: null,
       email: null,
       message: "",
+      answer: "",
+      question: "",
       search: "",
       faqs: [],
+      questions: [],
     };
+  },
+
+  validations: {
+    name: {
+      required
+    },
+    email: {
+      required
+    },
+    question: {
+      required
+    }
   },
  computed: {
     headerStyle() {
@@ -116,17 +216,51 @@ export default {
       };
     },
     isAdmin : function(){ return this.$store.getters.isAdmin},
+    isUser : function() {return this.$store.getters.isUser},
     filteredFaqs: function() {
-      return this.faqs.filter((faq) => {
-        return faq.message.match(this.search);
+      return this.faqs.filter((faq) => { 
+        return faq.message.toLowerCase().match(this.search.toLowerCase());
       })
     }
     
  },
  mounted: function() {
     this.faqList();
+    this.helpList();
   },
   methods: {
+    addQuestion() {
+      console.log(this.question, this.name, this.email);
+      const url = "http://localhost:8081/help/newHelp";
+      const help = new Help(this.question, this.name, this.email);
+      Axios.post(url, help, {params: {
+        header: {
+          "Content-Type": "application/json",
+        }
+      }})
+        .then(reponse => {
+          console.log(reponse);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    addFaq() {
+      console.log(this.message, this.answer);
+      const url = "http://localhost:8081/faq/newFaq";
+      const faq = new Faq(this.message, this.answer);
+      Axios.post(url, faq, {params: {
+        header: {
+          "Content-Type": "application/json",
+        }
+      }})
+        .then(reponse => {
+          console.log(reponse);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+	},
     faqList: function() {
 
 	  const url = "http://localhost:8081/faq/listFaqs";
@@ -136,9 +270,20 @@ export default {
 
         .catch(function(error) {
           console.warn("error occured" + error);
-        });	
+      });
 		},
   },
+    helpList: function() {
+
+	  const url = "http://localhost:8081/help/listHelps";
+
+      Axios.get(url)
+        .then(response => (this.helps = response.data))
+
+        .catch(function(error) {
+          console.warn("error occured" + error);
+      });
+		},
 
 };
 
@@ -157,6 +302,9 @@ export default {
   margin-top: 15px;
 }
 
+.md-layout-item {
+  margin-bottom: 15px;
+}
 ul {
   margin: 0;
   padding: 0;
@@ -240,5 +388,9 @@ h2 {
       }
     }
   }
+}
+.space {
+  padding: 25px;
+  margin: 25px;
 }
 </style>
