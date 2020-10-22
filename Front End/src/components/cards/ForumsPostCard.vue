@@ -5,10 +5,13 @@
         <div
           class="md-layout-item md-size-100 md-small-size-100 mx-auto text-left"
         >
+        <div>
+          <!--
           <div
             v-bind:key="forumspostcard.id"
             v-for="forumspostcard in forumspostcard"
           >
+          -->
             <md-card>
               <md-field>
                 <div id="post-content">
@@ -31,15 +34,12 @@
               
               <md-field>
                 <label>Reply</label>
-                <md-textarea v-model="comment" name="comment"></md-textarea>
+                <md-textarea v-model="myComment" type="myComment"></md-textarea>
               </md-field>
 
               <div class = "md-layout-item text-right">
-                <md-button v-on:click="addCommentReply" class="md-success md-sm">Reply</md-button>
-              </div>
-
-              <md-field></md-field>
-              <!--<CommentCard v-bind:commentcard="commentcard"/>-->
+                <md-button v-on:click="$emit('add-comment', myComment)" type="addComment" class="md-success md-sm">Reply</md-button>
+              </div>   
             </md-card>
           </div>
         </div>
@@ -49,7 +49,6 @@
 </template>
 
 <script>
-//import { CommentCard } from "@/components"
 //import Axios, { axios } from "axios";
 //import { Account } from "../models/Account";
 
@@ -57,17 +56,18 @@ export default {
   name: "Forum-Post-Card",
   props: ["forumspostcard"],
   components: {
-    //CommentCard
   },
   data() {
     return {
-      comment: ""
-      /*
-      commentcard:[{
-        idc: 1,
-        commentUser: "User10",
-        comment: "Comment"
-      }]
+      myComment: ""
+     /*
+      commentcard:[
+        {
+          id: 1,
+          commentComment: "Comment",
+          commentUser: "User 10"
+        }
+      ]
       */
     };
   },
@@ -80,18 +80,16 @@ export default {
       var time = n.getSeconds();
       var myDate = month + "/" + day + "/" + year + " ";
       return myDate;
-    },
-    addCommentReply(e){
-      e.preventDefault();
-      const newCommentReply = {
-        idc: 2,
-        comment: this.comment
-      }
-      this.addCommentMethod(newCommentReply);
-    },
-    addCommentMethod(newCommentReply){
-      this.commentcard = [...this.commentcard, newCommentReply];
     }
+    /*,
+    addCommentReply(){
+      const newComment = {
+        commentReal: this.commentReal,
+        commentUser: ""
+      }
+      this.$emit('add-comment', this.newComment);
+    }
+    */
   },
   computed: {
     headerStyle() {

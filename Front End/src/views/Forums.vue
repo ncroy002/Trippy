@@ -46,7 +46,7 @@
                           <md-input v-model="forumPost" type="forumPost"></md-input>
                         </md-field>
 
-                        <md-button v-on:click="addForumsBackend()" class="md-success">post</md-button>
+                        <md-button :disabled='!isDisabled' v-on:click="addForumsBackend()" class="md-success" >post</md-button>
                       </md-tab>
 
                       <md-tab id="tab-images-video" md-label="Images & Video" md-icon="chat">
@@ -67,7 +67,10 @@
               </div>
             </div>
           </div>
-          <ForumsPostCard v-bind:forumspostcard="forumspostcard"/>
+            <div v-bind:key="forumspostcard.id" v-for="forumspostcard in forumspostcard">
+              <ForumsPostCard v-bind:forumspostcard="forumspostcard" v-on:add-comment="addComment($event, forumspostcard.id)"/>
+              <CommentCard v-bind:commentcard="forumspostcard.commentcard"/>
+            </div>
         </div>
       </div>
     </div>
@@ -79,12 +82,13 @@ import Axios, { axios } from "axios";
 import { Forums } from "../models/Forums";
 import { NavTabsCard } from "@/components";
 import { ForumsPostCard } from "@/components";
-
+import { CommentCard } from "@/components";
 export default {
 
   components: {
     NavTabsCard,
-    ForumsPostCard
+    ForumsPostCard,
+    CommentCard
   },
 
   bodyClass: "forums-page",
@@ -105,24 +109,50 @@ export default {
           id: 1,
           forumTitle: "Title1",
           forumPost: "Post1",
-          forumUser: "User1"
-        }, 
+          forumUser: "User1",
+          commentcard:[
+            {
+              id: 1,
+              commentComment: "Comment",
+              commentUser: "User"
+            },
+            {
+              id: 2,
+              commentComment: "Comment2",
+              commentUser: "User2"
+            }
+          ]
+        },
         { 
           id: 2,
           forumTitle: "Title2",
           forumPost: "Post2",
-          forumUser: "User2"
-        }, 
-        { 
-          id: 3,
-          forumTitle: "Title3",
-          forumPost: "Post3",
-          forumUser: "User3"
-        }]
+          forumUser: "User2",
+          commentcard:[
+            {
+              id: 2,
+              commentComment: "Comment2",
+              commentUser: "User2"
+            }
+          ]
+        }
+      ]
     };
   },
   methods:{
+    getCurrentDate(){
+      var n = new Date();
+      var month = n.getMonth() + 1;
+      var day = n.getDate();
+      var year = n.getFullYear();
+      var time = n.getSeconds();
+      var myDate = month + "/" + day + "/" + year + " ";
+      return myDate;
+    },
     addForumsBackend(){
+      
+      this.forumPostDate = this.getCurrentDate();
+      //Send the information of the post to the database
       console.log(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
       const url = "http://localhost:8081/forums/newForums";
       const forum = new Forums(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
@@ -137,25 +167,36 @@ export default {
       .catch(error => {
         console.log(error);
       })
-      //addForumsPost();
-    }
-    /*
-    addForumsPost(e){
-      e.preventDefault();
+
       const newForumsPost = {
         id: 4,
         forumTitle: this.forumTitle,
-        forumPost: this.forumPost
+        forumPost: this.forumPost,
+        commentcard:[{}]
+        
       }
       this.forumspostcard = [...this.forumspostcard, newForumsPost];
+      
     },
-    */
+    
+    addComment(myComment, id){
+     const newComment = {
+       id: 3,
+       commentComment: myComment,
+       commentUser: "NewCommentUser"
+     }
+     
+     this.forumspostcard[id-1].commentcard = [...this.forumspostcard[id-1].commentcard, newComment];
+    }
   },
   computed: {
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`
       };
+    },
+    isDisabled(){
+      return this.forumTitle && this.forumPost;
     }
   }
 };
