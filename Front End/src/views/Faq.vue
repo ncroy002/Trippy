@@ -126,37 +126,26 @@
                     v-for="help in helps"
                     v-bind:key="help.id"
                   >
-                    <div class="col col-1" data-label="User ID">
+                    <div class="col col-1" data-label="Name">
                       {{ help.name }}
                     </div>
                     <div class="col col-2" data-label="Email">
                       {{ help.email }}
                     </div>
-                    <div class="col col-3" data-label="First Name">
+                    <div class="col col-3" data-label="Question">
                       {{ help.question }}
                     </div>
-                    <div class="col col-4" data-label="Last Name">
-                      {{ question.completed }}
+                    <div class="col col-4" data-label="Completed">
+                      {{ help.completed }}
                     </div>
 
                     <div class="col col-5" data-label="Reset/Delete">
-                      <md-dialog-prompt
-                        :md-active.sync="active"
-                        v-model="newPassword"
-                        md-title="Enter New Password"
-                        md-input-maxlength="15"
-                        md-input-placeholder="Password..."
-                        md-confirm-text="Confirm"
-                        @md-confirm="resetPassword(user.id)"
-                      />
-                      <md-button class="md-warning md-sm" @click="active = true"
-                        >Reset Password</md-button
-                      >
+                    
 
                       <md-button
-                        class="md-danger md-sm"
-                        @click="deleteUser(user.id)"
-                        >Delete Account</md-button
+                        class="md-info md-sm"
+                        @click="markComplete(help.id)"
+                        >Mark Complete</md-button
                       >
                     </div>
                   </li>
@@ -194,7 +183,7 @@ export default {
       question: "",
       search: "",
       faqs: [],
-      questions: [],
+      helps: [],
     };
   },
 
@@ -272,7 +261,7 @@ export default {
           console.warn("error occured" + error);
       });
 		},
-  },
+  
     helpList: function() {
 
 	  const url = "http://localhost:8081/help/listHelps";
@@ -283,7 +272,28 @@ export default {
         .catch(function(error) {
           console.warn("error occured" + error);
       });
-		},
+    },
+    markComplete: function(id) {
+      console.log(id);
+      console.log(this.complete);
+      const url = "http://localhost:8081/user/updateHelp";
+      Axios.post(url, null, {
+        params: {
+          ID: id,
+          complete: this.complete
+        },
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.warn("error occured" + error);
+        });
+    }
+  }
 
 };
 

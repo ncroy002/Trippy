@@ -13,13 +13,13 @@ public class Help{
     String question;
 
     @Column
-    Boolean completed;
-
-    @Column
     String name;
 
     @Column
     String email;
+
+    @Column
+    Boolean completed;
 
     public Help() {
     }
@@ -63,12 +63,12 @@ public class Help{
         this.completed = completed;
     }
 
-    public Help(Long id, String question, Boolean completed, String name, String email ){
-        this.id = id;
-        this.question = question;
-        this.completed = completed;
-        this.name = name;
-        this.email = email;
+
+    public Help(String question,  String name, String email, Boolean completed ){
+        setQuestion(question);
+        setName(name);
+        setEmail(email);
+        setCompleted(completed);
     }
 
 
