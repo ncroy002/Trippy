@@ -103,6 +103,9 @@ public class FlightService {
             case TRAVELOCITY:
                 website = "www.travelocity.com";
                 break;
+            case KAYAK:
+                website = "www.kayak.com";
+                break;
         }
         return website;
     }

@@ -56,20 +56,24 @@ public class FlightUrlResult {
     }
 
     public String getUrl() {
-        if(d2 == null){
-            tripType = TripType.ONE;
-        }
-        else{
-            tripType = TripType.TWO;
-        }
         switch (tripType){
             case ONE:
                 trip = "oneway";
-                url = "https://"+site+"/Flights-Search?flight-type="+flightType+"&mode="+mode+"&trip="+trip+"&leg1="+getLeg1()+"&options="+getOption()+"&passengers="+getPassengers()+"&fromDate="+getFromDate()+"&d1="+getD1();
+                if(site == "www.kayak.com"){
+                    url = "https://"+site+"/flights/"+departureCityAbbrev+"-"+ destinationCityAbbrev+"/"+d1+"?isSEM=true&sort=bestflight_a";
+                }
+                else{
+                    url = "https://"+site+"/Flights-Search?flight-type="+flightType+"&mode="+mode+"&trip="+trip+"&leg1="+getLeg1()+"&options="+getOption()+"&passengers="+getPassengers()+"&fromDate="+getFromDate()+"&d1="+getD1();
+                }
                 break;
             case TWO:
                 trip="roundtrip";
-                url = "https://"+site+"/Flights-Search?flight-type="+flightType+"&mode="+mode+"&trip="+trip+"&leg1="+getLeg1()+"&options="+getOption()+"&leg2="+getLeg2()+"&passengers="+getPassengers()+"&fromDate="+getFromDate()+"&toDate="+getToDate()+"&d1="+getD1()+"&d2="+getD2();
+                if(site == "www.kayak.com"){
+                    url = "https://"+site+"/flights/"+departureCityAbbrev+"-"+ destinationCityAbbrev+"/"+d1+"/"+d2+"?isSEM=true&sort=bestflight_a";
+                }
+                else{
+                    url = "https://"+site+"/Flights-Search?flight-type="+flightType+"&mode="+mode+"&trip="+trip+"&leg1="+getLeg1()+"&options="+getOption()+"&leg2="+getLeg2()+"&passengers="+getPassengers()+"&fromDate="+getFromDate()+"&toDate="+getToDate()+"&d1="+getD1()+"&d2="+getD2();
+                }
                 break;
         }
         return  url;
@@ -181,6 +185,12 @@ public class FlightUrlResult {
         this.seniors = seniors;
         this.d1 = d1;
         this.d2 = d2;
+        if(d2 == null){
+            tripType = TripType.ONE;
+        }
+        else{
+            tripType = TripType.TWO;
+        }
         parseDate();
     }
     private void parseDate(){
