@@ -1,9 +1,10 @@
+
 <template>
   <div id="airlineTicketSearch">
     <!-- This is for searching and getting the airports from a city -->
     <div id="airportSearch">
       <div class="title">
-        <h3>Seach for your trip</h3>
+        <h3>Search For Your Flight</h3>
       </div>
       <form>
         <div class="md-layout">
@@ -92,9 +93,56 @@
           >
         </div>
       </form>
+
+      <div id="interestSearch">
+        <div class="title">
+          <h3>Search By Interests</h3>
+        </div>
+        <form>
+          <div class="md-layout">
+            <div class="md-layout-item">
+              <md-field class="md-form-group">
+                <md-icon>explore</md-icon>
+                <md-input
+                  v-model="destination"
+                  placeholder="Destination"
+                ></md-input>
+              </md-field>
+            </div>
+            <div>
+              <div class="md-layout">
+                <div class="md-layout-item">
+                  <md-field class = "md-form-group">
+                    <md-icon>favorite</md-icon>
+                    <label for="interest">Interests</label>
+                    <md-select v-model="interest" name="interest" id="interest">
+                      <md-option value="national_park">National Parks</md-option>
+                      <md-option value="beach">Beaches</md-option>
+                      <md-option value="commercial.outdoor_and_sport.ski">Skiing</md-option>
+                      <md-option value="entertainment.zoo">Zoos</md-option>
+                      <md-option value="entertainment.museum">Museums</md-option>
+                      <md-option value="entertainment.theme_park">Theme Parks</md-option>
+                      <md-option value="entertainment.water_park">Water Parks</md-option>
+                      <md-option value="camping">Camping</md-option>
+                      <md-option value="adult.nightclub">Nightlife</md-option>
+                    </md-select>
+                  </md-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <center>
+            <md-button v-on:click="getInterestResults()"
+              >Search Interests</md-button
+            >
+          </center>
+        </form>
+      </div>
     </div>
   </div>
 </template>
+
+
 <script>
 import Axios from "axios";
 import { required, minLength } from "vuelidate/lib/validators";
@@ -110,7 +158,10 @@ export default {
       selectedLocation1: null,
       selectedLocation2: null,
       selectedDepartureDate: null,
-      selectedReturnDate: null
+      selectedReturnDate: null,
+      destination: "",
+      interest: "",
+      features: []
     };
   },
   validations: {
@@ -184,8 +235,42 @@ export default {
         .then(result => {
           console.log(result);
           let { Quotes, Carriers, Places } = result.data;
-          let flightData  = { Quotes: Quotes, Carriers: Carriers, Places: Places};
-          this.$emit('flightData', flightData);
+          let flightData = {
+            Quotes: Quotes,
+            Carriers: Carriers,
+            Places: Places
+          };
+          this.$emit("flightData", flightData);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    getInterestResults() {
+      const url = "http://localhost:8081/filter/interests";
+
+      let destination = this.destination;
+      let interest = this.interest;
+      console.log(destination);
+      console.log(interest);
+
+       Axios({
+        url: url,
+        method: "get",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        params: {
+          destination: destination,
+          interest: interest
+        }
+      })
+        .then(result => {
+          this.features = result.data.features;
+          console.log(this.features);
+          let interestData = this.features;
+          this.$emit("interestData", interestData);
         })
         .catch(err => {
           console.log(err);

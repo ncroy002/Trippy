@@ -19,7 +19,9 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <trip-search v-on:flightData="onFlightData"></trip-search>
+          <trip-search v-on:flightData="onFlightData"
+            v-on:interestData="onInterestData">
+          </trip-search>
         </div>
       </div>
     </div>
@@ -30,15 +32,24 @@
         </div>
       </div>
     </div>
+     <div v-if="interestData" class="main main-raised">
+      <div class="section section-basic">
+        <div class="container">
+          <interest-card :interest_data="interestData"></interest-card>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { TripSearch } from "@/components";
 import FlightCard from "./components/FlightCard";
+import InterestCard from "./components/InterestsCard";
 export default {
   components: {
     TripSearch,
-    FlightCard
+    FlightCard,
+    InterestCard
   },
   name: "index",
   bodyClass: "index-page",
@@ -83,6 +94,7 @@ export default {
       password: null,
       leafShow: false,
       flightData: undefined,
+      interestData: undefined
     };
   },
   methods: {
@@ -93,8 +105,11 @@ export default {
         this.leafShow = true;
       }
     },
-    onFlightData(data){
+    onFlightData(data) {
       this.flightData = data;
+    },
+    onInterestData(data) {
+      this.interestData = data;
     }
   },
   computed: {
@@ -116,7 +131,6 @@ export default {
   beforeDestroy() {
     window.removeEventListener("resize", this.leafActive);
   }
-  
 };
 </script>
 <style lang="scss">
