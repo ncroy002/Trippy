@@ -44,11 +44,12 @@ public class helpController {
         helpservice.deleteHelp(ID);
         return new ResponseEntity(HttpStatus.OK);
     }
+    /*
     @PostMapping(value = "/updateHelp") @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity updateHelp(@RequestParam(name="ID") Long ID){
         helpservice.updateHelp(ID);
         return new ResponseEntity(HttpStatus.OK);
     }
-
+*/
 }
 

@@ -31,7 +31,7 @@ public class HelpService {
             return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+/*
     public void updateHelp(Long help){
         try {
             List<Help> list = getAllHelps();
@@ -51,6 +51,6 @@ public class HelpService {
         }
         throw new RuntimeException("Help ["+help+"] does not exist in DB.");
     }
-
+*/
 }
 
