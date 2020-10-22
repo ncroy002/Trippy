@@ -38,8 +38,8 @@ public class Account {
     @Column
     String role;
 
-    @ManyToMany(targetEntity = FoundTrip.class,cascade = CascadeType.ALL )
-    List<FoundTrip> trips;
+    @ManyToMany(targetEntity = FoundFlight.class,cascade = CascadeType.ALL )
+    List<FoundFlight> trips;
 
 
     public String getUsername() {
@@ -114,11 +114,11 @@ public class Account {
         this.password = password;
     }
 
-    public List<FoundTrip> getTrips() {
+    public List<FoundFlight> getTrips() {
         return trips;
     }
 
-    public void setTrips(List<FoundTrip> trips) {
+    public void setTrips(List<FoundFlight> trips) {
         this.trips = trips;
     }
 
