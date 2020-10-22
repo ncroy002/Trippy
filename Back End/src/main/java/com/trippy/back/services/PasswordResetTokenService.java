@@ -24,7 +24,7 @@ public class PasswordResetTokenService {
     }
 
     public SimpleMailMessage constructResetTokenEmail(String token, Account account){
-        String url = "http://localhost:8080/#/changepassword?token=" + token;
+        String url = "Here is your reset email: http://localhost:8080/#/changepassword?token=" + token;
 
         return constructEmail("Reset Password", url, account);
     }

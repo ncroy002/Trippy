@@ -8,7 +8,9 @@
           >
             <login-card header-color="green">
               <h4 slot="title" class="card-title">Password Reset</h4>
-              <p slot="description" class="description">Enter Email Address to Send Password Reset Email</p>
+              <p slot="description" class="description">
+                Enter Email Address to Send Password Reset Email
+              </p>
               <form @submit.prevent="submit($v.email.$model)" slot="inputs">
                 <md-field class="md-form-group" slot="inputs">
                   <md-icon>email</md-icon>
@@ -33,6 +35,47 @@
                 >
               </form>
             </login-card>
+            <div class="modal-mask" v-if="submitted && modal">
+              <div class="modal-wrapper">
+                <div class="modal-container" v-click-outside="closeModal">
+                  <div class="modal-header">
+                    <h4 class="modal-title" style="color:black">Thank You</h4>
+                    <button
+                      @click="close()"
+                      type="button"
+                      class="md-button md-simple md-just-icon md-round modal-default-button md-theme-default"
+                    >
+                      <div class="md-ripple">
+                        <div class="md-button-content">
+                          <i class="md-icon md-icon-font md-theme-default"
+                            >clear</i
+                          >
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                  <div class="modal-body text-center">
+                    <p style="color:black">
+                      If your email exists within our database, then you will
+                      receive a password reset email shortly. If you do not
+                      receive an email, please check your spam folder or please
+                      try again. Thank you.
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    ><button
+                      type="button"
+                      @click="close()"
+                      class="md-button md-danger md-simple md-theme-default"
+                    >
+                      <div class="md-ripple">
+                        <div class="md-button-content">Close</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -45,6 +88,7 @@ import { LoginCard } from "@/components";
 import Axios from "axios";
 import { Account } from "../models/Account";
 import { required, email } from "vuelidate/lib/validators";
+import Modal from "@/components";
 export default {
   components: {
     LoginCard
@@ -54,13 +98,14 @@ export default {
     return {
       email: null,
       submitted: false,
-      
+      modal: false
     };
   },
   validations: {
     email: {
-      required, email
-    },
+      required,
+      email
+    }
   },
   props: {
     header: {
@@ -71,15 +116,15 @@ export default {
   methods: {
     submit(email) {
       this.submitted = true;
-      
-      console.log('submit');
+
+      console.log("submit");
       const url = "http://localhost:8081/user/forgotPassword";
       if (!this.$v.$invalid) {
         Axios({
           url: url,
           method: "post",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
           },
           params: {
             email: this.email
@@ -91,7 +136,15 @@ export default {
           .catch(err => {
             console.log(err);
           });
+        this.modal = true;
       }
+    },
+    close(){
+      this.modal = false;
+    },
+    closeModal: function() {
+      this.$emit("close");
+      this.modal = false;
     }
   },
   computed: {

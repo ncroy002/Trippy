@@ -102,15 +102,61 @@
                 >
               </form>
             </login-card>
-            <!-- <div class="modal-mask" v-if="submitted && modal">
+            <div class="modal-mask" v-if="submitted && modal && success">
               <div class="modal-wrapper">
                 <div class="modal-container">
                   <div class="modal-header">
-                    <h4 class="modal-title">Modal Title</h4>
+                    <h4 class="modal-title" style="color:black">
+                      Registration Successful!
+                    </h4>
+                  </div>
+                  <div class="modal-body text-center">
+                    <p style="color:black">
+                      Your account was created successfully! <br> 
+                      Press the button below to go to the login page.
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    ><button
+                      type="button"
+                      @click="goToLogin()"
+                      class="md-button md-danger md-simple md-theme-default"
+                    >
+                      <div class="md-ripple">
+                        <div class="md-button-content">Login</div>
+                      </div>
+                    </button>
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
+            <div class="modal-mask" v-if="submitted && modal && error">
+              <div class="modal-wrapper">
+                <div class="modal-container">
+                  <div class="modal-header">
+                    <h4 class="modal-title" style="color:black">
+                      Registration Failed.
+                    </h4>
+                  </div>
+                  <div class="modal-body text-center">
+                    <p style="color:black">
+                      Your account could not be created due to an error. <br> Please try again.
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    ><button
+                      type="button"
+                      @click="close()"
+                      class="md-button md-danger md-simple md-theme-default"
+                    >
+                      <div class="md-ripple">
+                        <div class="md-button-content">Close</div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -139,11 +185,10 @@ export default {
       password: "",
       confirmPassword: "",
       submitted: false,
-      modal: false,
       response: null,
-      error: "",
+      error: false,
       success: false,
-      fail: false,
+      modal: false
     };
   },
 
@@ -197,10 +242,24 @@ export default {
         };
         this.$store
           .dispatch("register", data)
-          .then(resp => alert(resp.data.message))
-          .then(this.$router.push("/login"))
-          .catch(err => alert("Something went wrong: " + err))
+          .then(resp => {
+            this.response = resp.status;
+            console.log(resp);
+            this.success = true;
+            this.modal = true;
+          })
+          .catch(err => {
+            console.log(err);
+            this.error = true
+            this.modal = true;
+            });
       }
+    },
+    goToLogin(){
+      this.$router.push("/login");
+    },
+    close(){
+      this.modal = false;
     }
   }
 };

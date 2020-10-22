@@ -85,8 +85,6 @@ public class userController {
 
     @PostMapping(value="/resetPasswordByUser")
     public ResponseEntity passwordResetByToken(@RequestParam("token") String token, @RequestParam("password") String password){
-        System.out.println("Token: " + token);
-        System.out.println("Password: " + password);
         PasswordResetToken passwordResetToken = passwordResetTokenService.getPasswordResetToken(token);
 
         Optional<Account> account = passwordResetTokenService.getUserByPasswordResetToken(token);
