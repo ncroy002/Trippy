@@ -12,7 +12,6 @@ import com.trippy.back.entities.Trip;
 import com.trippy.back.enumeration.Site;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;
-import org.springframework.security.config.annotation.web.configurers.UrlAuthorizationConfigurer;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

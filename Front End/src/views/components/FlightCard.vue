@@ -1,6 +1,14 @@
 <template>
   <div>
     <div class="md-layout md-alignment-center-center">
+      <h3>Links:</h3>
+      <ul id="example-1">
+        <li v-for="link in links" :key="link">
+          {{ link }}
+        </li>
+      </ul>
+    </div>
+    <div class="md-layout md-alignment-center-center">
       <h3>Flights:</h3>
     </div>
     <div>
@@ -41,7 +49,10 @@
           <p>Departure Date: {{ flight.OutboundLeg.DepartureDate }}</p>
         </md-card-content>
         <md-card-actions>
-          <md-button v-if="userEmail" class="md-primary" v-on:click="saveFlight(flight.QuoteId)"
+          <md-button
+            v-if="userEmail"
+            class="md-primary"
+            v-on:click="saveFlight(flight.QuoteId)"
             >Save</md-button
           >
         </md-card-actions>
@@ -55,13 +66,14 @@ import Axios from "axios";
 export default {
   name: "flight-card",
   props: {
-    flight_data: Object
+    flight_data: Object, 
   },
   data() {
     return {
       selectedFlight: undefined,
       userEmail: undefined,
-      valid: false
+      valid: false,
+      links: undefined
     };
   },
   methods: {

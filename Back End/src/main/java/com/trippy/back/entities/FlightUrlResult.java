@@ -88,7 +88,7 @@ public class FlightUrlResult {
         return leg1;
     }
     public String getLeg2(){
-        leg2 = "from%3A"+destinationCityName+/*"%2C+CA+*/"%28"+destinationCityAbbrev+"Intl.%29%2Cto%3A"+departureCityName+"+%28"+departureCityAbbrev+"+Airports%29%2Cdeparture%3A"+month2+"%2F"+day2+"%2F"+year2+"TANYT";
+        leg2 = "from%3A"+destinationCityName+"%28"+destinationCityAbbrev+"Intl.%29%2Cto%3A"+departureCityName+"+%28"+departureCityAbbrev+"+Airports%29%2Cdeparture%3A"+month2+"%2F"+day2+"%2F"+year2+"TANYT";
         return leg2;
     }
     public String getOption(){
@@ -191,6 +191,7 @@ public class FlightUrlResult {
         else{
             tripType = TripType.TWO;
         }
+        cleanAbbreviation();
         parseDate();
     }
     private void parseDate(){
@@ -205,6 +206,12 @@ public class FlightUrlResult {
             year2 = setDateVariable(yearMonthDay2[0]);
         }
 
+    }
+    private void cleanAbbreviation(){
+        int cut = destinationCityAbbrev.indexOf("-sky");
+        destinationCityAbbrev = destinationCityAbbrev.substring(0,cut);
+        cut = departureCityAbbrev.indexOf("-sky");
+        departureCityAbbrev = departureCityAbbrev.substring(0,cut);
     }
     private int setDateVariable(String variable){
      return Integer.parseInt(variable);
