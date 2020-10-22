@@ -96,8 +96,8 @@
               <template slot="tab-pane-3">
                 <md-card
                   class="md-layout md-with-hover"
-                  v-for="flight in flights"
-                  :key="flight.QuoteId"
+                  v-for="(flight, index) in flights"
+                  :key="index"
                 >
                   <md-card-content>
                     <h3>Minimum Price: ${{ flight.minCost }}</h3>
@@ -117,6 +117,13 @@
                     </p>
                     <p>Save Date: {{ flight.saveDate }}</p>
                   </md-card-content>
+                  <md-card-actions>
+                    <md-button
+                      class="md-primary"
+                      v-on:click="sendSummaryEmail(index)"
+                      >Summary Email</md-button
+                    >
+                  </md-card-actions>
                 </md-card>
               </template>
             </tabs>
@@ -147,6 +154,7 @@ export default {
     return {
       toggle: false,
       flights: [],
+      userEmail: null,
       user: {
         firstname: "Test",
         lastname: "Test",
@@ -166,7 +174,7 @@ export default {
         { image: require("@/assets/img/examples/cynthia-del-rio.jpg") },
         { image: require("@/assets/img/examples/mariya-georgieva.jpg") },
         { image: require("@/assets/img/examples/clem-onojegaw.jpg") }
-      ],
+      ]
     };
   },
   props: {
@@ -191,8 +199,40 @@ export default {
     this.getUserTrips();
   },
   methods: {
+    sendSummaryEmail(index) {
+      let foundFlight = this.flights[index];
+      console.log(foundFlight);
+      console.log(this.userEmail);
+      const url = "http://localhost:8081/flight/summary";
+      axios({
+        url: url,
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        params: {
+          email: this.userEmail
+        },
+        data: {
+          city1ID: foundFlight.city1ID,
+          city2ID: foundFlight.city2ID,
+          city1Name: foundFlight.city1Name,
+          city2Name: foundFlight.city2Name,
+          minCost: foundFlight.minCost,
+          carrierName: foundFlight.carrierName,
+          saveDate: foundFlight.saveDate
+        }
+      })
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     getUserTrips() {
       let userEmail = this.$store.getters.getEmail;
+      this.userEmail = userEmail;
       if (userEmail !== undefined) {
         const url = "http://localhost:8081/flight/save/view/all";
         axios({
@@ -207,7 +247,6 @@ export default {
         })
           .then(result => {
             this.flights = result["data"];
-            console.log(this.flights);
           })
           .catch(err => {
             console.log(err);
