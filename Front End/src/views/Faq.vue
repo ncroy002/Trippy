@@ -171,7 +171,7 @@ export default {
   props: {
     header: {
       type: String,
-      default: require("@/assets/img/bg3.jpg"),
+      default: require("@/assets/img/faqbg.jpg"),
     },
   },
   data() {
