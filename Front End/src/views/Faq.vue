@@ -45,7 +45,7 @@
               </div>
                <br />
           
-             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"  v-if="isUser" >
+             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>search</md-icon>
                 <label>SEARCH FAQS</label>
@@ -75,7 +75,7 @@
 					</ul>
            	 </div>
 			</div>
-      <div class="container" v-if="isUser">
+      <div class="container">
              <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Need Help?</h2>
             </div>
@@ -205,7 +205,6 @@ export default {
       };
     },
     isAdmin : function(){ return this.$store.getters.isAdmin},
-    isUser : function() {return this.$store.getters.isUser},
     filteredFaqs: function() {
       return this.faqs.filter((faq) => { 
         return faq.message.toLowerCase().match(this.search.toLowerCase());
