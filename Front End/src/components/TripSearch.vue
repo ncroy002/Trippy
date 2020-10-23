@@ -178,7 +178,8 @@ export default {
       selectedLocation2: null,
       selectedDepartureDate: null,
       selectedReturnDate: null,
-      Places: []
+      Places: [],
+      flightData:undefined
     };
   },
   validations: {
@@ -257,21 +258,24 @@ export default {
         .then(result => {
           console.log(result);
           let { Quotes, Carriers, Places } = result.data;
-          let flightData = {
+          this.flightData = {
             Quotes: Quotes,
             Carriers: Carriers,
             Places: Places
           };
-          Axios({
+          console.log(this.flightData);
+          this.$emit("flightData", this.flightData);
+
+           Axios({
             url: LinkUrl,
             method: "get",
             headers: {
               "Content-Type": "application/json"
             },
             params: {
-              city1: Places[1].CityName,
+              city1: this.flightData.Places[1].CityName,
               city1ID: city1PlaceId,
-              city2: Places[0].CityName,
+              city2: this.flightData.Places[0].CityName,
               city2ID: city2PlaceId,
               cabin: cabin,
               children: children,
@@ -281,19 +285,19 @@ export default {
               date2: inboundDate
             }
           })
-            .then(result => {
-              console.log(result);
-              let links = result.data;
+            .then(result2 => {
+              console.log(result2);
+              let links = result2.data;
               this.$emit("links", links);
             })
-            .catch(err => {
-              console.log(err);
+            .catch(error => {
+              console.log(error);
             });
-          this.$emit("flightData", flightData);
         })
         .catch(err => {
           console.log(err);
         });
+
     }
   }
 };

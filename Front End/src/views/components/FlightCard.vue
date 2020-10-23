@@ -2,11 +2,11 @@
   <div>
     <div class="md-layout md-alignment-center-center">
       <h3>Links:</h3>
-      <ul id="example-1">
-        <li v-for="link in links" :key="link">
-          {{ link }}
-        </li>
-      </ul>
+      <a class="md-layout md-alignment-center-center" v-for="(link,index) in links"
+       :key="index" :href="link">
+       {{link.split('/')[2]}}
+       </a>
+      
     </div>
     <div class="md-layout md-alignment-center-center">
       <h3>Flights:</h3>
@@ -66,14 +66,14 @@ import Axios from "axios";
 export default {
   name: "flight-card",
   props: {
-    flight_data: Object, 
+    flight_data: Object,
+    links: Array
   },
   data() {
     return {
       selectedFlight: undefined,
       userEmail: undefined,
-      valid: false,
-      links: undefined
+      valid: false
     };
   },
   methods: {

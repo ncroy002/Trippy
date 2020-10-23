@@ -19,21 +19,17 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <trip-search v-on:flightData="onFlightData" v-on:lists="onLink"></trip-search>
+          <trip-search
+            v-on:flightData="onFlightData"
+            v-on:links="onLink"
+          ></trip-search>
         </div>
       </div>
     </div>
     <div v-if="flightData" class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <flight-card :flight_data="flightData"></flight-card>
-        </div>
-      </div>
-    </div>
-    <div v-if="links" class="main main-raised">
-      <div class="section section-basic">
-        <div class="container">
-          <flight-card :links="links"></flight-card>
+          <flight-card :flight_data="flightData" :links="links"></flight-card>
         </div>
       </div>
     </div>
@@ -90,7 +86,7 @@ export default {
       password: null,
       leafShow: false,
       flightData: undefined,
-      links:undefined
+      links: undefined
     };
   },
   methods: {
@@ -103,9 +99,11 @@ export default {
     },
     onFlightData(data) {
       this.flightData = data;
+      console.log(this.flightData);
     },
     onLink(data) {
       this.links = data;
+      console.log(this.links);
     }
   },
   computed: {
