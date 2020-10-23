@@ -38,7 +38,6 @@
                 <p>FAQ</p>
               </md-list-item>
 
-
               <li class="md-list-item" v-if="isLoggedIn">
                 <a
                   href="javascript:void(0)"
@@ -81,6 +80,7 @@
                 </a>
               </li>
 
+              
  
               <md-list-item href="#/forums">
                 <i class="material-icons">chat</i>
