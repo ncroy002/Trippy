@@ -12,8 +12,8 @@ public class Faq{
     @Column
     String message;
 
-//    @Column
-//    String description;
+    @Column
+    String answer;
 
 
     public Faq() {
@@ -35,16 +35,17 @@ public class Faq{
         this.id = id;
     }
 
-//    public String getDescription() {
-//        return description;
-//    }
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
+    public String getAnswer() {
+        return answer;
+    }
 
-    public Faq(String message){
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public Faq(String message, String answer){
         setMessage(message);
-//        setDescription("");
+        setAnswer(answer);
     }
 
     @Override
@@ -52,6 +53,7 @@ public class Faq{
         return "Faq{" +
                 "id=" + id +
                 ", message='" + message + '\'' +
+                ", answer='" + answer + '\'' +
                 '}';
     }
 
@@ -61,7 +63,8 @@ public class Faq{
         if (o == null || getClass() != o.getClass()) return false;
         Faq faq = (Faq) o;
         return Objects.equals(id, faq.id) &&
-                Objects.equals(message, faq.message);
+                Objects.equals(message, faq.message)
+                && Objects.equals(answer, faq.answer);
     }
 }
 
