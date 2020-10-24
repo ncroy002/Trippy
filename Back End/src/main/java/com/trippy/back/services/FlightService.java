@@ -9,6 +9,8 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.trippy.back.entities.FlightUrlResult;
 import com.trippy.back.entities.Trip;
+import com.trippy.back.enumeration.Site;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
@@ -109,7 +111,7 @@ public class FlightService {
         return website;
     }
 
-    public String browseRoutes(Trip trip) throws IOException{
+    public String browseRoutes(Trip trip) throws IOException, ParseException {
         OkHttpClient client = new OkHttpClient();
         String url = null;
         if(trip.getDate2() == null){
@@ -133,6 +135,7 @@ public class FlightService {
         quotes.forEach(q -> {
             double minPrice = (double)((JSONObject) q).get("MinPrice");
             ((JSONObject) q).put("MinPrice", minPrice * Integer.parseInt(trip.getNoOfTravelers()));
+            ((JSONObject) q).put("travelers", trip.getNoOfTravelers());
         });
         return json.toString();
     }

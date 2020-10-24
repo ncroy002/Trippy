@@ -27,6 +27,12 @@ public class Trip {
 
     String noOfTravelers;
 
+    public Trip(String city1, String city2, String date1, String date2) {
+        this.city1 = city1;
+        this.city2 = city2;
+        this.date1 = date1;
+        this.date2 = date2;
+    }
 
     public String getCountry() {
         return country;

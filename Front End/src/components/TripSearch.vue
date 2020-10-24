@@ -137,15 +137,24 @@
                 </md-select>
               </md-field>
             </div>
-          <div class="md-layout-item">
-            <md-field class="md-form-group">
-              <label>Number of Travelers</label>
-              <md-input type="number"
-                v-model="noOfTravelers"
-                placeholder="Number of Travelers"
-              ></md-input>
-            </md-field>
-          </div>
+            <div class="md-layout-item" v-if="this.adults!== undefined">
+              <md-field class="md-form-group">
+                <label>Number of Travelers</label>
+                <md-input
+                  type="number"
+                  v-model="noOfTravelers"
+                  placeholder="Number of Travelers"
+                >
+                  {{
+                    (noOfTravelers =
+                      parseFloat(this.adults) +
+                      parseFloat(this.children) +
+                      parseFloat(this.seniors)
+                    )
+                  }}
+                </md-input>
+              </md-field>
+            </div>
           </div>
 
           <div class="md-layout md-alignment-center-center">
@@ -188,7 +197,7 @@ export default {
       selectedDepartureDate: null,
       selectedReturnDate: null,
       Places: [],
-      flightData:undefined,
+      flightData: undefined,
       noOfTravelers: null
     };
   },
@@ -203,6 +212,10 @@ export default {
     }
   },
   methods: {
+     setAdults(value) {
+       let adults = value;
+       this.adults = adults;
+  },
     getAirportLocations() {
       const url = "http://localhost:8081/flight/find/airports";
       const city1 = this.departureLocation;
@@ -264,21 +277,23 @@ export default {
           city2: city2PlaceId,
           date1: outbountDate,
           date2: inboundDate,
-          noOfTravelers: noOfpassengers,
+          noOfTravelers: noOfpassengers
         }
       })
         .then(result => {
           console.log(result);
-          let { Quotes, Carriers, Places } = result.data;
+          let { Quotes, Carriers, Places} = result.data;
+
           this.flightData = {
             Quotes: Quotes,
             Carriers: Carriers,
-            Places: Places
+            Places: Places,
+            noOfTravelers: noOfpassengers
           };
           console.log(this.flightData);
           this.$emit("flightData", this.flightData);
 
-           Axios({
+          Axios({
             url: LinkUrl,
             method: "get",
             headers: {
@@ -295,7 +310,6 @@ export default {
               seniors: seniors,
               date1: outbountDate,
               date2: inboundDate,
-              noOfTravelers: this.noOfTravelers
             }
           })
             .then(result2 => {
@@ -310,7 +324,6 @@ export default {
         .catch(err => {
           console.log(err);
         });
-
     }
   }
 };

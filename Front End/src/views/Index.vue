@@ -99,6 +99,7 @@ export default {
     },
     onFlightData(data) {
       this.flightData = data;
+      console.log("flight data: ->");
       console.log(this.flightData);
     },
     onLink(data) {
