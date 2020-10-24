@@ -1,15 +1,21 @@
 package com.trippy.back.controllers;
-
 import com.trippy.back.entities.Flight;
 import com.trippy.back.entities.FlightUrlResult;
 import com.trippy.back.entities.FoundFlight;
 import com.trippy.back.entities.Trip;
 import com.trippy.back.enumeration.Site;
+import com.sun.mail.iap.Response;
+import com.trippy.back.entities.Account;
+import com.trippy.back.services.EmailService;
+
 import com.trippy.back.services.FlightService;
 import com.trippy.back.services.TripService;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -24,6 +30,9 @@ public class FlightController {
     FlightService flightService;
     @Autowired
     TripService tripService;
+
+    @Autowired
+    EmailService emailService;
 
     //todo: might need to specify a flight as well to set flight object within trip.
     @RequestMapping(value="/search/external/site")
@@ -66,8 +75,23 @@ public class FlightController {
     }
 
     @GetMapping("/save/view/all")
- //   @PreAuthorize("hasRole('ROLE_USER')")
-    public List<FoundFlight> getAllSaves(@RequestHeader(value = "email") String email) {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<FoundFlight> getAllSaves(@RequestParam String email) {
         return tripService.getAllTrips(email);
     }
+
+    @PostMapping(value = "/summary")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity summaryEmail(@RequestBody FoundFlight foundFlight, @RequestParam String email){
+        if(foundFlight == null || email == null){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        try{
+            emailService.sendEmail(tripService.sendFlightSummary(email, foundFlight));
+            return new ResponseEntity(HttpStatus.OK);
+        }catch (Exception ex){
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

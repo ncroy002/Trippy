@@ -51,9 +51,9 @@ id	message	                        answer
 
 Helps:
 id	question	                  email                 name            completed
-1	'How do I update my email'	   'test@test.com'      'Sara Jane'     false
-2	'Where did my good price go'    'email@email.com'	 'John Smith'     true
-3	'How do I save a trip'          'qman@test.com'     'Don Berry'     false
+1	'How do I update my email'	   'test@test.com'      'Sara Jane'      0
+2	'Where did my good price go'    'email@email.com'	 'John Smith'     1
+3	'How do I save a trip'          'qman@test.com'     'Don Berry'      0
 SET IDENTITY_INSERT dbo.account ON;		Allows for insertion of id.
 SET IDENTITY_INSERT dbo.account OFF;
 */
@@ -111,8 +111,8 @@ INSERT INTO Trippy.dbo.faq (id, message, answer) VALUES (3, 'How do I save a tri
 SET IDENTITY_INSERT dbo.faq OFF;
 
 SET IDENTITY_INSERT dbo.help ON;
-INSERT INTO Trippy.dbo.help (id, question, name, email) VALUES (1, 'How do I update my email', 'test@test.com','Sara Jane', false );
-INSERT INTO Trippy.dbo.help (id, question, name, email) VALUES (2, 'Where did my good price go', 'email@email.com', 'John Smith', true);
-INSERT INTO Trippy.dbo.help (id, question, name, email) VALUES (3, 'How do I save a trip', 'qman@test.com', 'Don Berry', false  );
+INSERT INTO Trippy.dbo.help (id, question, name, email, completed) VALUES (1, 'How do I update my email', 'test@test.com','Sara Jane', 0 );
+INSERT INTO Trippy.dbo.help (id, question, name, email, completed) VALUES (2, 'Where did my good price go', 'email@email.com', 'John Smith', 1);
+INSERT INTO Trippy.dbo.help (id, question, name, email, completed) VALUES (3, 'How do I save a trip', 'qman@test.com', 'Don Berry', 0  );
 
 SET IDENTITY_INSERT dbo.help OFF;

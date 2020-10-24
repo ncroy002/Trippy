@@ -33,6 +33,10 @@
               <md-input v-model="message" type="message"></md-input>
               </md-field>
               </div>
+               <br />
+          
+             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
+              <md-field class="md-form-group" slot="inputs">
               <div
               class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
             >
@@ -57,7 +61,7 @@
               <md-field 
               class="md-form-group" 
               slot="inputs">
-
+              
                 <md-icon>search</md-icon>
                 <label>SEARCH FAQS</label>
 
@@ -91,7 +95,7 @@
 					</ul>
            	 </div>
 			</div>
-      <div class="container" v-if="isUser">
+      <div class="container">
              <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Need Help?</h2>
             </div>
@@ -142,37 +146,26 @@
                     v-for="help in helps"
                     v-bind:key="help.id"
                   >
-                    <div class="col col-1" data-label="User ID">
+                    <div class="col col-1" data-label="Name">
                       {{ help.name }}
                     </div>
                     <div class="col col-2" data-label="Email">
                       {{ help.email }}
                     </div>
-                    <div class="col col-3" data-label="First Name">
+                    <div class="col col-3" data-label="Question">
                       {{ help.question }}
                     </div>
-                    <div class="col col-4" data-label="Last Name">
-                      {{ question.completed }}
+                    <div class="col col-4" data-label="Completed">
+                      {{ help.completed }}
                     </div>
 
                     <div class="col col-5" data-label="Reset/Delete">
-                      <md-dialog-prompt
-                        :md-active.sync="active"
-                        v-model="newPassword"
-                        md-title="Enter New Password"
-                        md-input-maxlength="15"
-                        md-input-placeholder="Password..."
-                        md-confirm-text="Confirm"
-                        @md-confirm="resetPassword(user.id)"
-                      />
-                      <md-button class="md-warning md-sm" @click="active = true"
-                        >Reset Password</md-button
-                      >
+                    
 
                       <md-button
-                        class="md-danger md-sm"
-                        @click="deleteUser(user.id)"
-                        >Delete Account</md-button
+                        class="md-info md-sm"
+                        @click="markComplete(help.id)"
+                        >Mark Complete</md-button
                       >
                     </div>
                   </li>
@@ -198,7 +191,7 @@ export default {
   props: {
     header: {
       type: String,
-      default: require("@/assets/img/bg3.jpg"),
+      default: require("@/assets/img/faqbg.jpg"),
     },
   },
   data() {
@@ -209,7 +202,7 @@ export default {
       answer: "",
       search: "",
       faqs: [],
-      questions: [],
+      helps: [],
     };
   },
 
@@ -231,7 +224,6 @@ export default {
       };
     },
     isAdmin : function(){ return this.$store.getters.isAdmin},
-    isUser : function() {return this.$store.getters.isUser},
     filteredFaqs: function() {
       return this.faqs.filter((faq) => { 
         return faq.message.toLowerCase().match(this.search.toLowerCase());
@@ -287,6 +279,7 @@ export default {
           console.warn("error occured" + error);
       });
 		},
+
   	deleteFaq(id) {
       if (confirm("Confirm faq deletion: " + id )) {
         const url = "http://localhost:8081/faq/deleteFaq";
@@ -318,7 +311,28 @@ export default {
         .catch(function(error) {
           console.warn("error occured" + error);
       });
-		},
+    },
+    markComplete: function(id) {
+      console.log(id);
+      console.log(this.complete);
+      const url = "http://localhost:8081/user/updateHelp";
+      Axios.post(url, null, {
+        params: {
+          ID: id,
+          complete: this.complete
+        },
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(function(error) {
+          console.warn("error occured" + error);
+        });
+    }
+  }
 
 };
 

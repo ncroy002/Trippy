@@ -18,6 +18,7 @@ import Register from "./views/Register.vue";
 import Forums from "./views/Forums.vue"
 import Events from "./views/Events.vue"
 import ForgotPassword from "./views/ForgotPassword.vue";
+import ChangePassword from "./views/ChangePassword.vue";
 
 Vue.use(Router);
 
@@ -178,6 +179,23 @@ let router = new Router(
         }
       },
       {
+        path: "/changepassword",
+        name: "changepassword",
+        components: {
+          default: ChangePassword,
+          header: MainNavbar,
+          footer: MainFooter
+        },
+        props: {
+          header: {
+            colorOnScroll: 400
+          },
+          footer: {
+            backgroundColor: "black"
+          }
+        }
+      },
+      {
         path: "/events",
         name: "events",
         components: {
@@ -201,7 +219,7 @@ let router = new Router(
 router.beforeEach((to, from, next) => {
   const publicPages = ['/', '/login', '/home', '/faq', '/about', '/recommendations', '/forums', '/register', '/events'];
   const userPages = ['/profile'];
-  const adminPages = ['/userlist'];
+  const adminPages = ['/userlist',];
 
   const adminAuth = adminPages.includes(to.path)
   const userAuth = userPages.includes(to.path)
