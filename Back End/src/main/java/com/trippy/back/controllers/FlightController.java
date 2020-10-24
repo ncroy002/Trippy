@@ -1,7 +1,10 @@
 package com.trippy.back.controllers;
 
+import com.trippy.back.entities.Flight;
+import com.trippy.back.entities.FlightUrlResult;
 import com.trippy.back.entities.FoundFlight;
 import com.trippy.back.entities.Trip;
+import com.trippy.back.enumeration.Site;
 import com.trippy.back.services.FlightService;
 import com.trippy.back.services.TripService;
 import net.minidev.json.JSONObject;
@@ -10,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -23,10 +27,23 @@ public class FlightController {
 
     //todo: might need to specify a flight as well to set flight object within trip.
     @RequestMapping(value="/search/external/site")
-    String searchFlight(@RequestBody Trip trip) throws IOException, ParseException {
+    List<FlightUrlResult> searchFlight(@RequestParam (name = "lapInfant") int lapInfant, @RequestParam int infant, @RequestParam int child, @RequestParam String city1, @RequestParam String city2, @RequestParam int youth, @RequestParam int flightType, @RequestParam int adults, @RequestParam int cabin, @RequestParam int seniors, @RequestParam String date1, @RequestParam String date2 ) throws IOException, ParseException {
+        Flight flight = new Flight(lapInfant, infant, child, youth, flightType, adults, cabin, seniors);
+        Trip trip = new Trip(city1, city2,date1, date2);
+        trip.setFlight(flight);
         String flightID= flightService.generateSearchID(trip);
         //List<FlightPriceResult> flightPriceResults = flightService.searchResults(flightID);
-        return flightService.searchResults(flightID).string();
+        return flightService.searchResults(flightID);
+    }
+    @RequestMapping(value="/generate/url")
+    List<String> url(@RequestParam String city1, @RequestParam String city1ID, @RequestParam String city2, @RequestParam String city2ID,@RequestParam String cabin, @RequestParam int children, @RequestParam int adults, @RequestParam int seniors, @RequestParam String date1, @RequestParam(required = false) String date2 ){
+        List<String> urlStrings = new ArrayList<>();
+        FlightUrlResult flightUrlResult = new FlightUrlResult(city1, city1ID, city2, city2ID, cabin, children, adults, seniors,date1, date2);
+        for(Site site: flightUrlResult.getSiteList()){
+            flightUrlResult.setSite(flightService.determineSite(site));
+            urlStrings.add(flightService.generateUrl(flightUrlResult));
+        }
+        return urlStrings;
     }
 
     @RequestMapping(value = "/find/airports")
