@@ -7,9 +7,12 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.squareup.okhttp.ResponseBody;
+import com.trippy.back.entities.Account;
+import com.trippy.back.entities.FoundFlight;
 import com.trippy.back.entities.Trip;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
