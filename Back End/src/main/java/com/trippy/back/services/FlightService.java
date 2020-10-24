@@ -9,8 +9,8 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.trippy.back.entities.FlightUrlResult;
 import com.trippy.back.entities.Trip;
-import com.trippy.back.enumeration.Site;
 import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 import org.springframework.stereotype.Service;
 
@@ -126,7 +126,15 @@ public class FlightService {
                 .build();
 
         Response response = client.newCall(request).execute();
-        return response.body().string();
+        JSONParser parser = new JSONParser(JSONParser.MODE_JSON_SIMPLE);
+
+        JSONObject json = (JSONObject)parser.parse(response.body().string());
+        JSONArray quotes = (JSONArray)json.get("Quotes");
+        quotes.forEach(q -> {
+            double minPrice = (double)((JSONObject) q).get("MinPrice");
+            ((JSONObject) q).put("MinPrice", minPrice * Integer.parseInt(trip.getNoOfTravelers()));
+        });
+        return json.toString();
     }
 
     public JSONObject getAirports(Trip trip) throws IOException {

@@ -137,6 +137,15 @@
                 </md-select>
               </md-field>
             </div>
+          <div class="md-layout-item">
+            <md-field class="md-form-group">
+              <label>Number of Travelers</label>
+              <md-input type="number"
+                v-model="noOfTravelers"
+                placeholder="Number of Travelers"
+              ></md-input>
+            </md-field>
+          </div>
           </div>
 
           <div class="md-layout md-alignment-center-center">
@@ -179,7 +188,8 @@ export default {
       selectedDepartureDate: null,
       selectedReturnDate: null,
       Places: [],
-      flightData:undefined
+      flightData:undefined,
+      noOfTravelers: null
     };
   },
   validations: {
@@ -239,6 +249,7 @@ export default {
       let cabin = this.cabin;
       let outbountDate = this.selectedDepartureDate.toISOString().split("T")[0];
       let inboundDate = this.selectedReturnDate.toISOString().split("T")[0];
+      let noOfpassengers = this.noOfTravelers;
       const url = "http://localhost:8081/flight/browse/routes";
       const LinkUrl = "http://localhost:8081/flight/generate/url";
 
@@ -252,7 +263,8 @@ export default {
           city1: city1PlaceId,
           city2: city2PlaceId,
           date1: outbountDate,
-          date2: inboundDate
+          date2: inboundDate,
+          noOfTravelers: noOfpassengers,
         }
       })
         .then(result => {
@@ -282,7 +294,8 @@ export default {
               adults: adults,
               seniors: seniors,
               date1: outbountDate,
-              date2: inboundDate
+              date2: inboundDate,
+              noOfTravelers: this.noOfTravelers
             }
           })
             .then(result2 => {
