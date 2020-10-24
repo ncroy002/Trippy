@@ -137,7 +137,7 @@
                 </md-select>
               </md-field>
             </div>
-            <div class="md-layout-item" v-if="this.adults!== undefined">
+            <div class="md-layout-item">
               <md-field class="md-form-group">
                 <label>Number of Travelers</label>
                 <md-input
@@ -151,7 +151,7 @@
                       parseFloat(this.children) +
                       parseFloat(this.seniors)
                     )
-                  }}
+                  }} 
                 </md-input>
               </md-field>
             </div>
@@ -198,7 +198,11 @@ export default {
       selectedReturnDate: null,
       Places: [],
       flightData: undefined,
-      noOfTravelers: null
+      noOfTravelers: null,
+      adults: null,
+      seniors: null,
+      children: null,
+      cabin: null,
     };
   },
   validations: {
@@ -211,6 +215,8 @@ export default {
       minLength: minLength(3)
     }
   },
+
+ 
   methods: {
      setAdults(value) {
        let adults = value;
