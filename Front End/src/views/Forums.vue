@@ -3,17 +3,20 @@
     <parallax class="section page-header header-filter" :style="headerStyle">
       <div class="container">
         <div class="md-layout">
-          <div class="md-layout-item md-size-50 md-small-size-70 md-xsmall-size-100">
+          <div class="md-layout-item md-size-50 md-small-size-70 md-small-size-100">
             <h1 class="title">Forums</h1>
             <h4>
               Here you will be able to create posts about your trips
               to share your experience with other travelers. You can even
               ask other travelers about their experiences.
             </h4>
-            <br />
+            
+            <!--
             <md-button href="#/recommend" class="md-success md-lg" target="_blank">
               <i class="fas fa-play"></i> Watch video
             </md-button>
+            -->
+            
           </div>
         </div>
       </div>
@@ -33,20 +36,30 @@
                           <p style="white-space: pre-line;">{{ message }}</p>
                             <br>
                         -->
-                        <input size="66" v-model="message" placeholder="Title..." />
-                        <br />
-                        <textarea rows="15" cols="50" v-model="message2" placeholder="Post..."></textarea>
-                        <br />
-                        <md-button class="md-success">Post</md-button>
+                        <md-field>
+                          <label>Title...</label>
+                          <md-input v-model="forumTitle" type="forumTitle"></md-input>
+                        </md-field>
+
+                        <md-field>
+                          <label>Post...</label>
+                          <md-input v-model="forumPost" type="forumPost"></md-input>
+                        </md-field>
+
+                        <md-button :disabled='!isDisabled' v-on:click="addForumsBackend()" class="md-success" >post</md-button>
                       </md-tab>
 
                       <md-tab id="tab-images-video" md-label="Images & Video" md-icon="chat">
-                        <input size="66" v-model="message" placeholder="Title..." />
+                        <md-field>
+                          <label>Title...</label>
+                          <md-input v-model="forumTitle"></md-input>
+                        </md-field>
                         <br />
-                        <textarea rows="15" cols="50" v-model="message2" placeholder="Post..."></textarea>
+                        <form action="/action_page.php">
+                          <input type="file" id="myPostImage" name="imagename" accept="image/x-png,image/gif,image/jpeg" />
+                        </form>
                         <br />
-                        <md-button class="md-success">Post</md-button>
-                        <br />
+                        <md-button v-on:click="addForumsBackend()" class="md-success">post</md-button>
                       </md-tab>
                     </md-tabs>
                   </template>
@@ -54,54 +67,10 @@
               </div>
             </div>
           </div>
-          <template>
-            <div>
-              <md-card>
-                <img src="@/assets/img/bg.jpg" alt="Avatar" style="width:100px;height:100px;" />
-                <p>John C.</p>
-                <div class="centered">
-                  <p>
-                    <strong>New York City, New York</strong>
-                    <br /> Sep 22, 2019, 8:38 PM
-                    <br /> WOW, this is place is nice
-                  </p>
-                </div>
-                <md-card-actions>
-                  <md-button class="md-success">Reply</md-button>
-                </md-card-actions>
-              </md-card>
-
-              <md-card>
-                <img src="@/assets/img/bg2.jpg" alt="Avatar" style="width:100px;height:100px;" />
-                <p>Thomas K.</p>
-                <div class="centered">
-                  <p>
-                    <strong>Austin, Texas</strong>
-                    <br /> Aug 3, 2019, 2:21 PM
-                    <br /> I can't believe hot it is over here
-                  </p>
-                </div>
-                <md-card-actions>
-                  <md-button class="md-success">Reply</md-button>
-                </md-card-actions>
-              </md-card>
-
-              <md-card>
-                <img src="@/assets/img/bg3.jpg" alt="Avatar" style="width:100px;height:100px;" />
-                <p>Andrew F.</p>
-                <div class="centered">
-                  <p>
-                    <strong>Seattle, Washington</strong>
-                    <br /> March 9, 2019, 10:00 AM
-                    <br /> It's always so cloudy over here
-                  </p>
-                </div>
-                <md-card-actions>
-                  <md-button class="md-success">Reply</md-button>
-                </md-card-actions>
-              </md-card>
+            <div v-bind:key="forumspostcard.id" v-for="forumspostcard in forumspostcard">
+              <ForumsPostCard v-bind:forumspostcard="forumspostcard" v-on:add-comment="addComment($event, forumspostcard.id)"/>
+              <CommentCard v-bind:commentcard="forumspostcard.commentcard"/>
             </div>
-          </template>
         </div>
       </div>
     </div>
@@ -109,44 +78,125 @@
 </template>
 
 <script>
+import Axios, { axios } from "axios";
+import { Forums } from "../models/Forums";
 import { NavTabsCard } from "@/components";
-
+import { ForumsPostCard } from "@/components";
+import { CommentCard } from "@/components";
 export default {
+
   components: {
-    NavTabsCard
+    NavTabsCard,
+    ForumsPostCard,
+    CommentCard
   },
 
-  bodyClass: "landing-page",
+  bodyClass: "forums-page",
   props: {
     header: {
       type: String,
       default: require("@/assets/img/bg7.jpg")
-    },
-    teamImg1: {
-      type: String,
-      default: require("@/assets/img/faces/avatar.jpg")
-    },
-    teamImg2: {
-      type: String,
-      default: require("@/assets/img/faces/christian.jpg")
-    },
-    teamImg3: {
-      type: String,
-      default: require("@/assets/img/faces/kendall.jpg")
     }
   },
   data() {
     return {
-      name: null,
-      email: null,
-      message: null
+      forumTitle: "",
+      forumPost: "",
+      forumPostDate: "",
+      forumUser: "",
+      forumspostcard:[
+        { 
+          id: 1,
+          forumTitle: "Title1",
+          forumPost: "Post1",
+          forumUser: "User1",
+          commentcard:[
+            {
+              id: 1,
+              commentComment: "Comment",
+              commentUser: "User"
+            },
+            {
+              id: 2,
+              commentComment: "Comment2",
+              commentUser: "User2"
+            }
+          ]
+        },
+        { 
+          id: 2,
+          forumTitle: "Title2",
+          forumPost: "Post2",
+          forumUser: "User2",
+          commentcard:[
+            {
+              id: 2,
+              commentComment: "Comment2",
+              commentUser: "User2"
+            }
+          ]
+        }
+      ]
     };
+  },
+  methods:{
+    getCurrentDate(){
+      var n = new Date();
+      var month = n.getMonth() + 1;
+      var day = n.getDate();
+      var year = n.getFullYear();
+      var time = n.getSeconds();
+      var myDate = month + "/" + day + "/" + year + " ";
+      return myDate;
+    },
+    addForumsBackend(){
+      
+      this.forumPostDate = this.getCurrentDate();
+      //Send the information of the post to the database
+      console.log(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
+      const url = "http://localhost:8081/forums/newForums";
+      const forum = new Forums(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser);
+      Axios.post(url, forum, {params: {
+        header: {
+          "Content-Type": "application/json",
+        }
+      }})
+      .then(reponse => {
+        console.log(reponse);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+
+      const newForumsPost = {
+        id: 4,
+        forumTitle: this.forumTitle,
+        forumPost: this.forumPost,
+        commentcard:[{}]
+        
+      }
+      this.forumspostcard = [...this.forumspostcard, newForumsPost];
+      
+    },
+    
+    addComment(myComment, id){
+     const newComment = {
+       id: 3,
+       commentComment: myComment,
+       commentUser: "NewCommentUser"
+     }
+     
+     this.forumspostcard[id-1].commentcard = [...this.forumspostcard[id-1].commentcard, newComment];
+    }
   },
   computed: {
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`
       };
+    },
+    isDisabled(){
+      return this.forumTitle && this.forumPost;
     }
   }
 };
