@@ -1,5 +1,7 @@
 package com.trippy.back.entities;
 
+import javax.persistence.Column;
+
 public class Trip {
     final String country = "US";
     final String currency = "USD";
@@ -23,6 +25,14 @@ public class Trip {
 
     Flight flight;
 
+    String noOfTravelers;
+
+    public Trip(String city1, String city2, String date1, String date2) {
+        this.city1 = city1;
+        this.city2 = city2;
+        this.date1 = date1;
+        this.date2 = date2;
+    }
 
     public String getCountry() {
         return country;
@@ -96,6 +106,14 @@ public class Trip {
         this.date2 = date2;
     }
 
+    public String getNoOfTravelers() {
+        return noOfTravelers;
+    }
+
+    public void setNoOfTravelers(String noOfTravelers) {
+        this.noOfTravelers = noOfTravelers;
+    }
+
     public Trip(Flight flight) {
         this.flight = flight;
     }
@@ -105,11 +123,12 @@ public class Trip {
         this.city2 = city2;
     }
 
-    public Trip(String city1, String city2, String date1, String date2) {
+    public Trip(String city1, String city2, String date1, String date2, String noOfTravelers) {
         this.city1 = city1;
         this.city2 = city2;
         this.date1 = date1;
         this.date2 = date2;
+        this.noOfTravelers = noOfTravelers;
     }
 
     public Trip() {
