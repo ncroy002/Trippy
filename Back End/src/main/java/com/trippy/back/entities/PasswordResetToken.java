@@ -1,6 +1,7 @@
 package com.trippy.back.entities;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -18,6 +19,37 @@ public class PasswordResetToken {
     private Account account;
 
     private Date expiryDate;
+
+    public PasswordResetToken() {
+
+    }
+
+    public PasswordResetToken(final String token) {
+        this.token = token;
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
+    }
+
+    public PasswordResetToken(final String token, final Account account) {
+        this.token = token;
+        this.account = account;
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
+    }
+
+    private Date calculateExpiryDate(final int expiryTimeInMinutes) {
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(new Date().getTime());
+        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+        return new Date(cal.getTime().getTime());
+    }
+
+    public void updateToken(final String token) {
+        this.token = token;
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
+    }
+
+
+
+
 
     public Long getId() {
         return id;

@@ -20,39 +20,59 @@
             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
               <h2 class="title text-center">Frequently Asked Questions</h2>
             </div>
-             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" v-if="isAdmin"  >
-                <md-icon>add</md-icon>
-                  <div class="md-layout">
-                  <div class="md-layout-item md-size-50">
-                    <md-field>
-                      <label>Question</label>
-                      <md-input v-model="message" type="text"></md-input>
-                    </md-field>
-                  </div>
-                  <div class="md-layout-item md-size-50">
-                    <md-field>
-                      <label>Answer</label>
-                      <md-input v-model="answer" type="text"></md-input>
-                    </md-field>
-                  </div>
-                </div>
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-33 mx-auto text-center">
-                    <md-button v-on:click="addFaq()" class="md-success">Add Faq</md-button>
-                  </div>
-                </div>
 
+            <div
+              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
+            >
+              <md-field v-if="isAdmin"
+              class="md-form-group" 
+              slot="inputs">
+
+              <md-icon >add</md-icon>
+              <label>NEW FAQ QUESTION</label>
+              <md-input v-model="message" type="message"></md-input>
+              </md-field>
               </div>
                <br />
           
              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
               <md-field class="md-form-group" slot="inputs">
+              <div
+              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
+            >
+
+              <md-field v-if="isAdmin"
+              class="md-form-group" 
+              slot="inputs">
+
+               <md-icon >add</md-icon>
+              <label>NEW FAQ ANSWER</label>
+               <md-input v-model="answer" type="answer"></md-input>
+              </md-field>
+
+              <md-button 
+              v-if="isAdmin" 
+              v-on:click="addFaq()" 
+              slot="footer" 
+              class="md-simple md-success md-lg">Add</md-button>
+              </div>
+
+              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
+              <md-field 
+              class="md-form-group" 
+              slot="inputs">
+              
                 <md-icon>search</md-icon>
                 <label>SEARCH FAQS</label>
-                <md-input v-model="search" type="search"></md-input>
+
+                <md-input 
+                v-model="search" 
+                type="search"></md-input>
               </md-field>
             </div>
+
              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-left" >
+
               <div class="container">
 
                 <ul class="responsive-table">
@@ -180,7 +200,6 @@ export default {
       email: null,
       message: "",
       answer: "",
-      question: "",
       search: "",
       faqs: [],
       helps: [],
@@ -260,7 +279,28 @@ export default {
           console.warn("error occured" + error);
       });
 		},
-  
+
+  	deleteFaq(id) {
+      if (confirm("Confirm faq deletion: " + id )) {
+        const url = "http://localhost:8081/faq/deleteFaq";
+        Axios.delete(url, {
+          params: {
+            ID: id
+          },
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then(response => {
+            console.log(response);
+            this.faqs = this.faqs.filter(e => e.id != id);
+          })
+          .catch(error => {
+            console.warn("Error: " + error);
+          });
+      }
+    },
+  },
     helpList: function() {
 
 	  const url = "http://localhost:8081/help/listHelps";

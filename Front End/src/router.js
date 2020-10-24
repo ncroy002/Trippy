@@ -18,6 +18,7 @@ import Register from "./views/Register.vue";
 import Forums from "./views/Forums.vue"
 import Events from "./views/Events.vue"
 import ForgotPassword from "./views/ForgotPassword.vue";
+import ChangePassword from "./views/ChangePassword.vue";
 
 Vue.use(Router);
 
@@ -83,7 +84,6 @@ let router = new Router(
           footer: { backgroundColor: "black" }
         }
       },
-     
       {
         path: "/about",
         name: "about",
@@ -166,6 +166,23 @@ let router = new Router(
         name: "forgotpassword",
         components: {
           default: ForgotPassword,
+          header: MainNavbar,
+          footer: MainFooter
+        },
+        props: {
+          header: {
+            colorOnScroll: 400
+          },
+          footer: {
+            backgroundColor: "black"
+          }
+        }
+      },
+      {
+        path: "/changepassword",
+        name: "changepassword",
+        components: {
+          default: ChangePassword,
           header: MainNavbar,
           footer: MainFooter
         },

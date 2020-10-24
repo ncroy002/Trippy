@@ -7,60 +7,17 @@
             class="md-layout-item md-size-33 md-small-size-66 md-xsmall-size-100 md-medium-size-40 mx-auto"
           >
             <login-card header-color="green">
-              <h4 slot="title" class="card-title">Create Account</h4>
-              <form @submit.prevent="register" slot="inputs">
+              <h4 slot="title" class="card-title">Change Password</h4>
+              <p slot="description" class="description">Enter New Password</p>
+              <form @submit.prevent="submit()" slot="inputs">
                 <md-field class="md-form-group" slot="inputs">
-                  <md-icon>account_circle</md-icon>
-                  <label>First Name</label>
-                  <md-input
-                    type="text"
-                    v-model.trim="$v.firstName.$model"
-                  ></md-input>
-                  <br />
-                </md-field>
-                <div
-                  class="form__error"
-                  v-if="submitted && !$v.firstName.required"
-                >
-                  *This field is required.
-                </div>
-                <md-field class="md-form-group" slot="inputs">
-                  <md-icon>account_circle</md-icon>
-                  <label>Last Name</label>
-                  <md-input
-                    type="text"
-                    v-model.trim="$v.lastName.$model"
-                  ></md-input>
-                  <br />
-                </md-field>
-                <div
-                  class="form__error"
-                  v-if="submitted && !$v.lastName.required"
-                >
-                  *This field is required.
-                </div>
-                <md-field class="md-form-group" slot="inputs">
-                  <md-icon>email</md-icon>
-                  <label>Email</label>
-                  <md-input
-                    type="text"
-                    v-model.trim="$v.email.$model"
-                  ></md-input>
-                  <br />
-                </md-field>
-                <div class="form__error" v-if="submitted && !$v.email.required">
-                  *This field is required.
-                </div>
-                <div class="form__error" v-if="submitted && !$v.email.email">
-                  *Please enter a valid email.
-                </div>
-                <md-field class="md-form-group" slot="inputs">
-                  <md-icon>lock_outline</md-icon>
+                  <md-icon>lock</md-icon>
                   <label>New Password</label>
                   <md-input
                     :type="'password'"
-                    v-model="$v.password.$model"
+                    v-model.trim="$v.password.$model"
                   ></md-input>
+                  <br />
                 </md-field>
                 <div
                   class="form__error"
@@ -79,8 +36,9 @@
                   <label>Confirm Password</label>
                   <md-input
                     :type="'password'"
-                    v-model="$v.confirmPassword.$model"
+                    v-model.trim="$v.confirmPassword.$model"
                   ></md-input>
+                  <br />
                 </md-field>
                 <div
                   class="form__error"
@@ -92,7 +50,7 @@
                   class="form__error"
                   v-if="submitted && !$v.confirmPassword.sameAsPassword"
                 >
-                  *Passwords must match.
+                  *Passwords must match
                 </div>
                 <md-button
                   slot="footer"
@@ -106,14 +64,11 @@
               <div class="modal-wrapper">
                 <div class="modal-container">
                   <div class="modal-header">
-                    <h4 class="modal-title" style="color:black">
-                      Registration Successful!
-                    </h4>
+                    <h4 class="modal-title" style="color:black">Password Reset Success</h4>
                   </div>
                   <div class="modal-body text-center">
                     <p style="color:black">
-                      Your account was created successfully! <br> 
-                      Press the button below to go to the login page.
+                      Password reset successfully. Press the button below to go to the login page.
                     </p>
                   </div>
                   <div class="modal-footer">
@@ -134,13 +89,11 @@
               <div class="modal-wrapper">
                 <div class="modal-container">
                   <div class="modal-header">
-                    <h4 class="modal-title" style="color:black">
-                      Registration Failed.
-                    </h4>
+                    <h4 class="modal-title" style="color:black">Password Reset Failed</h4>
                   </div>
                   <div class="modal-body text-center">
                     <p style="color:black">
-                      Your account could not be created due to an error. <br> Please try again.
+                      Password reset failed. Please try again.
                     </p>
                   </div>
                   <div class="modal-footer">
@@ -166,43 +119,28 @@
 
 <script>
 import { LoginCard } from "@/components";
-import { Modal } from "@/components";
-import Axios, { axios } from "axios";
+import Axios from "axios";
 import { Account } from "../models/Account";
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
-
+import { required, minLength, sameAs } from "vuelidate/lib/validators";
 export default {
   components: {
     LoginCard
   },
   bodyClass: "login-page",
-  name: "Register",
   data() {
     return {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      password: null,
+      confirmPassword: null,
       submitted: false,
+      parameters: null,
+      token: null,
       response: null,
       error: false,
       success: false,
-      modal: false
+      modal: false,
     };
   },
-
   validations: {
-    firstName: {
-      required
-    },
-    lastName: {
-      required
-    },
-    email: {
-      required,
-      email
-    },
     password: {
       required,
       minLength: minLength(6)
@@ -212,39 +150,34 @@ export default {
       sameAsPassword: sameAs("password")
     }
   },
-
   props: {
     header: {
       type: String,
       default: require("@/assets/img/profile_city.jpg")
     }
   },
-  computed: {
-    headerStyle() {
-      return {
-        backgroundImage: `url(${this.header})`
-      };
-    }
-  },
-
   methods: {
-    register() {
+    submit() {
       this.submitted = true;
+      this.token = this.$route.query.token
+      console.log(this.$route.query.token);
       console.log("submit");
-      if (this.$v.$invalid) {
-        //alert("Please fix errors");
-      } else {
-        let data = {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          password: this.password
-        };
-        this.$store
-          .dispatch("register", data)
-          .then(resp => {
-            this.response = resp.status;
-            console.log(resp);
+      const url = "http://localhost:8081/user/resetPasswordByUser";
+      if (!this.$v.$invalid) {
+        Axios({
+          url: url,
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          params: {
+            token: this.token,
+            password: this.password
+          }
+        })
+          .then(result => {
+            this.response = result.status
+            console.log(result);
             this.success = true;
             this.modal = true;
           })
@@ -252,7 +185,7 @@ export default {
             console.log(err);
             this.error = true
             this.modal = true;
-            });
+          });
       }
     },
     goToLogin(){
@@ -260,6 +193,14 @@ export default {
     },
     close(){
       this.modal = false;
+    }
+
+  },
+  computed: {
+    headerStyle() {
+      return {
+        backgroundImage: `url(${this.header})`
+      };
     }
   }
 };
