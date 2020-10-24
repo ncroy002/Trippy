@@ -7,6 +7,7 @@ import com.trippy.back.services.TripService;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -48,8 +49,8 @@ public class FlightController {
     }
 
     @GetMapping("/save/view/all")
- //   @PreAuthorize("hasRole('ROLE_USER')")
-    public List<FoundFlight> getAllSaves(@RequestHeader(value = "email") String email) {
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<FoundFlight> getAllSaves(@RequestParam String email) {
         return tripService.getAllTrips(email);
     }
 }
