@@ -5,6 +5,7 @@
 			<h4><b>{{name}}</b></h4>
 			<p>{{date}}</p>
 			<a v-bind:href="website" target="_blank" class="btn btn-outline-primary">Official Website</a>
+      <md-button class="md-success" @click="follow()">Follow</md-button>
 			<div v-if= "isAdmin" class="md-layout-item md-size-33 mx-auto text-center">
           <md-button class="md-success" @click="showDialog = true">Edit</md-button>
 				  <md-button class="md-success" @click="remove">DELETE</md-button>
@@ -61,11 +62,13 @@ export default {
 		dWebsite: this.website,
 		dImage: this.image,
     showDialog: false,
-    isAdmin: false
+    isAdmin: false,
+    email: null,
     };
   },
   beforeMount() {
     this.checkIfAdmin()
+    this.email = this.$store.getters.getEmail
   },
   methods: {
   checkIfAdmin(){
@@ -116,7 +119,25 @@ export default {
         this.$parent.showSnackbar = true
         console.log(error);
       });
-	}
+  },
+  follow(){
+    let url = "http://localhost:8081/event/follow/" + this.dId
+    console.log(this.$store)
+    axios.get(url,{
+        headers: {
+          Authorization: `${this.$store.state.token}`,
+          'email' : `${this.email}`,
+        }
+      }).then((response) => {
+        this.$parent.message = 'Followed successfully'
+        this.$parent.showSnackbar = true
+        console.log(this.result);
+      }, (error) => {
+        this.$parent.message = 'Failed to follow event!'
+        this.$parent.showSnackbar = true
+        console.log(error);
+      });
+  }
   }
 };
 </script>
