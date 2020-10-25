@@ -20,6 +20,8 @@
       <div class="section section-basic">
         <div class="container">
           <trip-search v-on:flightData="onFlightData"
+            v-on:interestData="onInterestData">
+          </trip-search>
             v-on:HotelData="onHotelData"></trip-search>
           <trip-search
             v-on:flightData="onFlightData"
@@ -42,16 +44,25 @@
         </div>
       </div>
     </div>
+     <div v-if="interestData" class="main main-raised">
+      <div class="section section-basic">
+        <div class="container">
+          <interest-card :interest_data="interestData"></interest-card>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { TripSearch } from "@/components";
 import FlightCard from "./components/FlightCard";
+import InterestCard from "./components/InterestsCard";
 import HotelCard from "./components/HotelCard";
 export default {
   components: {
     TripSearch,
     FlightCard,
+    InterestCard
     HotelCard
   },
   name: "index",
@@ -97,6 +108,7 @@ export default {
       password: null,
       leafShow: false,
       flightData: undefined,
+      interestData: undefined
       hotelData: undefined,
       links: undefined
     };
@@ -112,6 +124,9 @@ export default {
     onFlightData(data) {
       this.flightData = data;
     },
+    onInterestData(data) {
+      this.interestData = data;
+      },
     onHotelData(data){
       this.hotelData = data;
       console.log(this.hotelData)
