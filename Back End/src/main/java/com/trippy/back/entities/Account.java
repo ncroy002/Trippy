@@ -41,6 +41,9 @@ public class Account {
     @ManyToMany(targetEntity = FoundFlight.class,cascade = CascadeType.ALL )
     List<FoundFlight> trips;
 
+    @OneToMany(targetEntity = Event.class,cascade = CascadeType.ALL )
+    List<Event> events;
+
     @ManyToMany(targetEntity = Hotels.class,cascade = CascadeType.ALL )
     List<Hotels> hotels;
 
@@ -123,6 +126,14 @@ public class Account {
 
     public void setTrips(List<FoundFlight> trips) {
         this.trips = trips;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     public List<Hotels> getHotels() {

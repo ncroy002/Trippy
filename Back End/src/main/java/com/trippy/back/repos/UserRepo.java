@@ -1,6 +1,7 @@
 package com.trippy.back.repos;
 
 import com.trippy.back.entities.Account;
+import com.trippy.back.entities.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
