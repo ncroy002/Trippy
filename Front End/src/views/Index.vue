@@ -21,13 +21,17 @@
         <div class="container">
           <trip-search v-on:flightData="onFlightData"
             v-on:HotelData="onHotelData"></trip-search>
+          <trip-search
+            v-on:flightData="onFlightData"
+            v-on:links="onLink"
+          ></trip-search>
         </div>
       </div>
     </div>
     <div v-if="flightData" class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <flight-card :flight_data="flightData"></flight-card>
+          <flight-card :flight_data="flightData" :links="links"></flight-card>
         </div>
       </div>
     </div>
@@ -94,6 +98,7 @@ export default {
       leafShow: false,
       flightData: undefined,
       hotelData: undefined,
+      links: undefined
     };
   },
   methods: {
@@ -104,12 +109,18 @@ export default {
         this.leafShow = true;
       }
     },
-    onFlightData(data){
+    onFlightData(data) {
       this.flightData = data;
     },
     onHotelData(data){
       this.hotelData = data;
       console.log(this.hotelData)
+      console.log("flight data: ->");
+      console.log(this.flightData);
+    },
+    onLink(data) {
+      this.links = data;
+      console.log(this.links);
     }
     
   },
@@ -132,7 +143,6 @@ export default {
   beforeDestroy() {
     window.removeEventListener("resize", this.leafActive);
   }
-  
 };
 </script>
 <style lang="scss">

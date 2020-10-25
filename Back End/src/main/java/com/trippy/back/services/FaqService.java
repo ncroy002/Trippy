@@ -21,16 +21,16 @@ public class FaqService {
         return FaqRepo.findAll();
     }
     //todo: potentially return http status or confirmation
-    public void deleteFaq(Long id){
-        if(FaqRepo.existsById(id)){
-            FaqRepo.deleteById(id);
-        }
-    }
 
     public ResponseEntity addFaq(Faq faq){
-        //maybe check for existing message
             FaqRepo.save(faq);
             return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public void deleteFaq(Long ID){
+        if(FaqRepo.existsById(ID)){
+            FaqRepo.deleteById(ID);
+        }
     }
 
     public void updateFaq(Faq faq){
@@ -38,8 +38,8 @@ public class FaqService {
             List<Faq> list = getAllFaqs();
             if (list.contains(faq)) {
                 Faq faqItems = list.get(list.indexOf(faq));
-//                faqItems.setDescription(faqItems.getDescription().equals(faq.getDescription()) ?  faqItems.getDescription(): faq.getDescription());
                 faqItems.setMessage(faqItems.getMessage().equals(faq.getMessage()) ?  faqItems.getMessage(): faq.getMessage());
+                faqItems.setAnswer(faqItems.getAnswer().equals(faq.getAnswer()) ?  faqItems.getAnswer(): faq.getAnswer());
                 BackApplication.LOGGER.info("Updating faq ["+faqItems+"]");
                 FaqRepo.save(faqItems);
                 return;

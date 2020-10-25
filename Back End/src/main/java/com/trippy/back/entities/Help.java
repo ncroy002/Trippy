@@ -10,23 +10,27 @@ public class Help{
     Long id;
 
     @Column
-    String message;
+    String question;
+
+    @Column
+    String name;
+
+    @Column
+    String email;
 
     @Column
     Boolean completed;
 
-    @Column
-    Long userId;
-
     public Help() {
     }
 
-    public String getMessage() {
-        return message;
+
+    public String getQuestion() {
+        return question;
     }
 
-    public void setMessage(String message) {
-        this.message= message;
+    public void setQuestion(String question) {
+        this.question= question;
     }
 
     public Long getId() {
@@ -37,12 +41,21 @@ public class Help{
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+
+    public String getName() {
+        return name;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Boolean getCompleted() {
@@ -52,11 +65,12 @@ public class Help{
         this.completed = completed;
     }
 
-    public Help(Long id, String message, Boolean completed, Long userId ){
-        this.id = id;
-        this.message = message;
-        this.completed = completed;
-        this.userId = userId;
+
+    public Help(String question,  String name, String email, Boolean completed ){
+        setQuestion(question);
+        setName(name);
+        setEmail(email);
+        setCompleted(completed);
     }
 
 
