@@ -252,7 +252,7 @@ export default {
       selectedReturnDate: null,
       destination: "",
       interest: "",
-      features: []
+      features: [],
       Places: [],
       flightData: undefined,
       noOfTravelers: null,
@@ -431,8 +431,13 @@ export default {
       let outbountDate = this.selectedDepartureDate.toISOString().split("T")[0];
       let inboundDate = this.selectedReturnDate.toISOString().split("T")[0];
       const url = "http://localhost:8081/hotels/test";
-
       Axios({
+        url: url,
+        method: "get",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        params: {
           cityName: cityName,
           date1: outbountDate,
           date2: inboundDate
@@ -442,11 +447,12 @@ export default {
         console.log(result);
         let HotelArray = result.data;
         this.$emit('HotelData',HotelArray);
-       })
+          
+        })
         .catch(err => {
           console.log(err);
         });
-      }
+    }
   }
   
 };
