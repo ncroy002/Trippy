@@ -1,6 +1,9 @@
 <template>
   <div class="wrapper">
-    <parallax class="section page-header header-filter" :style="headerStyle"></parallax>
+    <parallax
+      class="section page-header header-filter"
+      :style="headerStyle"
+    ></parallax>
     <div class="main main-raised">
       <div class="section profile-content">
         <div class="container">
@@ -8,18 +11,32 @@
             <div class="md-layout-item md-size-50 mx-auto">
               <div class="profile">
                 <div class="avatar">
-                  <img :src="img" alt="Circle Image" class="img-raised rounded-circle img-fluid" />
+                  <img
+                    :src="img"
+                    alt="Circle Image"
+                    class="img-raised rounded-circle img-fluid"
+                  />
                 </div>
                 <div class="name">
                   <div id="edit-name" v-show="toggle">
                     <h4>Edit Name</h4>
                     <form>
-                      <input type="text" v-model.lazy="user.firstname" required />
-                      <input type="text" v-model.lazy="user.lastname" required />
+                      <input
+                        type="text"
+                        v-model.lazy="user.firstname"
+                        required
+                      />
+                      <input
+                        type="text"
+                        v-model.lazy="user.lastname"
+                        required
+                      />
                     </form>
                   </div>
                   <div id="name">
-                    <h3 class="title">{{user.firstname}} {{user.lastname}}</h3>
+                    <h3 class="title">
+                      {{ user.firstname }} {{ user.lastname }}
+                    </h3>
                   </div>
                   <h6>New User</h6>
                 </div>
@@ -35,12 +52,16 @@
             </div>
             <div id="description">
               <h4>Description</h4>
-              <p>{{user.descrip}}</p>
+              <p>{{ user.descrip }}</p>
             </div>
           </div>
-                    <div class="profile-tabs">
+          <div class="profile-tabs">
             <tabs
-              :tab-name="['Recently viewed', 'Shared trips', 'Favorite']"
+              :tab-name="[
+                'Recently viewed',
+                'Shared trips',
+                'Favorite Flights'
+              ]"
               :tab-icon="['explore', 'share', 'favorite']"
               plain
               nav-pills-icons
@@ -73,21 +94,46 @@
                 </div>
               </template>
               <template slot="tab-pane-3">
-                <div class="md-layout">
-                  <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane3[0].image" class="rounded" />
-                    <img :src="tabPane3[1].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane3[2].image" class="rounded" />
-                    <img :src="tabPane3[3].image" class="rounded" />
-                    <img :src="tabPane3[4].image" class="rounded" />
-                  </div>
-                </div>
+                <md-card
+                  class="md-layout md-with-hover"
+                  v-for="(flight, index) in flights"
+                  :key="index"
+                >
+                  <md-card-content>
+                    <h3>Minimum Price: ${{ flight.minCost }}</h3>
+                    <p>
+                      Departure Place:
+                      {{ flight.city1Name }}
+                    </p>
+                    <p>
+                      Destination Place:
+                      {{ flight.city2Name }}
+                    </p>
+                    <p>
+                      Carrier:
+                      <span>
+                        {{ flight.carrierName }}
+                      </span>
+                    </p>
+                    <p>Save Date: {{ flight.saveDate }}</p>
+                  </md-card-content>
+                  <md-card-actions>
+                    <md-button
+                      class="md-primary"
+                      v-on:click="sendSummaryEmail(index)"
+                      >Summary Email</md-button
+                    >
+                  </md-card-actions>
+                </md-card>
               </template>
             </tabs>
           </div>
-          <md-button @click='toggle = !toggle' v-on:click="updateUserDetails" class="md-warning">{{toggle ? 'save' : 'edit'}}</md-button>
+          <md-button
+            @click="toggle = !toggle"
+            v-on:click="updateUserDetails"
+            class="md-warning"
+            >{{ toggle ? "save" : "edit" }}</md-button
+          >
         </div>
       </div>
     </div>
@@ -95,7 +141,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 import { Tabs } from "@/components";
 
 export default {
@@ -107,12 +153,14 @@ export default {
   data() {
     return {
       toggle: false,
+      flights: [],
+      userEmail: null,
       user: {
-        firstname: 'Test',
-        lastname: 'Test',
-        descrip: 'Test',
-        email:'',
-        id:''
+        firstname: "Test",
+        lastname: "Test",
+        descrip: "Test",
+        email: "",
+        id: ""
       },
       tabPane1: [
         { image: require("@/assets/img/examples/studio-1.jpg") },
@@ -126,13 +174,6 @@ export default {
         { image: require("@/assets/img/examples/cynthia-del-rio.jpg") },
         { image: require("@/assets/img/examples/mariya-georgieva.jpg") },
         { image: require("@/assets/img/examples/clem-onojegaw.jpg") }
-      ],
-      tabPane3: [
-        { image: require("@/assets/img/examples/mariya-georgieva.jpg") },
-        { image: require("@/assets/img/examples/studio-3.jpg") },
-        { image: require("@/assets/img/examples/clem-onojeghuo.jpg") },
-        { image: require("@/assets/img/examples/olu-eletu.jpg") },
-        { image: require("@/assets/img/examples/studio-1.jpg") }
       ]
     };
   },
@@ -152,39 +193,104 @@ export default {
         backgroundImage: `url(${this.header})`
       };
     }
-  },mounted () {
-    this.getUserDetails();
   },
-  methods:{
+  mounted() {
+    this.getUserDetails();
+    this.getUserTrips();
+  },
+  methods: {
+    sendSummaryEmail(index) {
+      let foundFlight = this.flights[index];
+      console.log(foundFlight);
+      console.log(this.userEmail);
+      const url = "http://localhost:8081/flight/summary";
+      axios({
+        url: url,
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        params: {
+          email: this.userEmail
+        },
+        data: {
+          city1ID: foundFlight.city1ID,
+          city2ID: foundFlight.city2ID,
+          city1Name: foundFlight.city1Name,
+          city2Name: foundFlight.city2Name,
+          minCost: foundFlight.minCost,
+          carrierName: foundFlight.carrierName,
+          saveDate: foundFlight.saveDate
+        }
+      })
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getUserTrips() {
+      let userEmail = this.$store.getters.getEmail;
+      this.userEmail = userEmail;
+      if (userEmail !== undefined) {
+        const url = "http://localhost:8081/flight/save/view/all";
+        axios({
+          url: url,
+          method: "get",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          params: {
+            email: userEmail
+          }
+        })
+          .then(result => {
+            this.flights = result["data"];
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
     getUserDetails() {
       let url = "http://localhost:8081/user/getuser";
-     // let url = "/user/getuser";
-      axios.get(url).then((response) => {
-        this.user.id = response.data.id
-        this.user.email = response.data.email
-        this.user.firstname = response.data.firstname
-        this.user.lastname = response.data.lastname
-        this.user.descrip = response.data.description
-      }).catch( error => { console.log(error); });
+      // let url = "/user/getuser";
+      axios
+        .get(url)
+        .then(response => {
+          this.user.id = response.data.id;
+          this.user.email = response.data.email;
+          this.user.firstname = response.data.firstname;
+          this.user.lastname = response.data.lastname;
+          this.user.descrip = response.data.description;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    updateUserDetails(){
-      console.log('CALLED')
+    updateUserDetails() {
+      console.log("CALLED");
       let url = "http://localhost:8081/user/update";
-      axios.post(url, {
-        "id" : this.user.id,
-        "email" : this.user.email,
-        "firstname" : this.user.firstname,
-        "lastname" : this.user.lastname,
-        "description" : this.user.descrip
-      }).then((response) => {
-        console.log(response);
-      }, (error) => {
-        console.log(error);
-      });
+      axios
+        .post(url, {
+          id: this.user.id,
+          email: this.user.email,
+          firstname: this.user.firstname,
+          lastname: this.user.lastname,
+          description: this.user.descrip
+        })
+        .then(
+          response => {
+            console.log(response);
+          },
+          error => {
+            console.log(error);
+          }
+        );
     }
   }
 };
-
 </script>
 
 <style lang="scss" scoped>

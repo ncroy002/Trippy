@@ -1,6 +1,5 @@
 package com.trippy.back.controllers;
 
-
 import com.trippy.back.com.trippy.back.util.ImageUtil;
 import com.trippy.back.entities.Account;
 import com.trippy.back.entities.Event;

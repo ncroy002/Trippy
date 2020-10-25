@@ -1,11 +1,11 @@
 package com.trippy.back.entities;
-
 import javax.persistence.Column;
 
 public class Trip {
     final String country = "US";
     final String currency = "USD";
     final String locale = "en-US";
+
 
     //todo: delete out of flight and airport
     String cityId;
@@ -24,9 +24,16 @@ public class Trip {
     String date2;
 
     Flight flight;
+    Hotels hotel;
 
     String noOfTravelers;
 
+    public Trip(String city1, String city2, String date1, String date2) {
+        this.city1 = city1;
+        this.city2 = city2;
+        this.date1 = date1;
+        this.date2 = date2;
+    }
 
     public String getCountry() {
         return country;

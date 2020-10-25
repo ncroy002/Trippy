@@ -44,6 +44,10 @@ public class Account {
     @OneToMany(targetEntity = Event.class,cascade = CascadeType.ALL )
     List<Event> events;
 
+    @ManyToMany(targetEntity = Hotels.class,cascade = CascadeType.ALL )
+    List<Hotels> hotels;
+
+
     public String getUsername() {
         return username;
     }
@@ -131,6 +135,11 @@ public class Account {
     public void setEvents(List<Event> events) {
         this.events = events;
     }
+
+    public List<Hotels> getHotels() {
+        return hotels;
+    }
+    public void setHotels(List<Hotels> hotels) { this.hotels = hotels;}
 
     public Account() {
 

@@ -19,14 +19,32 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <trip-search v-on:flightData="onFlightData"></trip-search>
+          <trip-search v-on:flightData="onFlightData"
+            v-on:interestData="onInterestData"
+            v-on:HotelData="onHotelData"
+            v-on:links="onLink"
+          ></trip-search>
         </div>
       </div>
     </div>
     <div v-if="flightData" class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <flight-card :flight_data="flightData"></flight-card>
+          <flight-card :flight_data="flightData" :links="links"></flight-card>
+        </div>
+      </div>
+    </div>
+    <div v-if="hotelData" class="main main-raised">
+      <div class="section section-basic">
+        <div class="container">
+          <hotel-card :hotel_data="hotelData"></hotel-card>
+        </div>
+      </div>
+    </div>
+     <div v-if="interestData" class="main main-raised">
+      <div class="section section-basic">
+        <div class="container">
+          <interest-card :interest_data="interestData"></interest-card>
         </div>
       </div>
     </div>
@@ -35,10 +53,14 @@
 <script>
 import { TripSearch } from "@/components";
 import FlightCard from "./components/FlightCard";
+import InterestCard from "./components/InterestsCard";
+import HotelCard from "./components/HotelCard";
 export default {
   components: {
     TripSearch,
-    FlightCard
+    FlightCard,
+    InterestCard,
+    HotelCard
   },
   name: "index",
   bodyClass: "index-page",
@@ -83,6 +105,9 @@ export default {
       password: null,
       leafShow: false,
       flightData: undefined,
+      interestData: undefined,
+      hotelData: undefined,
+      links: undefined
     };
   },
   methods: {
@@ -93,9 +118,23 @@ export default {
         this.leafShow = true;
       }
     },
-    onFlightData(data){
+    onFlightData(data) {
       this.flightData = data;
+    },
+    onInterestData(data) {
+      this.interestData = data;
+      },
+    onHotelData(data){
+      this.hotelData = data;
+      console.log(this.hotelData)
+      console.log("flight data: ->");
+      console.log(this.flightData);
+    },
+    onLink(data) {
+      this.links = data;
+      console.log(this.links);
     }
+    
   },
   computed: {
     headerStyle() {
@@ -116,7 +155,6 @@ export default {
   beforeDestroy() {
     window.removeEventListener("resize", this.leafActive);
   }
-  
 };
 </script>
 <style lang="scss">

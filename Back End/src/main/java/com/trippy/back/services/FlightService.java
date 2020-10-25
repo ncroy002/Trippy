@@ -1,20 +1,29 @@
 package com.trippy.back.services;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import com.trippy.back.entities.FlightUrlResult;
 import com.squareup.okhttp.ResponseBody;
+import com.trippy.back.entities.Account;
+import com.trippy.back.entities.FoundFlight;
 import com.trippy.back.entities.Trip;
+import com.trippy.back.enumeration.Site;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 @Service
@@ -61,21 +70,52 @@ public class FlightService {
         json = json.substring(0,ending);
         return json;
     }
-    public ResponseBody searchResults(String flightSearchID) throws IOException, ParseException {
+
+    public List<FlightUrlResult> searchResults(String flightSearchID) throws IOException, ParseException {
         ObjectMapper objectMapper = new ObjectMapper();
+        List<FlightUrlResult> flightUrlResults = new ArrayList<>();
         Request request = new Request.Builder()
                 .url("https://compare-flight-prices.p.rapidapi.com/GetPricesAPI/GetPrices.aspx?SearchID="+ flightSearchID)
                 .get()
                 .addHeader("x-rapidapi-host", "compare-flight-prices.p.rapidapi.com")
                 .addHeader("x-rapidapi-key", "1b25331decmsh2220286ae9fedcdp1e87f4jsn270397c114a4")
                 .build();
-//todo: could return response body
         Response response = client.newCall(request).execute();
         //map json response body to list of Flight Price Results
-
-        return  response.body();
+        JsonNode rootNode = objectMapper.readTree(response.body().string());
+        FlightUrlResult urlResult = new FlightUrlResult();
+        for(int i = 0; i < rootNode.size(); i++){
+            urlResult = new FlightUrlResult();
+            urlResult.setSite(rootNode.get(i).get("site").toString());
+            urlResult.setUrl(rootNode.get(i).get("url").toString());
+            flightUrlResults.add(urlResult);
+        }
+        return flightUrlResults;
     }
-    public String browseRoutes(Trip trip) throws Exception{
+
+    public String generateUrl(FlightUrlResult flightUrlResult){
+        //creates url
+        flightUrlResult.setUrl(flightUrlResult.getUrl());
+        return flightUrlResult.getUrl();
+    }
+
+    public String determineSite(Site site){
+        String website = null;
+        switch(site) {
+            case EXPEDIA:
+                website = "www.expedia.com";
+                break;
+            case TRAVELOCITY:
+                website = "www.travelocity.com";
+                break;
+            case KAYAK:
+                website = "www.kayak.com";
+                break;
+        }
+        return website;
+    }
+
+    public String browseRoutes(Trip trip) throws IOException, ParseException {
         OkHttpClient client = new OkHttpClient();
         String url = null;
         if(trip.getDate2() == null){
@@ -99,6 +139,7 @@ public class FlightService {
         quotes.forEach(q -> {
             double minPrice = (double)((JSONObject) q).get("MinPrice");
             ((JSONObject) q).put("MinPrice", minPrice * Integer.parseInt(trip.getNoOfTravelers()));
+            ((JSONObject) q).put("travelers", trip.getNoOfTravelers());
         });
         return json.toString();
     }
