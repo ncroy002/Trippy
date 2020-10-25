@@ -162,6 +162,11 @@
               >Find Flight Details</md-button
             >
           </div>
+          <div class="md-layout md-alignment-center-center">
+            <md-button v-on:click="getHotels()"
+              >find Hotels</md-button
+            >
+          </div>
         </div>
         <div
           v-if="
@@ -174,8 +179,9 @@
         >
           <md-button v-on:click="getAirportLocations()"
             >Search Airports</md-button
-          >
+          >      
         </div>
+
       </form>
     </div>
   </div>
@@ -196,6 +202,7 @@ export default {
       selectedLocation2: null,
       selectedDepartureDate: null,
       selectedReturnDate: null,
+      
       Places: [],
       flightData: undefined,
       noOfTravelers: null,
@@ -326,6 +333,34 @@ export default {
             .catch(error => {
               console.log(error);
             });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+      getHotels() {
+      let cityName = this.destinationLocation;
+      let outbountDate = this.selectedDepartureDate.toISOString().split("T")[0];
+      let inboundDate = this.selectedReturnDate.toISOString().split("T")[0];
+      const url = "http://localhost:8081/hotels/test";
+
+      Axios({
+        url: url,
+        method: "get",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        params: {
+          cityName: cityName,
+          date1: outbountDate,
+          date2: inboundDate
+        }
+      })
+        .then(result => {
+        console.log(result);
+        let HotelArray = result.data;
+        this.$emit('HotelData',HotelArray);
+          
         })
         .catch(err => {
           console.log(err);

@@ -19,6 +19,8 @@
     <div class="main main-raised">
       <div class="section section-basic">
         <div class="container">
+          <trip-search v-on:flightData="onFlightData"
+            v-on:HotelData="onHotelData"></trip-search>
           <trip-search
             v-on:flightData="onFlightData"
             v-on:links="onLink"
@@ -33,15 +35,24 @@
         </div>
       </div>
     </div>
+    <div v-if="hotelData" class="main main-raised">
+      <div class="section section-basic">
+        <div class="container">
+          <hotel-card :hotel_data="hotelData"></hotel-card>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { TripSearch } from "@/components";
 import FlightCard from "./components/FlightCard";
+import HotelCard from "./components/HotelCard";
 export default {
   components: {
     TripSearch,
-    FlightCard
+    FlightCard,
+    HotelCard
   },
   name: "index",
   bodyClass: "index-page",
@@ -86,6 +97,7 @@ export default {
       password: null,
       leafShow: false,
       flightData: undefined,
+      hotelData: undefined,
       links: undefined
     };
   },
@@ -99,6 +111,10 @@ export default {
     },
     onFlightData(data) {
       this.flightData = data;
+    },
+    onHotelData(data){
+      this.hotelData = data;
+      console.log(this.hotelData)
       console.log("flight data: ->");
       console.log(this.flightData);
     },
@@ -106,6 +122,7 @@ export default {
       this.links = data;
       console.log(this.links);
     }
+    
   },
   computed: {
     headerStyle() {
