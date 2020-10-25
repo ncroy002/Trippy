@@ -20,11 +20,8 @@
       <div class="section section-basic">
         <div class="container">
           <trip-search v-on:flightData="onFlightData"
-            v-on:interestData="onInterestData">
-          </trip-search>
-            v-on:HotelData="onHotelData"></trip-search>
-          <trip-search
-            v-on:flightData="onFlightData"
+            v-on:interestData="onInterestData"
+            v-on:HotelData="onHotelData"
             v-on:links="onLink"
           ></trip-search>
         </div>
@@ -62,7 +59,7 @@ export default {
   components: {
     TripSearch,
     FlightCard,
-    InterestCard
+    InterestCard,
     HotelCard
   },
   name: "index",
@@ -108,7 +105,7 @@ export default {
       password: null,
       leafShow: false,
       flightData: undefined,
-      interestData: undefined
+      interestData: undefined,
       hotelData: undefined,
       links: undefined
     };

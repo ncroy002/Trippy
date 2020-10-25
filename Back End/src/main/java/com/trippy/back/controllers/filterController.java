@@ -1,7 +1,6 @@
 package com.trippy.back.controllers;
 
 import com.trippy.back.entities.Flight;
-import com.trippy.back.entities.FoundTrip;
 import com.trippy.back.entities.Trip;
 import com.trippy.back.services.FilterService;
 import com.trippy.back.services.FlightService;

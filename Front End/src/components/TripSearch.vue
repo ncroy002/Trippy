@@ -344,14 +344,6 @@ export default {
         }
       })
         .then(result => {
-          console.log(result);
-          let { Quotes, Carriers, Places } = result.data;
-          let flightData = {
-            Quotes: Quotes,
-            Carriers: Carriers,
-            Places: Places
-          };
-          this.$emit("flightData", flightData);
           let { Quotes, Carriers, Places} = result.data;
 
           this.flightData = {

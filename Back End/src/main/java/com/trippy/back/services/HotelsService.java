@@ -69,10 +69,13 @@ public class HotelsService {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jsonNode = mapper.readTree(jsonData);
         //now that we have the body lets map those info out
-        Hotels[] hotelList = new Hotels[10];
+        Hotels[] hotelList = new Hotels[11];
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i <jsonNode.get("data").get("body").get("searchResults").get("results").size(); i++){
 
+            if(i>10){
+                break;
+            }
             hotelName = jsonNode.get("data").get("body").get("searchResults").get("results").get(i).get("name").toString();
             starRating = jsonNode.get("data").get("body").get("searchResults").get("results").get(i).get("starRating").toString();
             price = jsonNode.get("data").get("body").get("searchResults").get("results").get(i).get("ratePlan").get("price").get("current").toString();

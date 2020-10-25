@@ -332,9 +332,7 @@ export default {
           console.warn("error occured" + error);
         });
     }
-  }
-
-};
+  };
 
 </script>
 
