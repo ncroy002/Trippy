@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-public class FoundTrip {
+public class FoundFlight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -20,7 +20,8 @@ public class FoundTrip {
     @ManyToMany(mappedBy = "trips")
     private List<Account> accounts;
 
-
+    @Column (name="noOfTravelers")
+    int noOfTravelers;
 
     public String getCity1ID() {
         return city1ID;
@@ -78,8 +79,15 @@ public class FoundTrip {
         this.saveDate = saveDate;
     }
 
+    public int getNoOfTravelers() {
+        return noOfTravelers;
+    }
 
-    public FoundTrip(String city1Name,String city1ID ,String city2Name , String city2ID ,Date saveDate, double minCost, String carrierName) {
+    public void setNoOfTravelers(int noOfTravelers) {
+        this.noOfTravelers = noOfTravelers;
+    }
+
+    public FoundFlight(String city1Name, String city1ID , String city2Name , String city2ID , Date saveDate, double minCost, String carrierName, int noOfTravelers) {
         this.city1ID = city1ID;
         this.city2ID = city2ID;
         this.city1Name = city1Name;
@@ -87,8 +95,25 @@ public class FoundTrip {
         this.minCost = minCost;
         this.carrierName = carrierName;
         this.saveDate = saveDate;
+        this.noOfTravelers = noOfTravelers;
     }
 
-    public FoundTrip() {
+    public FoundFlight() {
+    }
+
+    @Override
+    public String toString() {
+        return "FoundFlight{" +
+                "id=" + id +
+                ", city1ID='" + city1ID + '\'' +
+                ", city2ID='" + city2ID + '\'' +
+                ", city1Name='" + city1Name + '\'' +
+                ", city2Name='" + city2Name + '\'' +
+                ", minCost=" + minCost +
+                ", carrierName='" + carrierName + '\'' +
+                ", saveDate=" + saveDate +
+                ", accounts=" + accounts +
+                ", noOfTravelers=" + noOfTravelers +
+                '}';
     }
 }

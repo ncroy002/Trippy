@@ -1,6 +1,14 @@
 <template>
   <div>
     <div class="md-layout md-alignment-center-center">
+      <h3>Links:</h3>
+      <a class="md-layout md-alignment-center-center" v-for="(link,index) in links"
+       :key="index" :href="link">
+       {{link.split('/')[2]}}
+       </a>
+      
+    </div>
+    <div class="md-layout md-alignment-center-center">
       <h3>Flights:</h3>
     </div>
     <div>
@@ -39,9 +47,13 @@
             </span>
           </p>
           <p>Departure Date: {{ flight.OutboundLeg.DepartureDate }}</p>
+          <p>Number of Travelers: {{ flight_data.noOfTravelers }}</p>
         </md-card-content>
         <md-card-actions>
-          <md-button v-if="userEmail" class="md-primary" v-on:click="saveFlight(flight.QuoteId)"
+          <md-button
+            v-if="userEmail"
+            class="md-primary"
+            v-on:click="saveFlight(flight.QuoteId)"
             >Save</md-button
           >
         </md-card-actions>
@@ -55,7 +67,8 @@ import Axios from "axios";
 export default {
   name: "flight-card",
   props: {
-    flight_data: Object
+    flight_data: Object,
+    links: Array
   },
   data() {
     return {
@@ -80,6 +93,7 @@ export default {
       )[0].Name;
       let saveDate = new Date().toUTCString();
       let minCost = flight.MinPrice;
+      let noOfTravelers = this.flight_data.noOfTravelers;
 
       if (this.userEmail !== undefined) {
         this.valid = true;
@@ -102,7 +116,8 @@ export default {
             city2Name: city2Name,
             minCost: minCost,
             carrierName: carrier,
-            saveDate: saveDate
+            saveDate: saveDate,
+            noOfTravelers: noOfTravelers,
           }
         })
           .then(result => {

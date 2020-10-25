@@ -73,9 +73,99 @@
               </md-datepicker>
             </div>
           </div>
+          <div class="md-layout">
+            <div class="md-layout-item">
+              <md-field>
+                <label for="adults"> number of adults: </label>
+                <md-select v-model="adults" name="adults">
+                  <md-option value="0"> 0 </md-option>
+                  <md-option value="1"> 1 </md-option>
+                  <md-option value="2"> 2 </md-option>
+                  <md-option value="3"> 3 </md-option>
+                  <md-option value="4"> 4 </md-option>
+                  <md-option value="5"> 5 </md-option>
+                  <md-option value="6"> 6 </md-option>
+                  <md-option value="7"> 7 </md-option>
+                  <md-option value="8"> 8 </md-option>
+                  <md-option value="9"> 9 </md-option>
+                </md-select>
+              </md-field>
+            </div>
+            <div class="md-layout-item">
+              <md-field>
+                <label for="children"> number of children: </label>
+                <md-select v-model="children" name="children">
+                  <md-option value="0"> 0 </md-option>
+                  <md-option value="1"> 1 </md-option>
+                  <md-option value="2"> 2 </md-option>
+                  <md-option value="3"> 3 </md-option>
+                  <md-option value="4"> 4 </md-option>
+                  <md-option value="5"> 5 </md-option>
+                  <md-option value="6"> 6 </md-option>
+                  <md-option value="7"> 7 </md-option>
+                  <md-option value="8"> 8 </md-option>
+                  <md-option value="9"> 9 </md-option>
+                </md-select>
+              </md-field>
+            </div>
+          </div>
+          <div class="md-layout">
+            <div class="md-layout-item">
+              <md-field>
+                <label for="seniors"> number of senior citizens: </label>
+                <md-select v-model="seniors" name="seniors">
+                  <md-option value="0"> 0 </md-option>
+                  <md-option value="1"> 1 </md-option>
+                  <md-option value="2"> 2 </md-option>
+                  <md-option value="3"> 3 </md-option>
+                  <md-option value="4"> 4 </md-option>
+                  <md-option value="5"> 5 </md-option>
+                  <md-option value="6"> 6 </md-option>
+                  <md-option value="7"> 7 </md-option>
+                  <md-option value="8"> 8 </md-option>
+                  <md-option value="9"> 9 </md-option>
+                </md-select>
+              </md-field>
+            </div>
+            <div class="md-layout-item">
+              <md-field>
+                <label for="cabin"> Cabin Class </label>
+                <md-select v-model="cabin" name="cabin">
+                  <md-option value="economy"> Economy </md-option>
+                  <md-option value="first"> First Class</md-option>
+                  <md-option value="premium"> Premium Economy</md-option>
+                  <md-option value="business"> Business</md-option>
+                </md-select>
+              </md-field>
+            </div>
+            <div class="md-layout-item">
+              <md-field class="md-form-group">
+                <label>Number of Travelers</label>
+                <md-input
+                  type="number"
+                  v-model="noOfTravelers"
+                  placeholder="Number of Travelers"
+                >
+                  {{
+                    (noOfTravelers =
+                      parseFloat(this.adults) +
+                      parseFloat(this.children) +
+                      parseFloat(this.seniors)
+                    )
+                  }} 
+                </md-input>
+              </md-field>
+            </div>
+          </div>
+
           <div class="md-layout md-alignment-center-center">
             <md-button v-on:click="getFlightDetails()"
               >Find Flight Details</md-button
+            >
+          </div>
+          <div class="md-layout md-alignment-center-center">
+            <md-button v-on:click="getHotels()"
+              >find Hotels</md-button
             >
           </div>
         </div>
@@ -90,8 +180,9 @@
         >
           <md-button v-on:click="getAirportLocations()"
             >Search Airports</md-button
-          >
+          >      
         </div>
+
       </form>
 
       <div id="interestSearch">
@@ -162,6 +253,13 @@ export default {
       destination: "",
       interest: "",
       features: []
+      Places: [],
+      flightData: undefined,
+      noOfTravelers: null,
+      adults: null,
+      seniors: null,
+      children: null,
+      cabin: null,
     };
   },
   validations: {
@@ -174,7 +272,13 @@ export default {
       minLength: minLength(3)
     }
   },
+
+ 
   methods: {
+     setAdults(value) {
+       let adults = value;
+       this.adults = adults;
+  },
     getAirportLocations() {
       const url = "http://localhost:8081/flight/find/airports";
       const city1 = this.departureLocation;
@@ -215,9 +319,15 @@ export default {
     getFlightDetails() {
       let city1PlaceId = this.selectedLocation1;
       let city2PlaceId = this.selectedLocation2;
+      let adults = this.adults;
+      let children = this.children;
+      let seniors = this.seniors;
+      let cabin = this.cabin;
       let outbountDate = this.selectedDepartureDate.toISOString().split("T")[0];
       let inboundDate = this.selectedReturnDate.toISOString().split("T")[0];
+      let noOfpassengers = this.noOfTravelers;
       const url = "http://localhost:8081/flight/browse/routes";
+      const LinkUrl = "http://localhost:8081/flight/generate/url";
 
       Axios({
         url: url,
@@ -229,7 +339,8 @@ export default {
           city1: city1PlaceId,
           city2: city2PlaceId,
           date1: outbountDate,
-          date2: inboundDate
+          date2: inboundDate,
+          noOfTravelers: noOfpassengers
         }
       })
         .then(result => {
@@ -241,6 +352,44 @@ export default {
             Places: Places
           };
           this.$emit("flightData", flightData);
+          let { Quotes, Carriers, Places} = result.data;
+
+          this.flightData = {
+            Quotes: Quotes,
+            Carriers: Carriers,
+            Places: Places,
+            noOfTravelers: noOfpassengers
+          };
+          console.log(this.flightData);
+          this.$emit("flightData", this.flightData);
+
+          Axios({
+            url: LinkUrl,
+            method: "get",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            params: {
+              city1: this.flightData.Places[1].CityName,
+              city1ID: city1PlaceId,
+              city2: this.flightData.Places[0].CityName,
+              city2ID: city2PlaceId,
+              cabin: cabin,
+              children: children,
+              adults: adults,
+              seniors: seniors,
+              date1: outbountDate,
+              date2: inboundDate,
+            }
+          })
+            .then(result2 => {
+              console.log(result2);
+              let links = result2.data;
+              this.$emit("links", links);
+            })
+            .catch(error => {
+              console.log(error);
+            });
         })
         .catch(err => {
           console.log(err);
@@ -275,8 +424,31 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
+    
+    getHotels() {
+      let cityName = this.destinationLocation;
+      let outbountDate = this.selectedDepartureDate.toISOString().split("T")[0];
+      let inboundDate = this.selectedReturnDate.toISOString().split("T")[0];
+      const url = "http://localhost:8081/hotels/test";
+
+      Axios({
+          cityName: cityName,
+          date1: outbountDate,
+          date2: inboundDate
+        }
+      })
+        .then(result => {
+        console.log(result);
+        let HotelArray = result.data;
+        this.$emit('HotelData',HotelArray);
+       })
+        .catch(err => {
+          console.log(err);
+        });
+      }
   }
+  
 };
 </script>
 <style></style>

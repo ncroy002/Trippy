@@ -22,13 +22,25 @@
           <trip-search v-on:flightData="onFlightData"
             v-on:interestData="onInterestData">
           </trip-search>
+            v-on:HotelData="onHotelData"></trip-search>
+          <trip-search
+            v-on:flightData="onFlightData"
+            v-on:links="onLink"
+          ></trip-search>
         </div>
       </div>
     </div>
     <div v-if="flightData" class="main main-raised">
       <div class="section section-basic">
         <div class="container">
-          <flight-card :flight_data="flightData"></flight-card>
+          <flight-card :flight_data="flightData" :links="links"></flight-card>
+        </div>
+      </div>
+    </div>
+    <div v-if="hotelData" class="main main-raised">
+      <div class="section section-basic">
+        <div class="container">
+          <hotel-card :hotel_data="hotelData"></hotel-card>
         </div>
       </div>
     </div>
@@ -45,11 +57,13 @@
 import { TripSearch } from "@/components";
 import FlightCard from "./components/FlightCard";
 import InterestCard from "./components/InterestsCard";
+import HotelCard from "./components/HotelCard";
 export default {
   components: {
     TripSearch,
     FlightCard,
     InterestCard
+    HotelCard
   },
   name: "index",
   bodyClass: "index-page",
@@ -95,6 +109,8 @@ export default {
       leafShow: false,
       flightData: undefined,
       interestData: undefined
+      hotelData: undefined,
+      links: undefined
     };
   },
   methods: {
@@ -110,7 +126,18 @@ export default {
     },
     onInterestData(data) {
       this.interestData = data;
+      },
+    onHotelData(data){
+      this.hotelData = data;
+      console.log(this.hotelData)
+      console.log("flight data: ->");
+      console.log(this.flightData);
+    },
+    onLink(data) {
+      this.links = data;
+      console.log(this.links);
     }
+    
   },
   computed: {
     headerStyle() {
