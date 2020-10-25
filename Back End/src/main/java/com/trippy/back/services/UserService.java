@@ -2,12 +2,15 @@ package com.trippy.back.services;
 
 import com.trippy.back.BackApplication;
 import com.trippy.back.entities.Account;
+import com.trippy.back.entities.Event;
+import com.trippy.back.repos.EventsRepo;
 import com.trippy.back.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 
 @Service
@@ -18,6 +21,9 @@ public class UserService {
 
     @Autowired
     PasswordEncoder encoder;
+
+    @Autowired
+    EventsRepo eventsRepo;
 
     public List<Account> findAll(){
         return userRepo.findAll();
@@ -45,6 +51,20 @@ public class UserService {
 
             }
         }
+
+    public Account followEvent(String email, int eventId){
+        Optional<Event> foundEvent = eventsRepo.findById(eventId);
+
+        if(foundEvent.isPresent()){
+            Event event = foundEvent.get();
+            Account account = userRepo.findByEmail(email);
+            List<Event> foundEvents = account.getEvents();
+            foundEvents.add(event);
+            return userRepo.save(account);
+        }
+
+        throw new RuntimeException("Failed to save event [" + eventId + "]");
+    }
     }
 
 
