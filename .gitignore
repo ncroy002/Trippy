@@ -1,1 +1,2 @@
 /Back End/src/main/resources/*.properties
+/Back End/src/main/resources/application-dev.properties
