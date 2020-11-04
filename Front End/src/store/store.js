@@ -100,5 +100,31 @@ export default new Vuex.Store({
         },
         getJwtToken: state => state.token,
         getEmail: state =>  state.user.email,
+        isUserPromise: (state) => {
+            return new Promise((req, res) => {
+                axios.get('http://localhost:8081/api/test/user', {
+                    headers: {
+                        Authorization: `${state.token}`
+                    }
+                    }).then((response) => {
+                        return true;
+                    }, (error) => {
+                        return false;
+                    });
+            })
+        },
+        isAdminPromise: (state) => {
+            return new Promise((req, res) => {
+                axios.get('http://localhost:8081/api/test/admin', {
+                    headers: {
+                        Authorization: `${state.token}`
+                    }
+                    }).then((response) => {
+                        return true;
+                    }, (error) => {
+                        return false;
+                    });
+            })
+        },
     }
 })
