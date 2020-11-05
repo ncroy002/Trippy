@@ -95,7 +95,7 @@
 					</ul>
            	 </div>
 			</div>
-      <div class="container">
+      <div class="container" v-if="!isAdmin">
              <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Need Help?</h2>
             </div>
