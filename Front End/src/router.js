@@ -216,6 +216,7 @@ let router = new Router(
 
   }); export default router;
 
+  /*
 router.beforeEach((to, from, next) => {
   const publicPages = ['/', '/login', '/home', '/faq', '/about', '/recommendations', '/forums', '/register', '/events'];
   const userPages = ['/profile'];
@@ -252,4 +253,4 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-
+*/

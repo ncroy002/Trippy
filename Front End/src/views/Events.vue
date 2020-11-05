@@ -202,9 +202,7 @@ export default {
   },
   methods:{
     checkIfAdmin(){
-      if(localStorage.getItem('role') === 'ROLE_ADMIN'){
-        this.isAdmin = true;
-      }
+      this.isAdmin = this.$store.getters.isAdmin();
     },
     fetchEvents(){
       let url = "http://localhost:8081/event/list";

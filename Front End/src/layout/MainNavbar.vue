@@ -163,14 +163,12 @@ export default {
   data() {
     return {
       extraNavClasses: "",
-      toggledClass: false
+      toggledClass: false,
+      isLoggedIn: false,
+      isUser: false,
+      isAdmin: false,
     };
   },
-   computed : {
-      isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
-      ,isUser : function(){ return this.$store.getters.isUser}
-      ,isAdmin : function(){ return this.$store.getters.isAdmin}
-    },
     methods: {
       logout: function () {
         this.$store.dispatch('logout')
@@ -223,7 +221,35 @@ export default {
         element_id.scrollIntoView({ block: "end", behavior: "smooth" });
       }
     },
-  
+  created() {
+    fetch('http://localhost:8081/api/test/user', {
+      method: 'get',
+      headers: { Authorization: `${this.$store.getters.getJwtToken}` }
+    }).then((res) => {
+        if (res.status == 401) {
+          console.log("user req: auth: "+this.$store.getters.getJwtToken+". fail.")
+          this.isUser = false;
+          this.isLoggedIn = false;
+        } else if (res.status == 200) {
+          console.log("user req: auth: "+this.$store.getters.getJwtToken+". sucess.")
+          this.isUser = true;
+          this.isLoggedIn = true;
+        }
+    })
+
+    fetch('http://localhost:8081/api/test/admin', {
+      method: 'get',
+      headers: { Authorization: `${this.$store.getters.getJwtToken}` }
+    }).then((res) => {
+        if (res.status == 401) {
+          console.log("admin req: auth: "+this.$store.getters.getJwtToken+". fail.")
+          this.isAdmin = false;
+        } else if (res.status == 200) {
+          console.log("admin req: auth: "+this.$store.getters.getJwtToken+". sucess.")
+          this.isAdmin = true;
+        }
+    })
+  },
 
   mounted() {
     document.addEventListener("scroll", this.scrollListener);

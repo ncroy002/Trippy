@@ -7,8 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         status: '',
-        token: localStorage.getItem('token') || '',
-        user: localStorage.getItem('user') || {},
+        token: '',
+        user: {},
     },
     mutations: {
         auth_request(state) {
@@ -82,25 +82,10 @@ export default new Vuex.Store({
 
     },
     getters: {
-        isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
-        isAdmin: state => {
-            if (state.user.roles == undefined) {
-                return false;
-            } else {
-                return state.user.roles[0] === "ROLE_ADMIN";
-            }
-        },
-        isUser: state => {
-            if (state.user.roles == undefined) {
-                return false;
-            } else {
-            return state.user.roles[0] == "ROLE_USER";
-            }
-        },
-        getJwtToken: state => state.token,
+        getJwtToken: state => {return state.token},
         getEmail: state =>  state.user.email,
-        isUserPromise: (state) => {
+        isUser: (state) => {
             return new Promise((req, res) => {
                 axios.get('http://localhost:8081/api/test/user', {
                     headers: {
@@ -109,11 +94,13 @@ export default new Vuex.Store({
                     }).then((response) => {
                         return true;
                     }, (error) => {
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('user')
                         return false;
                     });
             })
         },
-        isAdminPromise: (state) => {
+        isAdmin: (state) => {
             return new Promise((req, res) => {
                 axios.get('http://localhost:8081/api/test/admin', {
                     headers: {
@@ -122,6 +109,8 @@ export default new Vuex.Store({
                     }).then((response) => {
                         return true;
                     }, (error) => {
+                        localStorage.removeItem('token')
+                        localStorage.removeItem('user')
                         return false;
                     });
             })
