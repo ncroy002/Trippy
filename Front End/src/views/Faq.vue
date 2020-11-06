@@ -21,21 +21,40 @@
               <h2 class="title text-center">Frequently Asked Questions</h2>
             </div>
 
-            <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
+            <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
+
+              <form @submit.prevent="addFaq" 
+              slot="inputs">
+                
               <md-field v-if="isAdmin"
               class="md-form-group" 
               slot="inputs">
 
               <md-icon >add</md-icon>
               <label>NEW FAQ QUESTION</label>
-              <md-input v-model="message" type="message"></md-input>
+
+              <md-input 
+              type="text"
+              v-model="$v.message.$model"
+              >
+              </md-input>
+              <br />
+
               </md-field>
-              </div>
+
               <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
+                  class="form_error"
+                  v-if="submitted && !$v.message.required"
+                >
+                  *This field is required.
+                </div>
+
+                  <!-- <div
+                  class="form__error"
+                  v-if="!$v.message.isUnique"
+                >
+                  *This question is already saved.
+                </div> -->
 
               <md-field v-if="isAdmin"
               class="md-form-group" 
@@ -43,14 +62,36 @@
 
                <md-icon >add</md-icon>
               <label>NEW FAQ ANSWER</label>
-               <md-input v-model="answer" type="answer"></md-input>
+
+               <md-input 
+               v-model="$v.answer.$model"
+               type="type">
+               </md-input>
               </md-field>
+              <br />
+
+              <div
+                  class="form_error"
+                  v-if="submitted && !$v.answer.required"
+                >
+                  *This field is required.
+                </div>
+               
+                <!-- <div
+                  class="form__error"
+                  v-if="!$v.answer.isUnique"
+                >
+                  *This answer is already saved.
+                </div> -->
 
               <md-button 
               v-if="isAdmin" 
-              v-on:click="addFaq()" 
+              
               slot="footer" 
+              type = "submit"
               class="md-simple md-success md-lg">Add</md-button>
+              </form>
+              </div>
               </div>
 
               <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
@@ -63,7 +104,8 @@
 
                 <md-input 
                 v-model="search" 
-                type="search"></md-input>
+                type="search"
+                ></md-input>
               </md-field>
             </div>
 
@@ -124,7 +166,7 @@
             </div>
           </div>
 
- <div class="container" v-if="isAdmin">
+ <!-- <div class="container" v-if="isAdmin">
              <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Help</h2>
             </div>
@@ -153,9 +195,9 @@
                     </div>
                     <div class="col col-4" data-label="Last Name">
                       {{ question.completed }}
-                    </div>
+                    </div> -->
 
-                    <div class="col col-5" data-label="Reset/Delete">
+                    <!-- <div class="col col-5" data-label="Reset/Delete">
                       <md-dialog-prompt
                         :md-active.sync="active"
                         v-model="newPassword"
@@ -178,12 +220,12 @@
                   </li>
                 </ul>
                 </div>
-                </div>
+                </div> -->
         </div>
         </div>
       </div>
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 
@@ -195,6 +237,7 @@ import { Help } from "../models/Help"
 import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 export default {
   bodyClass: "FAQ_page-page",
+  name: "AddFaq",
   props: {
     header: {
       type: String,
@@ -203,6 +246,7 @@ export default {
   },
   data() {
     return {
+      submitted: false,
       name: null,
       email: null,
       message: "",
@@ -210,6 +254,10 @@ export default {
       search: "",
       faqs: [],
       questions: [],
+      response: null,
+      error: "",
+      success: false,
+      fail: false,
     };
   },
 
@@ -221,8 +269,27 @@ export default {
       required
     },
     question: {
+      required,
+    },
+    answer:{
+      required,
+    //  minLength: minLength(15),
+      // async isUnique (value) {
+      // if (value === '') return true
+      // const response = await fetch(`/api/unique/${value}`)
+      // return Boolean(await response.json())
+      // }
+    },
+    message: {
       required
-    }
+    
+        //  minLength: minLength(15),
+      // async isUnique (value) {
+      // if (value === '') return true
+      // const response = await fetch(`/api/unique/${value}`)
+      // return Boolean(await response.json())
+      // }
+      },
   },
  computed: {
     headerStyle() {
@@ -241,7 +308,7 @@ export default {
  },
  mounted: function() {
     this.faqList();
-    this.helpList();
+    // this.helpList();
   },
   methods: {
     addQuestion() {
@@ -261,7 +328,15 @@ export default {
         });
     },
     addFaq() {
+      this.submitted = true;
+      console.log("submit");
       console.log(this.message, this.answer);
+
+      // this.$v.$touch()
+      if (this.$v.$invalid) {
+        console.log("NOT VALID ENTRY");
+      }
+      else{
       const url = "http://localhost:8081/faq/newFaq";
       const faq = new Faq(this.message, this.answer);
       Axios.post(url, faq, {params: {
@@ -275,6 +350,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      }
 	},
     faqList: function() {
 
@@ -308,17 +384,17 @@ export default {
       }
     },
   },
-    helpList: function() {
+    // helpList: function() {
 
-	  const url = "http://localhost:8081/help/listHelps";
+	  // const url = "http://localhost:8081/help/listHelps";
 
-      Axios.get(url)
-        .then(response => (this.helps = response.data))
+    //   Axios.get(url)
+    //     .then(response => (this.helps = response.data))
 
-        .catch(function(error) {
-          console.warn("error occured" + error);
-      });
-		},
+    //     .catch(function(error) {
+    //       console.warn("error occured" + error);
+    //   });
+		// },
 
 };
 
@@ -427,5 +503,13 @@ h2 {
 .space {
   padding: 25px;
   margin: 25px;
+}
+</style>
+
+<style scoped>
+.form_error {
+  color: red;
+  font-size: 0.75em;
+  padding-left: 10px;
 }
 </style>
