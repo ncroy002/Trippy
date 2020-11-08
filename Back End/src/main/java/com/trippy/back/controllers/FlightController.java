@@ -1,11 +1,7 @@
 package com.trippy.back.controllers;
-import com.trippy.back.entities.Flight;
-import com.trippy.back.entities.FlightUrlResult;
-import com.trippy.back.entities.FoundFlight;
-import com.trippy.back.entities.Trip;
+import com.trippy.back.entities.*;
 import com.trippy.back.enumeration.Site;
 import com.sun.mail.iap.Response;
-import com.trippy.back.entities.Account;
 import com.trippy.back.services.EmailService;
 
 import com.trippy.back.services.FlightService;
@@ -67,16 +63,17 @@ public class FlightController {
         return flightService.browseRoutes(trip);
     }
 
-   // @PreAuthorize("hasRole('ROLE_USER')")
+    //TODO: Change on front end. need to send name of selected List in the request header
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(value = "/save")
-    void saveTrip(@RequestHeader(value = "email")String email, @RequestBody FoundFlight foundFlight){
+    void saveTrip(@RequestHeader(value = "email")String email,@RequestHeader(value = "list")String list, @RequestBody FoundFlight foundFlight){
         System.out.println(foundFlight);
-        tripService.saveTrip(email, foundFlight);
+        tripService.saveFlight(email,list,foundFlight);
     }
 
     @GetMapping("/save/view/all")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public List<FoundFlight> getAllSaves(@RequestParam String email) {
+    public List<TripList> getAllSaves(@RequestParam String email) {
         return tripService.getAllTrips(email);
     }
 

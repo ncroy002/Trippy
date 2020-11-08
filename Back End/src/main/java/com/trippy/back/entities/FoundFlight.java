@@ -17,8 +17,8 @@ public class FoundFlight {
     String carrierName;
     Date saveDate;
 
-    @ManyToMany(mappedBy = "trips")
-    private List<Account> accounts;
+    @ManyToMany(mappedBy = "flights")
+    private List<TripList> tripLists;
 
     @Column (name="noOfTravelers")
     int noOfTravelers;
@@ -112,7 +112,6 @@ public class FoundFlight {
                 ", minCost=" + minCost +
                 ", carrierName='" + carrierName + '\'' +
                 ", saveDate=" + saveDate +
-                ", accounts=" + accounts +
                 ", noOfTravelers=" + noOfTravelers +
                 '}';
     }

@@ -107,7 +107,8 @@ export default {
           method: "post",
           headers: {
             "Content-Type": "application/json",
-            email: this.userEmail
+            email: this.userEmail,
+            list: "test"
           },
           data: {
             city1ID: city1Id,

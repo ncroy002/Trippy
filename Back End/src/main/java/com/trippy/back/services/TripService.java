@@ -2,7 +2,9 @@ package com.trippy.back.services;
 
 import com.trippy.back.entities.Account;
 import com.trippy.back.entities.FoundFlight;
-import com.trippy.back.repos.TripRepo;
+import com.trippy.back.entities.TripList;
+import com.trippy.back.repos.FlightRepo;
+import com.trippy.back.repos.TripListRepo;
 import com.trippy.back.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,20 +15,31 @@ import java.util.List;
 @Service
 public class TripService {
     @Autowired
-    TripRepo tripRepo;
+    FlightRepo flightRepo;
     @Autowired
     UserRepo userRepo;
+    @Autowired
+    TripListRepo tripListRepo;
 
-    public List<FoundFlight> getAllTrips(String email){
+    public List<TripList> getAllTrips(String email){
         Account account= userRepo.findByEmail(email);
         return account.getTrips();
     }
 
-    public void saveTrip(String email, FoundFlight foundFlight) {
+
+    public void saveFlight(String email, String list, FoundFlight foundFlight) {
         Account account= userRepo.findByEmail(email);
-        List<FoundFlight> tripList = account.getTrips();
-        tripList.add(foundFlight);
-        //this save will also insert into the found_trip table
+        TripList tripList =  tripListRepo.findTripListByNameandAccount(list, account.getId());
+        tripList.getFlights().add(foundFlight);
+        tripListRepo.save(tripList);
+    }
+
+    //Insert new Trip List for particular user
+    public void createTripList(String email, String listName){
+        Account account= userRepo.findByEmail(email);
+        TripList tripList = new TripList();
+        tripList.setName(listName);
+        account.getTrips().add(tripList);
         userRepo.save(account);
     }
 
