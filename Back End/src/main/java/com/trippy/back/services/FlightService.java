@@ -137,7 +137,7 @@ public class FlightService {
         JSONObject json = (JSONObject)parser.parse(response.body().string());
         JSONArray quotes = (JSONArray)json.get("Quotes");
         quotes.forEach(q -> {
-            double minPrice = (double)((JSONObject) q).get("MinPrice");
+            double minPrice = Double.parseDouble(((JSONObject) q).get("MinPrice").toString());
             ((JSONObject) q).put("MinPrice", minPrice * Integer.parseInt(trip.getNoOfTravelers()));
             ((JSONObject) q).put("travelers", trip.getNoOfTravelers());
         });
