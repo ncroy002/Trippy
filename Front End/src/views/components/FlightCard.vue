@@ -2,11 +2,14 @@
   <div>
     <div class="md-layout md-alignment-center-center">
       <h3>Links:</h3>
-      <a class="md-layout md-alignment-center-center" v-for="(link,index) in links"
-       :key="index" :href="link">
-       {{link.split('/')[2]}}
-       </a>
-      
+      <a
+        class="md-layout md-alignment-center-center"
+        v-for="(link, index) in links"
+        :key="index"
+        :href="link"
+      >
+        {{ link.split("/")[2] }}
+      </a>
     </div>
     <div class="md-layout md-alignment-center-center">
       <h3>Flights:</h3>
@@ -23,7 +26,7 @@
             Departure Place:
             {{
               flight_data.Places.find(
-                e => e.PlaceId == flight.OutboundLeg.OriginId
+                (e) => e.PlaceId == flight.OutboundLeg.OriginId
               ).Name
             }}
           </p>
@@ -31,14 +34,14 @@
             Destination Place:
             {{
               flight_data.Places.find(
-                e => e.PlaceId == flight.OutboundLeg.DestinationId
+                (e) => e.PlaceId == flight.OutboundLeg.DestinationId
               ).Name
             }}
           </p>
           <p>
             Carrier:
             <span
-              v-for="carrier in flight_data.Carriers.filter(e =>
+              v-for="carrier in flight_data.Carriers.filter((e) =>
                 flight.OutboundLeg.CarrierIds.includes(e.CarrierId)
               )"
               :key="carrier.Id"
@@ -49,13 +52,34 @@
           <p>Departure Date: {{ flight.OutboundLeg.DepartureDate }}</p>
           <p>Number of Travelers: {{ flight_data.noOfTravelers }}</p>
         </md-card-content>
-        <md-card-actions>
+        <!-- <md-card-actions>
           <md-button
             v-if="userEmail"
             class="md-primary"
             v-on:click="saveFlight(flight.QuoteId)"
-            >Save</md-button
-          >
+            >Save
+          </md-button>
+        </md-card-actions> -->
+        <md-card-actions>
+          <div class="flex content-start items-start" v-if="userEmail">
+            <md-button
+              class="md-primary"
+              v-on:click="getTripList"
+              @click="isOpenB = !isOpenB"
+            >
+              Save
+            </md-button>
+            <collapse-transition dimension="width">
+              <md-select
+                v-model="trips"
+                v-show="isOpenB"
+              >
+                <md-option v-for="(list, index) in savedTripList" :key="index">
+                  {{ list }}
+                </md-option>
+              </md-select>
+            </collapse-transition>
+          </div>
         </md-card-actions>
       </md-card>
     </div>
@@ -68,27 +92,55 @@ export default {
   name: "flight-card",
   props: {
     flight_data: Object,
-    links: Array
+    links: Array,
+    savedTripList: Array,
   },
   data() {
     return {
+      isOpenB: false,
       selectedFlight: undefined,
       userEmail: undefined,
-      valid: false
+      valid: false,
     };
   },
   methods: {
+    getTripList() {
+      const url = "http://localhost:8081/trip/get/all";
+      if (this.userEmail !== undefined) {
+        this.valid = true;
+      } else {
+        this.valid = false;
+      }
+      if (this.valid) {
+        Axios({
+          url: url,
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+            email: this.userEmail,
+          },
+          data: {},
+        })
+          .then((result) => {
+            console.log(result);
+            this.savedTripList = result.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
     saveFlight(quoteId) {
       let flight = this.flight_data.Quotes.find(
-        element => element.QuoteId === quoteId
+        (element) => element.QuoteId === quoteId
       );
       let city1Id = flight.OutboundLeg.OriginId;
       let city2Id = flight.OutboundLeg.DestinationId;
-      let city1Name = this.flight_data.Places.find(e => e.PlaceId == city1Id)
+      let city1Name = this.flight_data.Places.find((e) => e.PlaceId == city1Id)
         .Name;
-      let city2Name = this.flight_data.Places.find(e => e.PlaceId == city2Id)
+      let city2Name = this.flight_data.Places.find((e) => e.PlaceId == city2Id)
         .Name;
-      let carrier = this.flight_data.Carriers.filter(e =>
+      let carrier = this.flight_data.Carriers.filter((e) =>
         flight.OutboundLeg.CarrierIds.includes(e.CarrierId)
       )[0].Name;
       let saveDate = new Date().toUTCString();
@@ -108,7 +160,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
             email: this.userEmail,
-            list: "test"
+            list: "test",
           },
           data: {
             city1ID: city1Id,
@@ -119,20 +171,20 @@ export default {
             carrierName: carrier,
             saveDate: saveDate,
             noOfTravelers: noOfTravelers,
-          }
+          },
         })
-          .then(result => {
+          .then((result) => {
             console.log(result);
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
           });
       }
-    }
+    },
   },
   mounted() {
     this.userEmail = this.$store.getters.getEmail;
-  }
+  },
 };
 </script>
 

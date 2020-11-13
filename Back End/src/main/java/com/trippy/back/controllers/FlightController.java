@@ -37,7 +37,6 @@ public class FlightController {
         Trip trip = new Trip(city1, city2,date1, date2);
         trip.setFlight(flight);
         String flightID= flightService.generateSearchID(trip);
-        //List<FlightPriceResult> flightPriceResults = flightService.searchResults(flightID);
         return flightService.searchResults(flightID);
     }
     @RequestMapping(value="/generate/url")
@@ -66,8 +65,7 @@ public class FlightController {
     //TODO: Change on front end. need to send name of selected List in the request header
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(value = "/save")
-    void saveTrip(@RequestHeader(value = "email")String email,@RequestHeader(value = "list")String list, @RequestBody FoundFlight foundFlight){
-        System.out.println(foundFlight);
+   public void saveFlight(@RequestHeader(value = "email")String email,@RequestHeader(value = "list")String list, @RequestBody FoundFlight foundFlight){
         tripService.saveFlight(email,list,foundFlight);
     }
 

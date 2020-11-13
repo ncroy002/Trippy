@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,6 +33,22 @@ public class TripService {
         TripList tripList =  tripListRepo.findTripListByNameandAccount(list, account.getId());
         tripList.getFlights().add(foundFlight);
         tripListRepo.save(tripList);
+    }
+
+    public List<String> getTripListsNames(String email){
+        List<String> tripListsNames = new ArrayList<String>();
+        try{
+            if(userRepo.existsByEmail(email)){
+                List<TripList> tripLists = getAllTrips(email);
+                for(TripList trip: tripLists){
+                    tripListsNames.add(trip.getName());
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    return tripListsNames;
     }
 
     //Insert new Trip List for particular user
