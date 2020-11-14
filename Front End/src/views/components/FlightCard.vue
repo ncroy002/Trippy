@@ -69,16 +69,23 @@
             >
               Save
             </md-button>
-            <collapse-transition dimension="width">
+            <md-field>
               <md-select
-                v-model="trips"
+                v-model="selectedTripList"
                 v-show="isOpenB"
+                name="selectedTripList"
+                @md-selected="saveFlight(flight.QuoteId); isOpenB = !isOpenB"
               >
-                <md-option v-for="(list, index) in savedTripList" :key="index">
+                <md-option
+                  v-for="(list, index) in tripsList"
+                  :key="index"
+                  :value="list"
+                  
+                >
                   {{ list }}
                 </md-option>
               </md-select>
-            </collapse-transition>
+            </md-field>
           </div>
         </md-card-actions>
       </md-card>
@@ -101,6 +108,8 @@ export default {
       selectedFlight: undefined,
       userEmail: undefined,
       valid: false,
+      selectedTripList: null,
+      tripsList: this.savedTripList,
     };
   },
   methods: {
@@ -123,7 +132,7 @@ export default {
         })
           .then((result) => {
             console.log(result);
-            this.savedTripList = result.data;
+            this.tripsList = result.data;
           })
           .catch((err) => {
             console.log(err);
@@ -146,6 +155,7 @@ export default {
       let saveDate = new Date().toUTCString();
       let minCost = flight.MinPrice;
       let noOfTravelers = this.flight_data.noOfTravelers;
+      let listName = this.selectedTripList;
 
       if (this.userEmail !== undefined) {
         this.valid = true;
@@ -160,7 +170,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
             email: this.userEmail,
-            list: "test",
+            list: listName,
           },
           data: {
             city1ID: city1Id,
