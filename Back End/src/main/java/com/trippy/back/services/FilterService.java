@@ -20,19 +20,29 @@ public class FilterService {
 
     public String generateInterestResults(String destination, String interest) throws IOException {
 
-        Request request = new Request.Builder()
-                .url("https://api.geoapify.com/v2/places?categories=" + interest +
-                        "&filter=circle:-81.3790304,28.5421109,50000&bias=proximity:-81.3790304,28.5421109&limit=12&apiKey=e74299088e09495bb2120458d0ac22e2")
-                //.url("https://api.geoapify.com/v2/places?categories=" + interest +
-                //        "&filter=geometry:a93efddbfe77d592b8c42b376494bf24&bias=proximity:-81.3790304,28.5421109&lang=en&limit=12&apiKey=e74299088e09495bb2120458d0ac22e2")
+        Request location = new Request.Builder()
+            .url("https://api.geoapify.com/v1/geocode/search?text=" + destination + "&apiKey=e74299088e09495bb2120458d0ac22e2")
                 .get()
                 .build();
 
-        Response response = client.newCall(request).execute();
+        Response response = client.newCall(location).execute();
         String jsonData = response.body().string();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jsonNode = mapper.readTree(jsonData);
-        return(jsonData);
+
+        String lon = jsonNode.get("features").get(0).get("properties").get("lon").toString();
+        String lat = jsonNode.get("features").get(0).get("properties").get("lat").toString();
+
+
+        Request request = new Request.Builder()
+                .url("https://api.geoapify.com/v2/places?categories=" + interest +
+                        "&filter=circle:" + lon + "," + lat + ",50000&lang=en&limit=12&apiKey=e74299088e09495bb2120458d0ac22e2")
+                .get()
+                .build();
+
+        Response response2 = client.newCall(request).execute();
+        String jsonData2 = response2.body().string();
+        return(jsonData2);
     }
 
 }
