@@ -20,54 +20,52 @@
             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
               <h2 class="title text-center">Frequently Asked Questions</h2>
             </div>
-
-            <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
-              <md-field v-if="isAdmin"
-              class="md-form-group" 
-              slot="inputs">
-
+            <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
+              <md-field v-if="isAdmin" class="md-form-group" slot="inputs">
               <md-icon >add</md-icon>
               <label>NEW FAQ QUESTION</label>
-              <md-input v-model="message" type="message"></md-input>
+              <md-input type="text" v-model="$v.message.$model" >
+              </md-input>
               </md-field>
+               <div class="form_error" v-if="!$v.message.required && isAdmin" >
+                  *This field is required.
+                </div>
+                <div class="form_error" v-if="!$v.message.maxLength" >
+                  *No longer than 100 characters allowed.
+                </div>
+                 <div class="form_error" v-if="!$v.message.minLength" >
+                  *No less than 25 characters allowed.
+                </div>
               </div>
                <br />
           
              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
-              <md-field class="md-form-group" slot="inputs">
-              <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
-
-              <md-field v-if="isAdmin"
-              class="md-form-group" 
-              slot="inputs">
+              <form @submit.prevent="addFaq" slot="inputs">
+              <md-field v-if="isAdmin" class="md-form-group"  slot="inputs">
 
                <md-icon >add</md-icon>
               <label>NEW FAQ ANSWER</label>
-               <md-input v-model="answer" type="answer"></md-input>
+              <md-input v-model="$v.answer.$model" type="type"></md-input>
               </md-field>
-
-              <md-button 
-              v-if="isAdmin" 
-              v-on:click="addFaq()" 
-              slot="footer" 
-              class="md-simple md-success md-lg">Add</md-button>
+              <div class="form_error" v-if="!$v.answer.required && isAdmin" >
+                  *This field is required.
+                </div>
+                <div class="form_error" v-if="!$v.answer.maxLength">
+                  *No longer than 100 characters allowed.
+                </div>
+                 <div class="form_error" v-if="!$v.answer.minLength">
+                  *No less than 25 characters allowed.
+                </div>
+              <md-button v-if="isAdmin" slot="footer" class="md-simple md-success md-lg">Add</md-button>
+              </form>
               </div>
-
               <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
-              <md-field 
-              class="md-form-group" 
-              slot="inputs">
+              <md-field class="md-form-group" slot="inputs">
               
                 <md-icon>search</md-icon>
                 <label>SEARCH FAQS</label>
 
-                <md-input 
-                v-model="search" 
-                type="search"></md-input>
+                <md-input v-model="search" type="search"></md-input>
               </md-field>
             </div>
 
@@ -76,8 +74,7 @@
               <div class="container">
 
                 <ul class="responsive-table">
-                
-                  <li
+                                  <li
                     class="table-row"
                     v-for="faq in filteredFaqs"
                     v-bind:key="faq.id"
@@ -117,13 +114,15 @@
                 </div>
                 <md-field maxlength="5">
                   <label>Your Message</label>
-                  <md-textarea v-model="message"></md-textarea>
+                  <md-textarea v-model="question"></md-textarea>
+                   <input type="hidden" v-model="completed" />
                 </md-field>
                 <div class="md-layout">
                   <div class="md-layout-item md-size-33 mx-auto text-center">
-                    <md-button class="md-success">Send Message</md-button>
+                    <md-button class="md-success"  v-on:click="addHelp()">Send Message</md-button>
                   </div>
                 </div>
+               
               </form>
             </div>
           </div>
@@ -177,6 +176,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 
@@ -185,7 +185,7 @@
 import Axios, { axios } from "axios";
 import { Faq } from "../models/Faq";
 import { Help } from "../models/Help"
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import { required, email, minLength, sameAs, maxLength } from "vuelidate/lib/validators";
 export default {
   bodyClass: "FAQ_page-page",
   props: {
@@ -196,13 +196,24 @@ export default {
   },
   data() {
     return {
-      name: null,
-      email: null,
+  /*faq*/
+      faqs: [],
+      questions: [],
       message: "",
       answer: "",
-      search: "",
-      faqs: [],
+      /*help*/
+      name: null,
+      email: null,
+      completed: false,
+      question: null,
       helps: [],
+      /*validation*/
+      response: null,
+      error: "",
+      success: false,
+      fail: false,
+      search: "",
+      submitted:false,
     };
   },
 
@@ -215,7 +226,17 @@ export default {
     },
     question: {
       required
-    }
+    },
+    answer:{
+      required,
+      maxLength: maxLength(100),
+      minLength: minLength(25),
+    },
+    message: {
+      required,
+      maxLength: maxLength(100),
+      minLength: minLength(25),
+      },
   },
  computed: {
     headerStyle() {
@@ -236,15 +257,17 @@ export default {
     this.helpList();
   },
   methods: {
-    addQuestion() {
-      console.log(this.question, this.name, this.email);
-      const url = "http://localhost:8081/help/newHelp";
-      const help = new Help(this.question, this.name, this.email);
-      Axios.post(url, help, {params: {
-        header: {
-          "Content-Type": "application/json",
-        }
-      }})
+   
+    addHelp() {
+
+      Axios.post('http://localhost:8081/help/newHelp',
+      {
+        name: this.name,
+        email: this.email,
+        question: this.question,
+        completed: 0
+      }
+      )
         .then(reponse => {
           console.log(reponse);
         })
@@ -279,7 +302,17 @@ export default {
           console.warn("error occured" + error);
       });
 		},
+    helpList: function() {
 
+	  const url = "http://localhost:8081/help/listHelps";
+
+      Axios.get(url)
+        .then(response => (this.helps = response.data))
+
+        .catch(function(error) {
+          console.warn("error occured" + error);
+      });
+		},
   	deleteFaq(id) {
       if (confirm("Confirm faq deletion: " + id )) {
         const url = "http://localhost:8081/faq/deleteFaq";
@@ -301,17 +334,7 @@ export default {
       }
     },
   },
-    helpList: function() {
-
-	  const url = "http://localhost:8081/help/listHelps";
-
-      Axios.get(url)
-        .then(response => (this.helps = response.data))
-
-        .catch(function(error) {
-          console.warn("error occured" + error);
-      });
-    },
+  
     markComplete: function(id) {
       console.log(id);
       console.log(this.complete);
@@ -332,9 +355,7 @@ export default {
           console.warn("error occured" + error);
         });
     }
-  }
-
-};
+  };
 
 </script>
 
@@ -441,5 +462,11 @@ h2 {
 .space {
   padding: 25px;
   margin: 25px;
+}
+
+.form_error {
+  color: red;
+  font-size: 0.75em;
+  padding-left: 10px;
 }
 </style>
