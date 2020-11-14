@@ -44,17 +44,22 @@
 
               <div
                   class="form_error"
-                  v-if="submitted && !$v.message.required"
+                  v-if="!$v.message.required && isAdmin"
                 >
                   *This field is required.
                 </div>
-
-                  <!-- <div
-                  class="form__error"
-                  v-if="!$v.message.isUnique"
+                <div
+                  class="form_error"
+                  v-if="!$v.message.maxLength"
                 >
-                  *This question is already saved.
-                </div> -->
+                  *No longer than 100 characters allowed.
+                </div>
+                 <div
+                  class="form_error"
+                  v-if="!$v.message.minLength"
+                >
+                  *No less than 50 characters allowed.
+                </div>
 
               <md-field v-if="isAdmin"
               class="md-form-group" 
@@ -71,18 +76,24 @@
               <br />
 
               <div
+
                   class="form_error"
-                  v-if="submitted && !$v.answer.required"
+                  v-if="!$v.answer.required && isAdmin"
                 >
                   *This field is required.
                 </div>
-               
-                <!-- <div
-                  class="form__error"
-                  v-if="!$v.answer.isUnique"
+                <div
+                  class="form_error"
+                  v-if="!$v.answer.maxLength"
                 >
-                  *This answer is already saved.
-                </div> -->
+                  *No longer than 100 characters allowed.
+                </div>
+                 <div
+                  class="form_error"
+                  v-if="!$v.answer.minLength"
+                >
+                  *No less than 50 characters allowed.
+                </div>
 
               <md-button 
               v-if="isAdmin" 
@@ -234,7 +245,7 @@
 import Axios, { axios } from "axios";
 import { Faq } from "../models/Faq";
 import { Help } from "../models/Help"
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import { required, email, minLength, sameAs, maxLength } from "vuelidate/lib/validators";
 export default {
   bodyClass: "FAQ_page-page",
   name: "AddFaq",
@@ -273,22 +284,13 @@ export default {
     },
     answer:{
       required,
-    //  minLength: minLength(15),
-      // async isUnique (value) {
-      // if (value === '') return true
-      // const response = await fetch(`/api/unique/${value}`)
-      // return Boolean(await response.json())
-      // }
+      maxLength: maxLength(100),
+      minLength: minLength(50),
     },
     message: {
-      required
-    
-        //  minLength: minLength(15),
-      // async isUnique (value) {
-      // if (value === '') return true
-      // const response = await fetch(`/api/unique/${value}`)
-      // return Boolean(await response.json())
-      // }
+      required,
+      maxLength: maxLength(100),
+      minLength: minLength(50),
       },
   },
  computed: {
@@ -303,12 +305,11 @@ export default {
       return this.faqs.filter((faq) => { 
         return faq.message.toLowerCase().match(this.search.toLowerCase());
       })
-    }
-    
+    } 
  },
- mounted: function() {
+  mounted: function() {
     this.faqList();
-    // this.helpList();
+   // this.helpList();
   },
   methods: {
     addQuestion() {
@@ -327,16 +328,8 @@ export default {
           console.log(error);
         });
     },
-    addFaq() {
-      this.submitted = true;
-      console.log("submit");
+  addFaq() {
       console.log(this.message, this.answer);
-
-      // this.$v.$touch()
-      if (this.$v.$invalid) {
-        console.log("NOT VALID ENTRY");
-      }
-      else{
       const url = "http://localhost:8081/faq/newFaq";
       const faq = new Faq(this.message, this.answer);
       Axios.post(url, faq, {params: {
@@ -350,20 +343,18 @@ export default {
         .catch(error => {
           console.log(error);
         });
-      }
-	},
-    faqList: function() {
-
-	  const url = "http://localhost:8081/faq/listFaqs";
-
-      Axios.get(url)
+  },
+  faqList: function() {
+  const url = "http://localhost:8081/faq/listFaqs";
+  Axios.get(url)
         .then(response => (this.faqs = response.data))
 
         .catch(function(error) {
           console.warn("error occured" + error);
       });
-		},
-  	deleteFaq(id) {
+  },
+  
+  deleteFaq(id) {
       if (confirm("Confirm faq deletion: " + id )) {
         const url = "http://localhost:8081/faq/deleteFaq";
         Axios.delete(url, {
@@ -383,7 +374,6 @@ export default {
           });
       }
     },
-  },
     // helpList: function() {
 
 	  // const url = "http://localhost:8081/help/listHelps";
@@ -394,7 +384,8 @@ export default {
     //     .catch(function(error) {
     //       console.warn("error occured" + error);
     //   });
-		// },
+    // },
+  },
 
 };
 
