@@ -27,7 +27,7 @@
           <div class="md-layout">
             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <div class="md-layout-item md-size-100 md-small-size-100 mx-auto text-center">
-                <nav-tabs-card no-label>
+                <nav-tabs-card no-label v-if="isLoggedIn">
                   <template slot="content">
                     <md-tabs class="md-primary" md-alignment="left">
                       <md-tab id="tab-post" md-label="Post" md-icon="chat">
@@ -67,10 +67,15 @@
               </div>
             </div>
           </div>
+          <!--
             <div v-bind:key="forumspostcard.id" v-for="forumspostcard in forumspostcard">
               <ForumsPostCard v-bind:forumspostcard="forumspostcard" v-on:add-comment="addComment($event, forumspostcard.id)"/>
               <CommentCard v-bind:commentcard="forumspostcard.commentcard"/>
             </div>
+          -->
+          <div v-bind:key="forumspostcard.id" v-for="forumspostcard in forumspostcard">
+              <ForumsPostCard v-bind:forumspostcard="forumspostcard"/>
+          </div>
         </div>
       </div>
     </div>
@@ -88,7 +93,7 @@ export default {
   components: {
     NavTabsCard,
     ForumsPostCard,
-    CommentCard
+    //CommentCard
   },
 
   bodyClass: "forums-page",
@@ -104,40 +109,11 @@ export default {
       forumPost: "",
       forumPostDate: "",
       forumUser: "",
-      forumspostcard:[
-        { 
-          id: 1,
-          forumTitle: "Title1",
-          forumPost: "Post1",
-          forumUser: "User1",
-          commentcard:[
-            {
-              id: 1,
-              commentComment: "Comment",
-              commentUser: "User"
-            },
-            {
-              id: 2,
-              commentComment: "Comment2",
-              commentUser: "User2"
-            }
-          ]
-        },
-        { 
-          id: 2,
-          forumTitle: "Title2",
-          forumPost: "Post2",
-          forumUser: "User2",
-          commentcard:[
-            {
-              id: 2,
-              commentComment: "Comment2",
-              commentUser: "User2"
-            }
-          ]
-        }
-      ]
+      forumspostcard:[/*{commentcard:[{}]}*/]
     };
+  },
+  mounted: function(){
+    this.forumsList();
   },
   methods:{
     getCurrentDate(){
@@ -172,13 +148,16 @@ export default {
         id: 4,
         forumTitle: this.forumTitle,
         forumPost: this.forumPost,
-        commentcard:[{}]
+        commentcard:[{
+          commentComment: "Comment",
+          commentUser: "User"
+        }]
         
       }
       this.forumspostcard = [...this.forumspostcard, newForumsPost];
       
     },
-    
+    /*
     addComment(myComment, id){
      const newComment = {
        id: 3,
@@ -188,8 +167,16 @@ export default {
      
      this.forumspostcard[id-1].commentcard = [...this.forumspostcard[id-1].commentcard, newComment];
     }
+    */
+    forumsList : function(){
+      const url = "http://localhost:8081/forums/getForums";
+        Axios.get(url)
+          .then(response => (this.forumspostcard = response.data))
+          .catch(error => console.log(error));
+      }
   },
   computed: {
+    isLoggedIn : function(){ return this.$store.getters.isLoggedIn},
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`
