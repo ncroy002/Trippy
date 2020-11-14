@@ -74,17 +74,36 @@
                 v-model="selectedTripList"
                 v-show="isOpenB"
                 name="selectedTripList"
-                @md-selected="saveFlight(flight.QuoteId); isOpenB = !isOpenB"
+                @md-selected="
+                  saveFlight(flight.QuoteId);
+                  isOpenB = !isOpenB;
+                "
               >
                 <md-option
                   v-for="(list, index) in tripsList"
                   :key="index"
                   :value="list"
-                  
                 >
                   {{ list }}
                 </md-option>
+                
+                  <md-button @click="isOpenC = !isOpenC">
+                    new trip list
+                  </md-button>
+                
               </md-select>
+            </md-field>
+            <md-field v-show="isOpenC">
+              <label>New List Name</label>
+              <md-input v-model="newList"></md-input>
+              <md-button
+                @click="
+                  isOpenC = !isOpenC;
+                  createTripList(flight.QuoteId);
+                "
+              >
+                create
+              </md-button>
             </md-field>
           </div>
         </md-card-actions>
@@ -105,10 +124,12 @@ export default {
   data() {
     return {
       isOpenB: false,
+      isOpenC: false,
       selectedFlight: undefined,
       userEmail: undefined,
       valid: false,
       selectedTripList: null,
+      newList: null,
       tripsList: this.savedTripList,
     };
   },
@@ -139,30 +160,14 @@ export default {
           });
       }
     },
-    saveFlight(quoteId) {
-      let flight = this.flight_data.Quotes.find(
-        (element) => element.QuoteId === quoteId
-      );
-      let city1Id = flight.OutboundLeg.OriginId;
-      let city2Id = flight.OutboundLeg.DestinationId;
-      let city1Name = this.flight_data.Places.find((e) => e.PlaceId == city1Id)
-        .Name;
-      let city2Name = this.flight_data.Places.find((e) => e.PlaceId == city2Id)
-        .Name;
-      let carrier = this.flight_data.Carriers.filter((e) =>
-        flight.OutboundLeg.CarrierIds.includes(e.CarrierId)
-      )[0].Name;
-      let saveDate = new Date().toUTCString();
-      let minCost = flight.MinPrice;
-      let noOfTravelers = this.flight_data.noOfTravelers;
-      let listName = this.selectedTripList;
-
+    createTripList(quoteId) {
+      const url = "http://localhost:8081/trip/create";
+      let newList = this.newList;
       if (this.userEmail !== undefined) {
         this.valid = true;
       } else {
         this.valid = false;
       }
-      const url = "http://localhost:8081/flight/save";
       if (this.valid) {
         Axios({
           url: url,
@@ -170,25 +175,73 @@ export default {
           headers: {
             "Content-Type": "application/json",
             email: this.userEmail,
-            list: listName,
+            trip_name: newList
           },
-          data: {
-            city1ID: city1Id,
-            city2ID: city2Id,
-            city1Name: city1Name,
-            city2Name: city2Name,
-            minCost: minCost,
-            carrierName: carrier,
-            saveDate: saveDate,
-            noOfTravelers: noOfTravelers,
-          },
+          data: {},
         })
           .then((result) => {
             console.log(result);
+            this.getTripList();
           })
           .catch((err) => {
             console.log(err);
           });
+      }
+    },
+    saveFlight(quoteId) {
+      if (this.selectedTripList) {
+        let flight = this.flight_data.Quotes.find(
+          (element) => element.QuoteId === quoteId
+        );
+        let city1Id = flight.OutboundLeg.OriginId;
+        let city2Id = flight.OutboundLeg.DestinationId;
+        let city1Name = this.flight_data.Places.find(
+          (e) => e.PlaceId == city1Id
+        ).Name;
+        let city2Name = this.flight_data.Places.find(
+          (e) => e.PlaceId == city2Id
+        ).Name;
+        let carrier = this.flight_data.Carriers.filter((e) =>
+          flight.OutboundLeg.CarrierIds.includes(e.CarrierId)
+        )[0].Name;
+        let saveDate = new Date().toUTCString();
+        let minCost = flight.MinPrice;
+        let noOfTravelers = this.flight_data.noOfTravelers;
+        let listName = this.selectedTripList;
+
+        if (this.userEmail !== undefined) {
+          this.valid = true;
+        } else {
+          this.valid = false;
+        }
+        const url = "http://localhost:8081/flight/save";
+        if (this.valid) {
+          Axios({
+            url: url,
+            method: "post",
+            headers: {
+              "Content-Type": "application/json",
+              email: this.userEmail,
+              list: listName,
+            },
+            data: {
+              city1ID: city1Id,
+              city2ID: city2Id,
+              city1Name: city1Name,
+              city2Name: city2Name,
+              minCost: minCost,
+              carrierName: carrier,
+              saveDate: saveDate,
+              noOfTravelers: noOfTravelers,
+            },
+          })
+            .then((result) => {
+              console.log(result);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       }
     },
   },

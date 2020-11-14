@@ -19,4 +19,12 @@ public class TripController {
     public List<String> getAll(@RequestHeader(value = "email")String email) {
         return tripService.getTripListsNames(email);
     }
+
+    @PostMapping("/create")
+    @PreAuthorize(("hasRole('ROLE_USER')"))
+    public void createList(@RequestHeader(value= "email")String email, @RequestHeader(value= "trip_name") String tripName){
+        tripService.createTripList(email, tripName);
+    }
+
+
 }

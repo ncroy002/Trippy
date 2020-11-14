@@ -7,6 +7,7 @@ public class TripList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @Column(unique = true)
     String name;
     @ManyToMany(targetEntity = Hotels.class,cascade = CascadeType.ALL )
     List<Hotels> hotels;
@@ -50,5 +51,13 @@ public class TripList {
 
      public void setFlights(List<FoundFlight> flights) {
          this.flights = flights;
+     }
+
+     public Account getAccount() {
+         return account;
+     }
+
+     public void setAccount(Account account) {
+         this.account = account;
      }
  }

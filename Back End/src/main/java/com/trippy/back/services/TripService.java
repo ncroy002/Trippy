@@ -56,8 +56,10 @@ public class TripService {
         Account account= userRepo.findByEmail(email);
         TripList tripList = new TripList();
         tripList.setName(listName);
+        tripList.setAccount(account);
         account.getTrips().add(tripList);
         userRepo.save(account);
+        tripListRepo.save(tripList);
     }
 
 
