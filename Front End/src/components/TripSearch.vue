@@ -7,12 +7,26 @@
           <nav-tabs-card no-label>
             <template slot="content">
               <md-tabs class="md-primary" md-alignment="centered">
-
                 <!-- Flight & Hotel Tab -->
                 <md-tab id="tab-home" md-label="Flight & Hotel">
                   <div class="section text-center">
                     <div class="container">
                       <h2 class="title">Flight & Hotel Search</h2>
+                      <div id="luckySearch">
+                        <center>
+                          <button
+                            v-on:click="getRandom()"
+                            type="button"
+                            class="md-button md-success md-round md-theme-default"
+                          >
+                            <div class="md-ripple">
+                              <div class="md-button-content">
+                                TAKE ME ON A TRIP!
+                              </div>
+                            </div>
+                          </button>
+                        </center>
+                      </div>
                       <div class="team">
                         <md-card class="md-card-plain">
                           <form>
@@ -217,7 +231,7 @@
                   </div>
                 </md-tab>
 
-                <!-- Interests Tab --> 
+                <!-- Interests Tab -->
                 <md-tab id="tab-pages" md-label="Interest">
                   <div class="section text-center">
                     <div class="container">
@@ -518,6 +532,31 @@ export default {
           console.log(result);
           let HotelArray = result.data;
           this.$emit("HotelData", HotelArray);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+
+    getRandom() {
+      const url = "http://localhost:8081/randomTrip/test";
+      var random = Math.floor(Math.random() * Math.floor(25));
+      Axios({
+        url: url,
+        method: "get",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params: {
+          randomNum: random,
+        },
+      })
+        .then((result) => {
+          let TripArray = result.data;
+          console.log(TripArray);
+          this.$emit("tripData", TripArray);
+          //let tripArray = result.data;
+          //this.$emit('TripData',tripArray);
         })
         .catch((err) => {
           console.log(err);

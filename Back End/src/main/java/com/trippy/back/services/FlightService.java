@@ -141,6 +141,13 @@ public class FlightService {
             ((JSONObject) q).put("MinPrice", minPrice * Integer.parseInt(trip.getNoOfTravelers()));
             ((JSONObject) q).put("travelers", trip.getNoOfTravelers());
         });
+
+        System.out.println("THIS IS FROM FLIGHT SERVICE");
+        System.out.println(json.toString());
+        System.out.println("city1");
+        System.out.println(trip.getCity1());
+        System.out.println("inbound partial");
+        System.out.println(trip.getDate2());
         return json.toString();
     }
 
@@ -149,7 +156,6 @@ public class FlightService {
         JSONObject returnObject = new JSONObject();
 
         OkHttpClient client = new OkHttpClient();
-
         Request requestTo = new Request.Builder()
                 .url("https://rapidapi.p.rapidapi.com/apiservices/autosuggest/v1.0/"+ trip.getCountry()+"/GBP/en-GB/?query="+trip.getCity2())
                 .get()
