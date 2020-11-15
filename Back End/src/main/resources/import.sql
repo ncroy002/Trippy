@@ -43,9 +43,9 @@ id	rating	account_id	hotels_id
 10	1	    2	        5
 Forums:
 id  forum_title     forum_post      forum_post_date     forum_user
-1   Title1          Post1           10/23/19            userFN
-2   Title2          Post2           07/14/19            temp1FN
-3   Title3          Post3           12/05/15            temp2FN
+1   Title1          Post1           10/23/19            user@a.com
+2   Title2          Post2           07/14/19            temp1@a.com
+3   Title3          Post3           12/05/15            temp2@a.com
 Faqs:
 id	message	                        answer
 1	'How do I update my email'	   'You can update your email on your profile page'
@@ -113,9 +113,9 @@ INSERT INTO Trippy.dbo.faq (id, message, answer) VALUES (3, 'How do I save a tri
 SET IDENTITY_INSERT dbo.faq OFF;
 
 SET IDENTITY_INSERT dbo.forums ON;
-INSERT INTO dbo.forums (id, forum_title, forum_post, forum_post_date, forum_user) VALUES (1, N'Title1', N'Post1', N'10/23/19', N'userFN');
-INSERT INTO dbo.forums (id, forum_title, forum_post, forum_post_date, forum_user) VALUES (2, N'Title2', N'Post2', N'07/14/19', N'temp1FN');
-INSERT INTO dbo.forums (id, forum_title, forum_post, forum_post_date, forum_user) VALUES (3, N'Title3', N'Post3', N'12/05/15', N'temp2FN');
+INSERT INTO dbo.forums (id, forum_title, forum_post, forum_post_date, forum_user, forum_image) VALUES (1, N'Title1', N'Post1', N'10/23/19', N'user@a.com', null);
+INSERT INTO dbo.forums (id, forum_title, forum_post, forum_post_date, forum_user, forum_image) VALUES (2, N'Title2', N'Post2', N'07/14/19', N'temp1@a.com', null);
+INSERT INTO dbo.forums (id, forum_title, forum_post, forum_post_date, forum_user, forum_image) VALUES (3, N'Title3', N'Post3', N'12/05/15', N'temp2@a.com', null);
 SET IDENTITY_INSERT dbo.forums OFF;
 
 SET IDENTITY_INSERT dbo.help ON;
