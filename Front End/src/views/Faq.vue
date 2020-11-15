@@ -23,100 +23,61 @@
 
             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
 
-              <form @submit.prevent="addFaq" 
-              slot="inputs">
+              <form @submit.prevent="addFaq" slot="inputs">
                 
-              <md-field v-if="isAdmin"
-              class="md-form-group" 
-              slot="inputs">
+              <md-field v-if="isAdmin" class="md-form-group"  slot="inputs">
 
               <md-icon >add</md-icon>
               <label>NEW FAQ QUESTION</label>
 
-              <md-input 
-              type="text"
-              v-model="$v.message.$model"
-              >
+              <md-input  type="text"  v-model="$v.message.$model"  >
               </md-input>
               <br />
 
               </md-field>
 
-              <div
-                  class="form_error"
-                  v-if="!$v.message.required && isAdmin"
-                >
+              <div class="form_error" v-if="!$v.message.required && isAdmin" >
                   *This field is required.
                 </div>
-                <div
-                  class="form_error"
-                  v-if="!$v.message.maxLength"
-                >
+                <div class="form_error" v-if="!$v.message.maxLength"  >
                   *No longer than 100 characters allowed.
                 </div>
-                 <div
-                  class="form_error"
-                  v-if="!$v.message.minLength"
-                >
+                 <div class="form_error" v-if="!$v.message.minLength" >
                   *No less than 50 characters allowed.
                 </div>
 
-              <md-field v-if="isAdmin"
-              class="md-form-group" 
-              slot="inputs">
+              <md-field v-if="isAdmin" class="md-form-group"  slot="inputs">
 
                <md-icon >add</md-icon>
               <label>NEW FAQ ANSWER</label>
 
-               <md-input 
-               v-model="$v.answer.$model"
-               type="type">
+               <md-input  v-model="$v.answer.$model" type="type">
                </md-input>
               </md-field>
               <br />
 
-              <div
-
-                  class="form_error"
-                  v-if="!$v.answer.required && isAdmin"
-                >
+              <div class="form_error" v-if="!$v.answer.required && isAdmin"  >
                   *This field is required.
                 </div>
-                <div
-                  class="form_error"
-                  v-if="!$v.answer.maxLength"
-                >
+                <div class="form_error" v-if="!$v.answer.maxLength">
                   *No longer than 100 characters allowed.
                 </div>
-                 <div
-                  class="form_error"
-                  v-if="!$v.answer.minLength"
-                >
+                 <div class="form_error" v-if="!$v.answer.minLength" >
                   *No less than 50 characters allowed.
                 </div>
 
-              <md-button 
-              v-if="isAdmin" 
-              
-              slot="footer" 
-              type = "submit"
-              class="md-simple md-success md-lg">Add</md-button>
+              <md-button v-if="isAdmin" slot="footer" type = "submit" class="md-simple md-success md-lg">Add</md-button>
               </form>
               </div>
               </div>
 
               <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
-              <md-field 
-              class="md-form-group" 
-              slot="inputs">
+              <md-field class="md-form-group" slot="inputs">
 
                 <md-icon>search</md-icon>
                 <label>SEARCH FAQS</label>
 
-                <md-input 
-                v-model="search" 
-                type="search"
-                ></md-input>
+                <md-input v-model="search" type="search"></md-input>
               </md-field>
             </div>
 
@@ -126,11 +87,7 @@
 
                 <ul class="responsive-table">
                 
-                  <li
-                    class="table-row"
-                    v-for="faq in filteredFaqs"
-                    v-bind:key="faq.id"
-                  >
+                  <li class="table-row" v-for="faq in filteredFaqs" v-bind:key="faq.id" >
                     <div class="col col-11" data-label="Faq">
                      <span style='font-weight: bold'> {{ faq.message }} </span>
                      <p> {{faq.answer}} </p>
@@ -167,7 +124,7 @@
                 <md-field maxlength="5">
                   <label>Your Message</label>
                   <md-textarea v-model="question"></md-textarea>
-                  
+                   <input type="hidden" v-model="completed" />
                 </md-field>
                 <div class="md-layout">
                   <div class="md-layout-item md-size-33 mx-auto text-center">
@@ -179,6 +136,11 @@
             </div>
           </div>
 
+    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>{{alert}}</span>
+      <md-button class="md-primary" @click="showSnackbar = false">close</md-button>
+    </md-snackbar>
+</div>
  <div class="container" v-if="isAdmin">
              <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Help</h2>
@@ -221,8 +183,7 @@
                     </div>
                   </li>
                 </ul>
-                </div>
-                </div>
+          </div>
         </div>
         </div>
       </div>
@@ -243,7 +204,7 @@ export default {
   props: {
     header: {
       type: String,
-      default: require("@/assets/img/bg3.jpg"),
+      default: require("@/assets/img/faqbg.jpg"),
     },
   },
   data() {
@@ -265,6 +226,13 @@ export default {
       fail: false,
       search: "",
       submitted:false,
+      /*snackbar*/
+      showSnackbar: false,
+      position: 'center',
+      duration: 4000,
+      isInfinity: false,
+      alert: null,
+      isAdmin: false,
     };
     
   },
@@ -274,10 +242,13 @@ export default {
       required
     },
     email: {
-      required
+      required,
+      email
     },
     question: {
       required,
+      minLength: minLength(10),
+      maxLength: maxLength(255)
     },
     answer:{
       required,
@@ -288,7 +259,10 @@ export default {
       required,
       maxLength: maxLength(100),
       minLength: minLength(50),
-      },
+      }
+  },
+  beforeMount() {
+    this.checkIfAdmin()
   },
  computed: {
     headerStyle() {
@@ -296,7 +270,7 @@ export default {
         backgroundImage: `url(${this.header})`
       };
     },
-    isAdmin : function(){ return this.$store.getters.isAdmin},
+    
     filteredFaqs: function() {
       return this.faqs.filter((faq) => { 
         return faq.message.toLowerCase().match(this.search.toLowerCase());
@@ -308,6 +282,11 @@ export default {
     this.helpList();
   },
   methods: {
+     checkIfAdmin(){
+      if(localStorage.getItem('role') === 'ROLE_ADMIN'){
+        this.isAdmin = true;
+      }
+  },
     /*faq*/
   addFaq() {
       console.log(this.message, this.answer);
@@ -319,11 +298,16 @@ export default {
         }
       }})
         .then(reponse => {
+
           console.log(reponse);
+   
+        
         })
         .catch(error => {
+
           console.log(error);
         });
+       
   },
   faqList: function() {
   const url = "http://localhost:8081/faq/listFaqs";
@@ -372,16 +356,22 @@ export default {
         email: this.email,
         question: this.question,
         completed: 0
-      }
-      )
-        .then(reponse => {
+      }).then(reponse => {
+          this.alert = 'Message posted succesfully'
+          this.showSnackbar = true
+            this.name = ''
+            this.email = ''
+            this.question = ''
           console.log(reponse);
-        })
-        .catch(error => {
+        }, (error) => {
+          this.alert = 'Question failed to submit!'
+          this.showSnackbar = true
           console.log(error);
         });
     },
-  },
+   
+    
+  }
 
 };
 

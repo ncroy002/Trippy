@@ -111,8 +111,9 @@ INSERT INTO Trippy.dbo.faq (id, message, answer) VALUES (3, 'How do I save a tri
 SET IDENTITY_INSERT dbo.faq OFF;
 
 SET IDENTITY_INSERT dbo.help ON;
-INSERT INTO Trippy.dbo.help (id, question, name, email) VALUES (1, 'How do I update my email', 'test@test.com','Sara Jane', false );
-INSERT INTO Trippy.dbo.help (id, question, name, email) VALUES (2, 'Where did my good price go', 'email@email.com', 'John Smith', true);
-INSERT INTO Trippy.dbo.help (id, question, name, email) VALUES (3, 'How do I save a trip', 'qman@test.com', 'Don Berry', false  );
+INSERT INTO Trippy.dbo.help (id, question, email, name, completed) VALUES (1, 'How do I update my email', 'test@test.com','Sara Jane', 0 );
+INSERT INTO Trippy.dbo.help (id, question, email, name, completed) VALUES (2, 'Where did my good price go', 'email@email.com', 'John Smith', 1);
+INSERT INTO Trippy.dbo.help (id, question, email, name, completed) VALUES (3, 'How do I save a trip', 'qman@test.com', 'Don Berry', 0  );
+INSERT INTO Trippy.dbo.help (id, question, email, name, completed) VALUES (4, 'I don''t need you I''m perfect', 'sue@email.com', 'Mary Sue', 0  );
 
 SET IDENTITY_INSERT dbo.help OFF;
