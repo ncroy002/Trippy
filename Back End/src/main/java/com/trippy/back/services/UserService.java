@@ -65,7 +65,12 @@ public class UserService {
 
         throw new RuntimeException("Failed to save event [" + eventId + "]");
     }
+
+    public List<Event> findEvents(String email){
+        Account account = userRepo.findByEmail(email);
+        return account.getEvents();
     }
+}
 
 
 
