@@ -78,6 +78,7 @@ public class TripService {
         tripList.setAccount(account);
         account.getTrips().add(tripList);
         userRepo.save(account);
+        tripListRepo.save(tripList);
     }
 
     public void deleteTripList(String tripName, String userEmail){
