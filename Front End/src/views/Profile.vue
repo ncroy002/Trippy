@@ -109,7 +109,7 @@
                         </md-button>
                       </div>
 
-                      <md-list slot="md-expand" class="md-layout">
+                      <md-list slot="md-expand">
                         <md-list-item>
                           <span class="md-list-item-text"
                             >Flight Information:</span
@@ -146,21 +146,40 @@
                             </md-card>
                           </div>
                         </md-list-item>
+                        <md-list-item> 
+                          <span class="md-list-item-text"
+                            >Interest Information:</span
+                          >
+                          <div class="md-layout">
+                            <md-card 
+                              v-for="(interest, interestIndex) in trip.interests" :key="interestIndex">
+                              <md-card-content>
+                              <p>Address: {{interest.address}}</p>
+                              <p>County: {{interest.county}}</p>
+                              <p>State: {{interest.state}}</p>
+                              <p v-if="interest.name">name: {{interest.name}}</p>
+                              </md-card-content>
+                            </md-card>
+                          </div>
+                        </md-list-item>
                       </md-list>
                     </md-list-item>
                   </md-list>
                 </div>
                 <modal v-if="modalToggle" @close="classicModalHide">
                   <template slot="header">
-                    <h4 class="modal-title">{{modalTitle}}</h4>
+                    <h4 class="modal-title">{{ modalTitle }}</h4>
                   </template>
 
                   <template slot="body">
-                    <p>{{modalMessage}}</p>
+                    <p>{{ modalMessage }}</p>
                   </template>
 
                   <template slot="footer">
-                    <md-button class="md-danger md-simple" @click="classicModalHide">
+                    <md-button
+                      class="md-danger md-simple"
+                      @click="classicModalHide"
+                    >
                       Close
                     </md-button>
                   </template>
@@ -183,20 +202,20 @@
 <script>
 import axios from "axios";
 import { Tabs } from "@/components";
-import Modal from '../components/Modal.vue';
+import Modal from "../components/Modal.vue";
 
 export default {
   components: {
     Tabs,
-    Modal
+    Modal,
   },
   bodyClass: "profile-page",
 
   data() {
     return {
       toggle: false,
-      modalMessage: '',
-      modalTitle: '',
+      modalMessage: "",
+      modalTitle: "",
       modalToggle: false,
       trips: null,
       userEmail: null,
@@ -358,9 +377,9 @@ export default {
           }
         );
     },
-    classicModalHide(){
+    classicModalHide() {
       this.modalToggle = false;
-    }
+    },
   },
 };
 </script>
