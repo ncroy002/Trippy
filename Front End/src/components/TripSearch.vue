@@ -6,7 +6,7 @@
         <div>
           <nav-tabs-card no-label>
             <template slot="content">
-              <md-tabs class="md-primary" md-alignment="center">
+              <md-tabs class="md-primary" md-alignment="centered">
                 <md-tab id="tab-home" md-label="Flight & Hotel">
                   <div class="section text-center">
                     <div class="container">
