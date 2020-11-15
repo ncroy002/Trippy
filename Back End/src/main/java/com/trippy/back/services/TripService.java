@@ -29,6 +29,17 @@ public class TripService {
         return account.getTrips();
     }
 
+    public List<TripList> getAllTripsInformation(String email){
+        ArrayList<TripList> foundTrips = new ArrayList<>();
+
+        Account account = userRepo.findByEmail(email);
+        List<TripList> savedTrips = account.getTrips();
+        for(TripList trip: savedTrips){
+            foundTrips.add(trip);
+        }
+        return foundTrips;
+    }
+
 
     public void saveFlight(String email, String list, FoundFlight foundFlight) {
         Account account= userRepo.findByEmail(email);
@@ -67,6 +78,12 @@ public class TripService {
         tripList.setAccount(account);
         account.getTrips().add(tripList);
         userRepo.save(account);
+    }
+
+    public void deleteTripList(String tripName, String userEmail){
+        Account account = userRepo.findByEmail(userEmail);
+        TripList deleteTripList = tripListRepo.findTripListByNameandAccount(tripName, account.getId());
+        tripListRepo.delete(deleteTripList);
     }
 
 

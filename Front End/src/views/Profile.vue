@@ -57,11 +57,7 @@
           </div>
           <div class="profile-tabs">
             <tabs
-              :tab-name="[
-                'Recently viewed',
-                'Shared trips',
-                'Favorite Flights'
-              ]"
+              :tab-name="['Recently viewed', 'Shared trips', 'Saved Trips']"
               :tab-icon="['explore', 'share', 'favorite']"
               plain
               nav-pills-icons
@@ -94,37 +90,81 @@
                 </div>
               </template>
               <template slot="tab-pane-3">
-                <md-card
-                  class="md-layout md-with-hover"
-                  v-for="(flight, index) in flights"
-                  :key="index"
-                >
-                  <md-card-content>
-                    <h3>Minimum Price: ${{ flight.minCost }}</h3>
-                    <p>
-                      Departure Place:
-                      {{ flight.city1Name }}
-                    </p>
-                    <p>
-                      Destination Place:
-                      {{ flight.city2Name }}
-                    </p>
-                    <p>
-                      Carrier:
-                      <span>
-                        {{ flight.carrierName }}
-                      </span>
-                    </p>
-                    <p>Save Date: {{ flight.saveDate }}</p>
-                  </md-card-content>
-                  <md-card-actions>
-                    <md-button
-                      class="md-primary"
-                      v-on:click="sendSummaryEmail(index)"
-                      >Summary Email</md-button
+                <div class="full-control" v-if="trips">
+                  <md-list>
+                    <md-list-item
+                      md-expand
+                      v-for="(trip, index) in trips"
+                      :key="index"
                     >
-                  </md-card-actions>
-                </md-card>
+                      <div class="md-layout md-alignment-center-space-between">
+                        <span class="md-layout-item md-list-item-text">{{
+                          trip.name
+                        }}</span>
+                        <md-button
+                          class="md-layout-item md-raised md-accent"
+                          @click="deleteTripList(index)"
+                        >
+                          Delete Trip
+                        </md-button>
+                      </div>
+
+                      <md-list slot="md-expand" class="md-layout">
+                        <md-list-item>
+                          <span class="md-list-item-text"
+                            >Flight Information:</span
+                          >
+                          <div class="md-layout">
+                            <md-card
+                              v-for="(flight, flightIndex) in trip.flights"
+                              :key="flightIndex"
+                            >
+                              <md-card-content>
+                                <h3>Minimum Cost: ${{ flight.minCost }}</h3>
+                                <p>
+                                  Departure Place:
+                                  {{ flight.city1Name }}
+                                </p>
+                                <p>
+                                  Destination Place:
+                                  {{ flight.city2Name }}
+                                </p>
+                                <p>Carrier: {{ flight.carrierName }}</p>
+                                <p>
+                                  Number of Travelers:
+                                  {{ flight.noOfTravelers }}
+                                </p>
+                              </md-card-content>
+                              <md-card-actions>
+                                <md-button
+                                  class="raised primary"
+                                  @click="sendSummaryEmail(index, flightIndex)"
+                                >
+                                  Send summary email
+                                </md-button>
+                              </md-card-actions>
+                            </md-card>
+                          </div>
+                        </md-list-item>
+                      </md-list>
+                    </md-list-item>
+                  </md-list>
+                </div>
+                <modal v-if="modalToggle" @close="classicModalHide">
+                  <template slot="header">
+                    <h4 class="modal-title">{{modalTitle}}</h4>
+                  </template>
+
+                  <template slot="body">
+                    <p>{{modalMessage}}</p>
+                  </template>
+
+                  <template slot="footer">
+                    <md-button class="md-danger md-simple" @click="classicModalHide">
+                      Close
+                    </md-button>
+                  </template>
+                </modal>
               </template>
             </tabs>
           </div>
@@ -143,64 +183,69 @@
 <script>
 import axios from "axios";
 import { Tabs } from "@/components";
+import Modal from '../components/Modal.vue';
 
 export default {
   components: {
-    Tabs
+    Tabs,
+    Modal
   },
   bodyClass: "profile-page",
 
   data() {
     return {
       toggle: false,
-      flights: [],
+      modalMessage: '',
+      modalTitle: '',
+      modalToggle: false,
+      trips: null,
       userEmail: null,
       user: {
         firstname: "Test",
         lastname: "Test",
         descrip: "Test",
         email: "",
-        id: ""
+        id: "",
       },
       tabPane1: [
         { image: require("@/assets/img/examples/studio-1.jpg") },
         { image: require("@/assets/img/examples/studio-2.jpg") },
         { image: require("@/assets/img/examples/studio-4.jpg") },
-        { image: require("@/assets/img/examples/studio-5.jpg") }
+        { image: require("@/assets/img/examples/studio-5.jpg") },
       ],
       tabPane2: [
         { image: require("@/assets/img/examples/olu-eletu.jpg") },
         { image: require("@/assets/img/examples/clem-onojeghuo.jpg") },
         { image: require("@/assets/img/examples/cynthia-del-rio.jpg") },
         { image: require("@/assets/img/examples/mariya-georgieva.jpg") },
-        { image: require("@/assets/img/examples/clem-onojegaw.jpg") }
-      ]
+        { image: require("@/assets/img/examples/clem-onojegaw.jpg") },
+      ],
     };
   },
   props: {
     header: {
       type: String,
-      default: require("@/assets/img/city-profile.jpg")
+      default: require("@/assets/img/city-profile.jpg"),
     },
     img: {
       type: String,
-      default: require("@/assets/img/faces/christian.jpg")
-    }
+      default: require("@/assets/img/faces/christian.jpg"),
+    },
   },
   computed: {
     headerStyle() {
       return {
-        backgroundImage: `url(${this.header})`
+        backgroundImage: `url(${this.header})`,
       };
-    }
+    },
   },
   mounted() {
     this.getUserDetails();
     this.getUserTrips();
   },
   methods: {
-    sendSummaryEmail(index) {
-      let foundFlight = this.flights[index];
+    sendSummaryEmail(index, flightIndex) {
+      let foundFlight = this.trips[index].flights[flightIndex];
       console.log(foundFlight);
       console.log(this.userEmail);
       const url = "http://localhost:8081/flight/summary";
@@ -208,10 +253,10 @@ export default {
         url: url,
         method: "post",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         params: {
-          email: this.userEmail
+          email: this.userEmail,
         },
         data: {
           city1ID: foundFlight.city1ID,
@@ -220,13 +265,16 @@ export default {
           city2Name: foundFlight.city2Name,
           minCost: foundFlight.minCost,
           carrierName: foundFlight.carrierName,
-          saveDate: foundFlight.saveDate
-        }
+          saveDate: foundFlight.saveDate,
+        },
       })
-        .then(result => {
+        .then((result) => {
           console.log(result);
+          this.modalMessage = "Email Successfully sent!";
+          this.modalTitle = "Send Summary Email";
+          this.modalToggle = true;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     },
@@ -234,38 +282,59 @@ export default {
       let userEmail = this.$store.getters.getEmail;
       this.userEmail = userEmail;
       if (userEmail !== undefined) {
-        const url = "http://localhost:8081/flight/save/view/all";
+        const url = "http://localhost:8081/trip/get/trips";
         axios({
           url: url,
           method: "get",
-          headers: {
-            "Content-Type": "application/json"
-          },
           params: {
-            email: userEmail
-          }
+            email: userEmail,
+          },
         })
-          .then(result => {
-            this.flights = result["data"];
+          .then((result) => {
+            console.log(result.data);
+            this.trips = result.data;
+            console.log(this.trips);
           })
-          .catch(err => {
+          .catch((err) => {
             console.log(err);
           });
       }
+    },
+    deleteTripList(index) {
+      console.log(index);
+      let tripListForDeletion = this.trips[index];
+      const url = "http://localhost:8081/trip/delete/trip";
+      axios
+        .delete(url, {
+          params: {
+            tripName: tripListForDeletion.name,
+            userEmail: this.$store.getters.getEmail,
+          },
+        })
+        .then((result) => {
+          console.log(result);
+          this.trips.remove(index);
+          this.modalMessage = result.data;
+          this.modalTitle = "Deleted Trip";
+          this.modalToggle = true;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     getUserDetails() {
       let url = "http://localhost:8081/user/getuser";
       // let url = "/user/getuser";
       axios
         .get(url)
-        .then(response => {
+        .then((response) => {
           this.user.id = response.data.id;
           this.user.email = response.data.email;
           this.user.firstname = response.data.firstname;
           this.user.lastname = response.data.lastname;
           this.user.descrip = response.data.description;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -278,18 +347,21 @@ export default {
           email: this.user.email,
           firstname: this.user.firstname,
           lastname: this.user.lastname,
-          description: this.user.descrip
+          description: this.user.descrip,
         })
         .then(
-          response => {
+          (response) => {
             console.log(response);
           },
-          error => {
+          (error) => {
             console.log(error);
           }
         );
+    },
+    classicModalHide(){
+      this.modalToggle = false;
     }
-  }
+  },
 };
 </script>
 
@@ -308,5 +380,33 @@ export default {
       margin-bottom: 2.142rem;
     }
   }
+}
+$list-width: 1279px;
+
+.full-control {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+}
+
+.list {
+  width: $list-width;
+}
+
+.full-control > .md-list {
+  width: $list-width;
+  max-width: 100%;
+  height: 400px;
+  display: inline-block;
+  overflow: auto;
+  border: 1px solid rgba(#000, 0.12);
+  vertical-align: top;
+}
+
+.control {
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
 }
 </style>

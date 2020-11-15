@@ -1,5 +1,6 @@
 package com.trippy.back.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trippy.back.enumeration.ERole;
 
 import javax.persistence.*;
@@ -38,7 +39,8 @@ public class Account {
     @Column
     String role;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "account")
     List<TripList> trips;
 
     @OneToMany(targetEntity = Event.class,cascade = CascadeType.ALL )

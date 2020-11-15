@@ -1,5 +1,8 @@
 package com.trippy.back.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
  @Entity
@@ -16,6 +19,7 @@ public class TripList {
      @ManyToMany(targetEntity = Interest.class,cascade = CascadeType.ALL )
      List<Interest> interests;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="account_id", nullable=false)
     private Account account;
