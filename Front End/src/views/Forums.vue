@@ -163,6 +163,7 @@ export default {
         id: 4,
         forumTitle: this.forumTitle,
         forumPost: this.forumPost,
+        forumPostDate: this.forumPostDate,
         forumImage: null,
         forumUser: this.forumUser,
         commentcard:[{
@@ -178,6 +179,7 @@ export default {
       this.forumUser = this.$store.getters.getEmail;
       this.forumPostDate = this.getCurrentDate();
       //Send the information of the post to the database
+      this.forumImage = null;
       console.log(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser, this.forumImage);
       const url = "http://localhost:8081/forums/newForums";
       const forum = new Forums(this.forumTitle, this.forumPostDate, this.forumPost, this.forumUser, this.forumImage);
@@ -203,6 +205,7 @@ export default {
             forumTitle: this.forumTitle,
             forumPost: null,
             forumImage: this.forumImage,
+            forumPostDate: this.forumPostDate,
             forumUser: this.forumUser,
             commentcard:[{
               commentComment: "Comment",

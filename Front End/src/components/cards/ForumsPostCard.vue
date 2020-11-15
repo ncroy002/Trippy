@@ -23,7 +23,7 @@
                 <p>
                   <strong> {{ forumspostcard.forumTitle }} </strong>
                   <br />
-                  {{ currentDate() }} <br />
+                  {{ forumspostcard.forumPostDate }} <br />
                   {{ forumspostcard.forumPost }}
                 </p>
                 
