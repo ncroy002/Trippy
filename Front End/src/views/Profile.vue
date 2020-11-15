@@ -332,7 +332,7 @@ export default {
         })
         .then((result) => {
           console.log(result);
-          
+          this.trips.splice(index,1)
           this.modalMessage = result.data;
           this.modalTitle = "Deleted Trip";
           this.modalToggle = true;
