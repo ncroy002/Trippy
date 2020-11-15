@@ -2,6 +2,7 @@
   <div>
     <div class="md-layout md-alignment-center-center">
       <h3>Links:</h3>
+
       <a
         class="md-layout md-alignment-center-center"
         v-for="(link, index) in links"
@@ -10,6 +11,37 @@
       >
         {{ link.split("/")[2] }}
       </a>
+
+      <md-field>
+        <label for="selectedTripList" font-size="200px">
+          <h6>Save Flight To:</h6>
+        </label>
+      
+        <md-select v-model="selectedTripList" name="selectedTripList">
+          <md-option
+            v-for="(list, index) in tripsList"
+            :key="index"
+            :value="list"
+          >
+            {{ list }}
+          </md-option>
+
+          <md-button @click="isOpenC = !isOpenC"> new trip list </md-button>
+        </md-select>
+      </md-field>
+      <md-field v-show="isOpenC">
+        <label>New List Name</label>
+        <md-input v-model="newList"></md-input>
+        <md-button
+          @click="
+            isOpenC = !isOpenC;
+            createTripList();
+            getTripList();
+          "
+        >
+          create
+        </md-button>
+      </md-field>
     </div>
     <div class="md-layout md-alignment-center-center">
       <h3>Flights:</h3>
@@ -64,47 +96,14 @@
           <div class="flex content-start items-start" v-if="userEmail">
             <md-button
               class="md-primary"
-              v-on:click="getTripList"
+              v-on:click="
+                getTripList;
+                saveFlight(flight.QuoteId);
+              "
               @click="isOpenB = !isOpenB"
             >
               Save
             </md-button>
-            <md-field>
-              <md-select
-                v-model="selectedTripList"
-                v-show="isOpenB"
-                name="selectedTripList"
-                @md-selected="
-                  saveFlight(flight.QuoteId);
-                  isOpenB = !isOpenB;
-                "
-              >
-                <md-option
-                  v-for="(list, index) in tripsList"
-                  :key="index"
-                  :value="list"
-                >
-                  {{ list }}
-                </md-option>
-                
-                  <md-button @click="isOpenC = !isOpenC">
-                    new trip list
-                  </md-button>
-                
-              </md-select>
-            </md-field>
-            <md-field v-show="isOpenC">
-              <label>New List Name</label>
-              <md-input v-model="newList"></md-input>
-              <md-button
-                @click="
-                  isOpenC = !isOpenC;
-                  createTripList(flight.QuoteId);
-                "
-              >
-                create
-              </md-button>
-            </md-field>
           </div>
         </md-card-actions>
       </md-card>
@@ -160,7 +159,7 @@ export default {
           });
       }
     },
-    createTripList(quoteId) {
+    createTripList() {
       const url = "http://localhost:8081/trip/create";
       let newList = this.newList;
       if (this.userEmail !== undefined) {
@@ -175,13 +174,13 @@ export default {
           headers: {
             "Content-Type": "application/json",
             email: this.userEmail,
-            trip_name: newList
+            trip_name: newList,
           },
           data: {},
         })
           .then((result) => {
             console.log(result);
-            this.getTripList();
+            this.tripsList = this.getTripList();
           })
           .catch((err) => {
             console.log(err);
@@ -247,6 +246,7 @@ export default {
   },
   mounted() {
     this.userEmail = this.$store.getters.getEmail;
+    this.tripsList = this.getTripList();
   },
 };
 </script>

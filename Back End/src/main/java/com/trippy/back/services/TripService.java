@@ -2,8 +2,10 @@ package com.trippy.back.services;
 
 import com.trippy.back.entities.Account;
 import com.trippy.back.entities.FoundFlight;
+import com.trippy.back.entities.Interest;
 import com.trippy.back.entities.TripList;
 import com.trippy.back.repos.FlightRepo;
+import com.trippy.back.repos.InterestRepo;
 import com.trippy.back.repos.TripListRepo;
 import com.trippy.back.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,12 @@ public class TripService {
         tripList.getFlights().add(foundFlight);
         tripListRepo.save(tripList);
     }
+    public void saveInterest(String email, String list, Interest interest) {
+        Account account= userRepo.findByEmail(email);
+        TripList tripList =  tripListRepo.findTripListByNameandAccount(list, account.getId());
+        tripList.getInterests().add(interest);
+        tripListRepo.save(tripList);
+    }
 
     public List<String> getTripListsNames(String email){
         List<String> tripListsNames = new ArrayList<String>();
@@ -59,7 +67,6 @@ public class TripService {
         tripList.setAccount(account);
         account.getTrips().add(tripList);
         userRepo.save(account);
-        tripListRepo.save(tripList);
     }
 
 

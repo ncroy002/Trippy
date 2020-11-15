@@ -13,6 +13,8 @@ public class TripList {
     List<Hotels> hotels;
     @ManyToMany(targetEntity = FoundFlight.class,cascade = CascadeType.ALL )
     List<FoundFlight> flights;
+     @ManyToMany(targetEntity = Interest.class,cascade = CascadeType.ALL )
+     List<Interest> interests;
 
     @ManyToOne
     @JoinColumn(name="account_id", nullable=false)
@@ -59,5 +61,13 @@ public class TripList {
 
      public void setAccount(Account account) {
          this.account = account;
+     }
+
+     public List<Interest> getInterests() {
+         return interests;
+     }
+
+     public void setInterests(List<Interest> interests) {
+         this.interests = interests;
      }
  }

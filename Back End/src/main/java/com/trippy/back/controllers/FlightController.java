@@ -62,7 +62,6 @@ public class FlightController {
         return flightService.browseRoutes(trip);
     }
 
-    //TODO: Change on front end. need to send name of selected List in the request header
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(value = "/save")
    public void saveFlight(@RequestHeader(value = "email")String email,@RequestHeader(value = "list")String list, @RequestBody FoundFlight foundFlight){

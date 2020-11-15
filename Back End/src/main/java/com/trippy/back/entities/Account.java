@@ -38,7 +38,7 @@ public class Account {
     @Column
     String role;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     List<TripList> trips;
 
     @OneToMany(targetEntity = Event.class,cascade = CascadeType.ALL )
