@@ -7,6 +7,8 @@
           <nav-tabs-card no-label>
             <template slot="content">
               <md-tabs class="md-primary" md-alignment="centered">
+
+                <!-- Flight & Hotel Tab -->
                 <md-tab id="tab-home" md-label="Flight & Hotel">
                   <div class="section text-center">
                     <div class="container">
@@ -215,6 +217,7 @@
                   </div>
                 </md-tab>
 
+                <!-- Interests Tab --> 
                 <md-tab id="tab-pages" md-label="Interest">
                   <div class="section text-center">
                     <div class="container">
