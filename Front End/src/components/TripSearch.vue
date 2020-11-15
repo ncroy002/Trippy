@@ -1,6 +1,17 @@
 
 <template>
   <div id="airlineTicketSearch">
+    <div id="luckySearch">
+        <center>
+            <button v-on:click="getRandom()" type="button" class="md-button md-success md-round md-theme-default">
+              <div class="md-ripple">
+                <div class="md-button-content">
+                  TAKE ME ON A TRIP!
+                  </div>
+                </div>
+              </button>
+        </center>
+      </div>
     <!-- This is for searching and getting the airports from a city -->
     <div id="airportSearch">
       <div class="title">
@@ -439,6 +450,32 @@ export default {
         console.log(result);
         let HotelArray = result.data;
         this.$emit('HotelData',HotelArray);
+          
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    getRandom() {
+      const url = "http://localhost:8081/randomTrip/test";
+      var random = Math.floor(Math.random() * Math.floor(25));
+      Axios({
+        url: url,
+        method: "get",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        params: {
+          randomNum: random,
+        }
+      })
+        .then(result => {
+        let TripArray = result.data;
+        console.log(TripArray);
+        this.$emit('tripData',TripArray);
+        //let tripArray = result.data;
+        //this.$emit('TripData',tripArray);
           
         })
         .catch(err => {
