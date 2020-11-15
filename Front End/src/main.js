@@ -13,6 +13,7 @@ import Vuelidate from 'vuelidate';
 import MaterialKit from "./plugins/material-kit";
 import 'es6-promise/auto';
 import store from './store/store.js'
+import Axios from 'axios'
 
 Vue.config.productionTip = false;
 

@@ -144,7 +144,7 @@
 					</ul>
            	 </div>
 			</div>
-      <div class="container" v-if="isUser">
+  <div class="container" v-if="!isAdmin">
              <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Need Help?</h2>
             </div>
@@ -166,18 +166,20 @@
                 </div>
                 <md-field maxlength="5">
                   <label>Your Message</label>
-                  <md-textarea v-model="message"></md-textarea>
+                  <md-textarea v-model="question"></md-textarea>
+                  
                 </md-field>
                 <div class="md-layout">
                   <div class="md-layout-item md-size-33 mx-auto text-center">
-                    <md-button class="md-success">Send Message</md-button>
+                    <md-button class="md-success"  v-on:click="addHelp()">Send Message</md-button>
                   </div>
                 </div>
+               
               </form>
             </div>
           </div>
 
- <!-- <div class="container" v-if="isAdmin">
+ <div class="container" v-if="isAdmin">
              <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Help</h2>
             </div>
@@ -195,48 +197,37 @@
                     v-for="help in helps"
                     v-bind:key="help.id"
                   >
-                    <div class="col col-1" data-label="User ID">
+                    <div class="col col-1" data-label="Name">
                       {{ help.name }}
                     </div>
                     <div class="col col-2" data-label="Email">
                       {{ help.email }}
                     </div>
-                    <div class="col col-3" data-label="First Name">
+                    <div class="col col-3" data-label="Question">
                       {{ help.question }}
                     </div>
-                    <div class="col col-4" data-label="Last Name">
-                      {{ question.completed }}
-                    </div> -->
+                    <div class="col col-4" data-label="Completed">
+                      {{ help.completed }}
+                    </div>
 
-                    <!-- <div class="col col-5" data-label="Reset/Delete">
-                      <md-dialog-prompt
-                        :md-active.sync="active"
-                        v-model="newPassword"
-                        md-title="Enter New Password"
-                        md-input-maxlength="15"
-                        md-input-placeholder="Password..."
-                        md-confirm-text="Confirm"
-                        @md-confirm="resetPassword(user.id)"
-                      />
-                      <md-button class="md-warning md-sm" @click="active = true"
-                        >Reset Password</md-button
-                      >
+                    <div class="col col-5" data-label="Reset/Delete">
+                    
 
                       <md-button
-                        class="md-danger md-sm"
-                        @click="deleteUser(user.id)"
-                        >Delete Account</md-button
+                        class="md-info md-sm"
+                        @click="markComplete(help.id)"
+                        >Mark Complete</md-button
                       >
                     </div>
                   </li>
                 </ul>
                 </div>
-                </div> -->
+                </div>
         </div>
         </div>
       </div>
     </div>
-  <!-- </div> -->
+
 </template>
 
 
@@ -248,7 +239,7 @@ import { Help } from "../models/Help"
 import { required, email, minLength, sameAs, maxLength } from "vuelidate/lib/validators";
 export default {
   bodyClass: "FAQ_page-page",
-  name: "AddFaq",
+  name: "Faq",
   props: {
     header: {
       type: String,
@@ -257,19 +248,25 @@ export default {
   },
   data() {
     return {
-      submitted: false,
-      name: null,
-      email: null,
+     /*faq*/
+      faqs: [],
       message: "",
       answer: "",
-      search: "",
-      faqs: [],
-      questions: [],
+      /*help*/
+       helps: [],
+       email: "",
+       name: "",
+       question: "",
+       completed: "",
+      /*validation*/
       response: null,
       error: "",
       success: false,
       fail: false,
+      search: "",
+      submitted:false,
     };
+    
   },
 
   validations: {
@@ -300,7 +297,6 @@ export default {
       };
     },
     isAdmin : function(){ return this.$store.getters.isAdmin},
-    isUser : function() {return this.$store.getters.isUser},
     filteredFaqs: function() {
       return this.faqs.filter((faq) => { 
         return faq.message.toLowerCase().match(this.search.toLowerCase());
@@ -309,25 +305,10 @@ export default {
  },
   mounted: function() {
     this.faqList();
-   // this.helpList();
+    this.helpList();
   },
   methods: {
-    addQuestion() {
-      console.log(this.question, this.name, this.email);
-      const url = "http://localhost:8081/help/newHelp";
-      const help = new Help(this.question, this.name, this.email);
-      Axios.post(url, help, {params: {
-        header: {
-          "Content-Type": "application/json",
-        }
-      }})
-        .then(reponse => {
-          console.log(reponse);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
+    /*faq*/
   addFaq() {
       console.log(this.message, this.answer);
       const url = "http://localhost:8081/faq/newFaq";
@@ -374,17 +355,32 @@ export default {
           });
       }
     },
-    // helpList: function() {
+   /*help*/
+      helpList: function() {
+	  const url = "http://localhost:8081/help/listHelps";
+      Axios.get(url)
+        .then(response => (this.helps = response.data))
+        .catch(function(error) {
+          console.warn("error occured" + error);
+      });
+		},
+    addHelp() {
 
-	  // const url = "http://localhost:8081/help/listHelps";
-
-    //   Axios.get(url)
-    //     .then(response => (this.helps = response.data))
-
-    //     .catch(function(error) {
-    //       console.warn("error occured" + error);
-    //   });
-    // },
+      Axios.post('http://localhost:8081/help/newHelp',
+      {
+        name: this.name,
+        email: this.email,
+        question: this.question,
+        completed: 0
+      }
+      )
+        .then(reponse => {
+          console.log(reponse);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
   },
 
 };
@@ -495,9 +491,7 @@ h2 {
   padding: 25px;
   margin: 25px;
 }
-</style>
 
-<style scoped>
 .form_error {
   color: red;
   font-size: 0.75em;
