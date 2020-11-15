@@ -90,16 +90,6 @@
             >
             <div v-if="available">
       <div v-if="result">
-        <!--<div class="card">
-  				<img src="@/assets/img/tomorrowland.jpg" alt="Avatar" style="width:100%">
-  				<div class="container">
-    			  <h4><b>{{result.name}}</b></h4>
-    			  <p>{{result.date}}</p>
-            <a v-bind:href="result.website" target="_blank" class="btn btn-outline-primary">Official Website</a>
-            <md-button class="md-success" @click="showDialog = true">DELETE POST</md-button>
-  				</div>
-			  </div>
-      </div> -->
 
       <event-card
             v-bind:key="result.id"
@@ -193,6 +183,12 @@ export default {
   beforeMount() {
     this.checkIfAdmin()
   },
+  updated(){
+    var eventToScroll = this.$route.query.id
+      if(eventToScroll !== null){
+         this.scroll(eventToScroll)
+      }
+  },
   computed: {
     headerStyle() {
       return {
@@ -215,7 +211,6 @@ export default {
       }).then((response) => {
         this.message = 'Get successfully'
         this.eventCards = response.data
-        console.log(this.eventCards);
       }, (error) => {
         this.message = 'Failed to create a post!'
         this.showSnackbar = true
@@ -224,7 +219,6 @@ export default {
     },
     create(){
       let url = "http://localhost:8081/event/create";
-      console.log(this.$store)
 
      
     //var image = document.getElementById('event-image').files[0];
@@ -243,13 +237,18 @@ export default {
         this.showSnackbar = true
         this.result = response.data
         this.available = true
-        console.log(this.result);
       }, (error) => {
         this.message = 'Failed to create a post!'
         this.showSnackbar = true
         console.log(error);
       });
     },
+    scroll(eventToScrollId){
+       var element = document.getElementById("event_" + eventToScrollId);
+       if(element !== null){
+         element.scrollIntoView()
+       }
+    }
   }
 };
 </script>

@@ -60,9 +60,10 @@
               :tab-name="[
                 'Recently viewed',
                 'Shared trips',
-                'Favorite Flights'
+                'Favorite Flights',
+                'Followed Events'
               ]"
-              :tab-icon="['explore', 'share', 'favorite']"
+              :tab-icon="['explore', 'share', 'favorite', 'rss_feed']"
               plain
               nav-pills-icons
               color-button="success"
@@ -126,6 +127,24 @@
                   </md-card-actions>
                 </md-card>
               </template>
+              <template slot="tab-pane-4">
+                <div class="md-layout">
+                  <div v-for="event in followedEvents" :key="event.id">
+                    <a href="javascript:void(0)" @click="viewEvent(event.id)">
+                    <md-card style="margin:10px;">
+                      <md-card-content>
+                        <p style="text-align:left; font-weight:bold;">
+                          <md-avatar>
+                            <img v-bind:src="event.image" alt="Avatar">
+                          </md-avatar>
+                          {{event.name}}
+                          </p>
+                      </md-card-content>
+                    </md-card>
+                    </a>
+                  </div>
+                </div>
+              </template>
             </tabs>
           </div>
           <md-button
@@ -155,6 +174,7 @@ export default {
       toggle: false,
       flights: [],
       userEmail: null,
+      followedEvents: null,
       user: {
         firstname: "Test",
         lastname: "Test",
@@ -197,6 +217,7 @@ export default {
   mounted() {
     this.getUserDetails();
     this.getUserTrips();
+    this.getFollowedEvents();
   },
   methods: {
     sendSummaryEmail(index) {
@@ -288,6 +309,25 @@ export default {
             console.log(error);
           }
         );
+    },
+    getFollowedEvents(){
+      let url = "http://localhost:8081/event/userevents";
+      axios
+        .get(url,{
+        headers: {
+          Authorization: `${this.$store.state.token}`,
+          'email' : `${this.$store.getters.getEmail}`
+        }
+      })
+        .then(response => {
+          this.followedEvents = response.data
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    viewEvent(eventId){
+      this.$router.push({ path: 'events', query: { id: eventId } })
     }
   }
 };
