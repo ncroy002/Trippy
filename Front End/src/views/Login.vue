@@ -86,13 +86,18 @@ export default {
       let password = this.password;
       this.$store
         .dispatch("login", { email, password })
-        .then(() => this.$router.push("/"))
-        .catch( 
+        .then(() => {
+           this.$router.push("/")
+           },  (error) => {
         this.alert = "You have entered an incorrect email or password!",
         this.showSnackbar = true,
-        console.log());
-    },
+        console.log(error)
+           });
 
+    },
+    showsnackbar() {
+      //
+    },
     forgotPassword() {
       this.$router.push({ path: "/forgotpassword" });
     }
