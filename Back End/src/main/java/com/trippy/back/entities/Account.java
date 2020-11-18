@@ -1,5 +1,6 @@
 package com.trippy.back.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trippy.back.enumeration.ERole;
 
 import javax.persistence.*;
@@ -38,15 +39,12 @@ public class Account {
     @Column
     String role;
 
-    @ManyToMany(targetEntity = FoundFlight.class,cascade = CascadeType.ALL )
-    List<FoundFlight> trips;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "account")
+    List<TripList> trips;
 
     @OneToMany(targetEntity = Event.class,cascade = CascadeType.ALL )
     List<Event> events;
-
-    @ManyToMany(targetEntity = Hotels.class,cascade = CascadeType.ALL )
-    List<Hotels> hotels;
-
 
     public String getUsername() {
         return username;
@@ -120,11 +118,11 @@ public class Account {
         this.password = password;
     }
 
-    public List<FoundFlight> getTrips() {
+    public List<TripList> getTrips() {
         return trips;
     }
 
-    public void setTrips(List<FoundFlight> trips) {
+    public void setTrips(List<TripList> trips) {
         this.trips = trips;
     }
 
@@ -135,11 +133,6 @@ public class Account {
     public void setEvents(List<Event> events) {
         this.events = events;
     }
-
-    public List<Hotels> getHotels() {
-        return hotels;
-    }
-    public void setHotels(List<Hotels> hotels) { this.hotels = hotels;}
 
     public Account() {
 
