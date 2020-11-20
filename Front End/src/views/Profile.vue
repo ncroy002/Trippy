@@ -427,7 +427,7 @@ export default {
     classicModalHide() {
       this.modalToggle = false;
     },
-  },
+
 };
 </script>
 

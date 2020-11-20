@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper">
-    <!--
     <parallax class="section page-header header-filter" :style="headerStyle">
       <div class="container">
         <div class="md-layout">
@@ -188,7 +187,6 @@
         </div>
         </div>
       </div>
-      -->
     </div>
 
 </template>
@@ -238,7 +236,6 @@ export default {
     };
     
   },
-
   validations: {
     name: {
       required
@@ -300,13 +297,11 @@ export default {
         }
       }})
         .then(reponse => {
-
           console.log(reponse);
    
         
         })
         .catch(error => {
-
           console.log(error);
         });
        
@@ -315,7 +310,6 @@ export default {
   const url = "http://localhost:8081/faq/listFaqs";
   Axios.get(url)
         .then(response => (this.faqs = response.data))
-
         .catch(function(error) {
           console.warn("error occured" + error);
       });
@@ -351,7 +345,6 @@ export default {
       });
 		},
     addHelp() {
-
       Axios.post('http://localhost:8081/help/newHelp',
       {
         name: this.name,
@@ -374,9 +367,7 @@ export default {
    
     
   }
-
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -387,11 +378,9 @@ export default {
 .contact-form {
   margin-top: 30px;
 }
-
 .md-has-textarea + .md-layout {
   margin-top: 15px;
 }
-
 .md-layout-item {
   margin-bottom: 15px;
 }
@@ -400,7 +389,6 @@ ul {
   padding: 0;
   list-style: none;
 }
-
 body {
   font-family: "lato", sans-serif;
 }
@@ -411,7 +399,6 @@ body {
   padding-left: 10px;
   padding-right: 10px;
 }
-
 h2 {
   font-size: 26px;
   margin: 20px 0;
@@ -420,7 +407,6 @@ h2 {
     font-size: 0.5em;
   }
 }
-
 .responsive-table {
   li {
     border-radius: 3px;
@@ -454,12 +440,10 @@ h2 {
   .col-5 {
     flex-basis: 20%;
   }
-
   @media all and (max-width: 767px) {
     .table-header {
       display: none;
     }
-
     li {
       display: block;
     }
@@ -483,7 +467,6 @@ h2 {
   padding: 25px;
   margin: 25px;
 }
-
 .form_error {
   color: red;
   font-size: 0.75em;
