@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <!--
     <parallax class="section page-header header-filter" :style="headerStyle">
       <div class="container">
         <div class="md-layout">
@@ -35,40 +36,38 @@
               </div>
                <br />
           
-             <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
+            <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
               <md-field class="md-form-group" slot="inputs">
-              <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
+                <div
+                class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
+                >
 
-              <md-field v-if="isAdmin"
-              class="md-form-group" 
-              slot="inputs">
+                  <md-field v-if="isAdmin"
+                    class="md-form-group" slot="inputs">
+                    <md-icon >add</md-icon>
+                    <label>NEW FAQ ANSWER</label>
+                    <md-input v-model="answer" type="answer"></md-input>
+                  </md-field>
 
-               <md-icon >add</md-icon>
-              <label>NEW FAQ ANSWER</label>
-               <md-input v-model="answer" type="answer"></md-input>
-              </md-field>
+                  <md-button 
+                  v-if="isAdmin" 
+                  v-on:click="addFaq()" 
+                  slot="footer" 
+                  class="md-simple md-success md-lg">Add</md-button>
+                </div>
 
-              <md-button 
-              v-if="isAdmin" 
-              v-on:click="addFaq()" 
-              slot="footer" 
-              class="md-simple md-success md-lg">Add</md-button>
-              </div>
-
-              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
-              <md-field 
-              class="md-form-group" 
-              slot="inputs">
+                <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
+                  <md-field 
+                  class="md-form-group" 
+                  slot="inputs">
               
-                <md-icon>search</md-icon>
-                <label>SEARCH FAQS</label>
+                  <md-icon>search</md-icon>
+                  <label>SEARCH FAQS</label>
 
-                <md-input 
-                v-model="search" 
-                type="search"></md-input>
-              </md-field>
+                  <md-input 
+                  v-model="search" 
+                  type="search"></md-input>
+                  </md-field>
             </div>
 
              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-left" >
@@ -172,11 +171,12 @@
                 </ul>
                 </div>
                 </div>
+                </div>
         </div>
         </div>
       </div>
+      -->
     </div>
-  </div>
 </template>
 
 
