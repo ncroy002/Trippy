@@ -67,6 +67,12 @@
                           </a>
                         </li>
                         <li>
+                          <a href="#/deleteaccount">
+                            <i class="material-icons">delete</i>
+                            <p>Delete Account</p>
+                          </a>
+                        </li>
+                        <li>
                           <a href="#/userlist" v-if="isAdmin">
                             <i class="material-icons">people</i>
                             <p>User List</p>
