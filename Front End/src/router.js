@@ -19,6 +19,7 @@ import Forums from "./views/Forums.vue"
 import Events from "./views/Events.vue"
 import ForgotPassword from "./views/ForgotPassword.vue";
 import ChangePassword from "./views/ChangePassword.vue";
+import DeleteAccount from "./views/DeleteAccount.vue";
 
 Vue.use(Router);
 
@@ -202,6 +203,23 @@ let router = new Router(
           default: Events,
           header: MainNavbar,
           footer: MainFooter
+        }
+      },
+      {
+        path: "/deleteaccount",
+        name: "deleteaccount",
+        components: {
+          default: DeleteAccount,
+          header: MainNavbar,
+          footer: MainFooter
+        },
+        props: {
+          header: {
+            colorOnScroll: 400
+          },
+          footer: {
+            backgroundColor: "black"
+          }
         }
       },
     ],

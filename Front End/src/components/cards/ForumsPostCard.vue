@@ -16,20 +16,21 @@
               <md-field>
                 <div id="post-content">
                   <div class="img-wrapper">
-                    <img
-                      src="@/assets/img/bg.jpg"
-                      alt="Avatar"
-                      style="width:100px;height:100px;"
-                    />
+                    <img src="@/assets/img/bg.jpg" alt="Avatar" style="width:100px;height:100px;"/>
                   </div>
                   <p>{{ forumspostcard.forumUser }}</p>
                 </div>
                 <p>
                   <strong> {{ forumspostcard.forumTitle }} </strong>
                   <br />
-                  {{ currentDate() }} <br />
+                  {{ forumspostcard.forumPostDate }} <br />
                   {{ forumspostcard.forumPost }}
                 </p>
+                
+                <div>
+                  <img :src="forumspostcard.forumImage">
+                </div>
+                
               </md-field>
               
               <md-field>

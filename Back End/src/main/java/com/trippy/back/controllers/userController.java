@@ -64,6 +64,22 @@ public class userController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/deleteUserByUser") @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity deleteUserByUser(@RequestParam(name="email") String email){
+        Account account = userRepository.findByEmail(email);
+        System.out.println("Email: " + account.getEmail() + " ID: " + account.getId());
+        Long id = account.getId();
+        userService.deleteUser(id);
+        if(userRepository.existsById(id)){
+            System.out.println("Still exists");
+        }
+        else {
+            System.out.println("Doesn't exist");
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @PostMapping (value = "/resetPassword") @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity resetPassword(@RequestParam(name="ID") Long ID, @RequestParam(name="password") String password) {
         userService.resetPassword(ID, password);
