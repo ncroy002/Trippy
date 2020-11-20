@@ -22,14 +22,13 @@ public class ForumsController {
 
 
         forumsservice.addForums(forums);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
     @GetMapping(value = "/getForums")
     public ResponseEntity getForums(){
-        return new ResponseEntity<>(forumsservice.findAllForums().get(0), HttpStatus.OK);
+        return new ResponseEntity(forumsservice.findAllForums(), HttpStatus.OK);
     }
 
 }

@@ -26,7 +26,7 @@ public class Hotels {
     String photo;
 
     @ManyToMany(mappedBy = "hotels")
-    private List<Account> accounts;
+    private List<TripList> accounts;
 
     public int getDestinationId(){return destinationId;}
     public void setDestinationId(int desId){this.destinationId = desId; }

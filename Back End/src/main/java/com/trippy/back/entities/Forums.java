@@ -22,14 +22,18 @@ public class Forums {
     @Column
     String forum_post;
 
+    @Column
+    String forum_image;
+
     public Forums(){}
 
-    public Forums(int id, String forum_user, String forum_title, String forum_post_date, String forum_post){
+    public Forums(int id, String forum_user, String forum_title, String forum_post_date, String forum_post, String forum_image){
         this.id = id;
         this.forum_user = forum_user;
         this.forum_title = forum_title;
         this.forum_post_date = forum_post_date;
         this.forum_post = forum_post;
+        this.forum_image = forum_image;
     }
 
     public int getId(){ return id; }
@@ -42,6 +46,8 @@ public class Forums {
 
     public String getForumPost(){ return forum_post; }
 
+    public String getForumImage(){ return forum_image; }
+
     public void setId(int id){ this.id = id; }
 
     public void setForumUser(String forum_user){ this.forum_user = forum_user; }
@@ -52,6 +58,8 @@ public class Forums {
 
     public void setForumPost(String forum_post){ this.forum_post = forum_post; }
 
+    public void setForumImage(String forum_image){ this.forum_image = forum_image; }
+
     @Override
     public String toString(){
         return "Forums{" + "id=" + id +
@@ -59,6 +67,7 @@ public class Forums {
                             ", title" + forum_title +  '\'' +
                             ", postDate" + forum_post_date + '\'' +
                             ", post" + forum_post + '\'' +
+                            ", image" + forum_image + '\'' +
                             '}';
     }
 
@@ -75,6 +84,7 @@ public class Forums {
                 && Objects.equals(forum_user, forums.forum_user)
                 && Objects.equals(forum_title, forums.forum_title)
                 && Objects.equals(forum_post_date, forums.forum_post_date)
-                && Objects.equals(forum_post, forums.forum_post);
+                && Objects.equals(forum_post, forums.forum_post)
+                && Objects.equals(forum_image, forums.forum_image);
     }
 }

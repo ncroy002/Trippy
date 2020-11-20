@@ -63,6 +63,14 @@ public class ForumsService {
                 else{
                     forumsItems.setForumPost(forums.getForumPost());
                 }
+
+                //Forum Image
+                if(forumsItems.getForumImage().equals(forums.getForumImage())){
+                    forumsItems.setForumImage(forumsItems.getForumImage());
+                }
+                else{
+                    forumsItems.setForumImage(forums.getForumImage());
+                }
                 BackApplication.LOGGER.info("Updating the forums ["+forumsItems+"]");
                 ForumsRepo.save(forumsItems);
             }
