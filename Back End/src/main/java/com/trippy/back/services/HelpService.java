@@ -27,8 +27,8 @@ public class HelpService {
 
     public ResponseEntity addHelp(Help help){
         //maybe check for existing message
-            HelpRepo.save(help);
-            return new ResponseEntity<>(HttpStatus.OK);
+        HelpRepo.save(help);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 /*

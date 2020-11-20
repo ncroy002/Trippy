@@ -41,24 +41,10 @@
                 Forgot Password?
               </md-button>
             </login-card>
-
-            <div v-if="valid" class="alert alert-danger">
-              <div class="container">
-                <button
-                  type="button"
-                  aria-hidden="true"
-                  class="close"
-                  @click="event => removeNotify(event, 'alert-danger')"
-                >
-                  <md-icon>clear</md-icon>
-                </button>
-                <div class="alert-icon">
-                  <md-icon>info_outline</md-icon>
-                </div>
-                <b> ERROR ALERT </b> : Please enter a valid username and
-                password.
-              </div>
-            </div>
+ <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>{{alert}}</span>
+      <md-button class="md-primary" @click="showSnackbar = false">close</md-button>
+    </md-snackbar>
           </div>
         </div>
       </div>
@@ -79,7 +65,13 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "", 
+      /*snackbar*/
+      showSnackbar: false,
+      position: 'center',
+      duration: 4000,
+      isInfinity: false,
+      alert: "",
     };
   },
   props: {
@@ -94,10 +86,18 @@ export default {
       let password = this.password;
       this.$store
         .dispatch("login", { email, password })
-        .then(() => this.$router.push("/"))
-        .catch(err => console.log(err));
-    },
+        .then(() => {
+           this.$router.push("/")
+           },  (error) => {
+        this.alert = "You have entered an incorrect email or password!",
+        this.showSnackbar = true,
+        console.log(error)
+           });
 
+    },
+    showsnackbar() {
+      //
+    },
     forgotPassword() {
       this.$router.push({ path: "/forgotpassword" });
     }

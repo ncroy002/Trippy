@@ -22,49 +22,64 @@
               <h2 class="title text-center">Frequently Asked Questions</h2>
             </div>
 
-            <div
-              class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center"
-            >
-              <md-field v-if="isAdmin"
-              class="md-form-group" 
-              slot="inputs">
+            <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
+
+              <form @submit.prevent="addFaq" slot="inputs">
+                
+              <md-field v-if="isAdmin" class="md-form-group"  slot="inputs">
 
               <md-icon >add</md-icon>
               <label>NEW FAQ QUESTION</label>
-              <md-input v-model="message" type="message"></md-input>
+
+              <md-input  type="text"  v-model="$v.message.$model"  >
+              </md-input>
+              <br />
+
               </md-field>
-              </div>
-               <br />
-          
-            <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
-              <md-field class="md-form-group" slot="inputs">
-              <md-field v-if="isAdmin"
-              class="md-form-group" 
-              slot="inputs">
+
+              <div class="form_error" v-if="!$v.message.required && isAdmin" >
+                  *This field is required.
+                </div>
+                <div class="form_error" v-if="!$v.message.maxLength"  >
+                  *No longer than 100 characters allowed.
+                </div>
+                 <div class="form_error" v-if="!$v.message.minLength" >
+                  *No less than 50 characters allowed.
+                </div>
+
+              <md-field v-if="isAdmin" class="md-form-group"  slot="inputs">
 
                <md-icon >add</md-icon>
               <label>NEW FAQ ANSWER</label>
-               <md-input v-model="answer" type="answer"></md-input>
+
+               <md-input  v-model="$v.answer.$model" type="type">
+               </md-input>
               </md-field>
+              <br />
 
-              <md-button 
-              v-if="isAdmin" 
-              v-on:click="addFaq()" 
-              slot="footer" 
-              class="md-simple md-success md-lg">Add</md-button>
+              <div class="form_error" v-if="!$v.answer.required && isAdmin"  >
+                  *This field is required.
+                </div>
+                <div class="form_error" v-if="!$v.answer.maxLength">
+                  *No longer than 100 characters allowed.
+                </div>
+                 <div class="form_error" v-if="!$v.answer.minLength" >
+                  *No less than 50 characters allowed.
+                </div>
+
+              <md-button v-if="isAdmin" slot="footer" type = "submit" class="md-simple md-success md-lg">Add</md-button>
+              </form>
               </div>
-                <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
-                  <md-field 
-                  class="md-form-group" 
-                  slot="inputs">
-              
-                  <md-icon>search</md-icon>
-                  <label>SEARCH FAQS</label>
+              </div>
 
-                  <md-input 
-                  v-model="search" 
-                  type="search"></md-input>
-                  </md-field>
+              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center" >
+              <md-field class="md-form-group" slot="inputs">
+
+                <md-icon>search</md-icon>
+                <label>SEARCH FAQS</label>
+
+                <md-input v-model="search" type="search"></md-input>
+              </md-field>
             </div>
 
              <div class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-left" >
@@ -73,11 +88,7 @@
 
                 <ul class="responsive-table">
                 
-                  <li
-                    class="table-row"
-                    v-for="faq in filteredFaqs"
-                    v-bind:key="faq.id"
-                  >
+                  <li class="table-row" v-for="faq in filteredFaqs" v-bind:key="faq.id" >
                     <div class="col col-11" data-label="Faq">
                      <span style='font-weight: bold'> {{ faq.message }} </span>
                      <p> {{faq.answer}} </p>
@@ -91,7 +102,7 @@
 					</ul>
            	 </div>
 			</div>
-      <div class="container">
+  <div class="container" v-if="!isAdmin">
              <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Need Help?</h2>
             </div>
@@ -113,17 +124,24 @@
                 </div>
                 <md-field maxlength="5">
                   <label>Your Message</label>
-                  <md-textarea v-model="message"></md-textarea>
+                  <md-textarea v-model="question"></md-textarea>
+                   <input type="hidden" v-model="completed" />
                 </md-field>
                 <div class="md-layout">
                   <div class="md-layout-item md-size-33 mx-auto text-center">
-                    <md-button class="md-success">Send Message</md-button>
+                    <md-button class="md-success"  v-on:click="addHelp()">Send Message</md-button>
                   </div>
                 </div>
+               
               </form>
             </div>
           </div>
 
+    <md-snackbar :md-position="position" :md-duration="isInfinity ? Infinity : duration" :md-active.sync="showSnackbar" md-persistent>
+      <span>{{alert}}</span>
+      <md-button class="md-primary" @click="showSnackbar = false">close</md-button>
+    </md-snackbar>
+</div>
  <div class="container" v-if="isAdmin">
              <div  class="md-layout-item md-size-66 md-xsmall-size-100 mx-auto text-center">
               <h2 class="title text-center">Help</h2>
@@ -166,14 +184,13 @@
                     </div>
                   </li>
                 </ul>
-                </div>
-                </div>
-                </div>
+          </div>
         </div>
         </div>
       </div>
       -->
     </div>
+
 </template>
 
 
@@ -182,9 +199,10 @@
 import Axios, { axios } from "axios";
 import { Faq } from "../models/Faq";
 import { Help } from "../models/Help"
-import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+import { required, email, minLength, sameAs, maxLength } from "vuelidate/lib/validators";
 export default {
   bodyClass: "FAQ_page-page",
+  name: "Faq",
   props: {
     header: {
       type: String,
@@ -193,14 +211,32 @@ export default {
   },
   data() {
     return {
-      name: null,
-      email: null,
+     /*faq*/
+      faqs: [],
       message: "",
       answer: "",
+      /*help*/
+       helps: [],
+       email: "",
+       name: "",
+       question: "",
+       completed: "",
+      /*validation*/
+      response: null,
+      error: "",
+      success: false,
+      fail: false,
       search: "",
-      faqs: [],
-      helps: [],
+      submitted:false,
+      /*snackbar*/
+      showSnackbar: false,
+      position: 'center',
+      duration: 4000,
+      isInfinity: false,
+      alert: null,
+      isAdmin: false,
     };
+    
   },
 
   validations: {
@@ -208,11 +244,27 @@ export default {
       required
     },
     email: {
-      required
+      required,
+      email
     },
     question: {
-      required
-    }
+      required,
+      minLength: minLength(10),
+      maxLength: maxLength(255)
+    },
+    answer:{
+      required,
+      maxLength: maxLength(100),
+      minLength: minLength(50),
+    },
+    message: {
+      required,
+      maxLength: maxLength(100),
+      minLength: minLength(50),
+      }
+  },
+  beforeMount() {
+    this.checkIfAdmin()
   },
  computed: {
     headerStyle() {
@@ -220,36 +272,25 @@ export default {
         backgroundImage: `url(${this.header})`
       };
     },
-    isAdmin : function(){ return this.$store.getters.isAdmin},
+    
     filteredFaqs: function() {
       return this.faqs.filter((faq) => { 
         return faq.message.toLowerCase().match(this.search.toLowerCase());
       })
-    }
-    
+    } 
  },
- mounted: function() {
+  mounted: function() {
     this.faqList();
     this.helpList();
   },
   methods: {
-    addQuestion() {
-      console.log(this.question, this.name, this.email);
-      const url = "http://localhost:8081/help/newHelp";
-      const help = new Help(this.question, this.name, this.email);
-      Axios.post(url, help, {params: {
-        header: {
-          "Content-Type": "application/json",
-        }
-      }})
-        .then(reponse => {
-          console.log(reponse);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-    addFaq() {
+     checkIfAdmin(){
+      if(localStorage.getItem('role') === 'ROLE_ADMIN'){
+        this.isAdmin = true;
+      }
+  },
+    /*faq*/
+  addFaq() {
       console.log(this.message, this.answer);
       const url = "http://localhost:8081/faq/newFaq";
       const faq = new Faq(this.message, this.answer);
@@ -259,25 +300,28 @@ export default {
         }
       }})
         .then(reponse => {
+
           console.log(reponse);
+   
+        
         })
         .catch(error => {
+
           console.log(error);
         });
-	},
-    faqList: function() {
-
-	  const url = "http://localhost:8081/faq/listFaqs";
-
-      Axios.get(url)
+       
+  },
+  faqList: function() {
+  const url = "http://localhost:8081/faq/listFaqs";
+  Axios.get(url)
         .then(response => (this.faqs = response.data))
 
         .catch(function(error) {
           console.warn("error occured" + error);
       });
-		},
-
-  	deleteFaq(id) {
+  },
+  
+  deleteFaq(id) {
       if (confirm("Confirm faq deletion: " + id )) {
         const url = "http://localhost:8081/faq/deleteFaq";
         Axios.delete(url, {
@@ -297,39 +341,41 @@ export default {
           });
       }
     },
-  },
-    helpList: function() {
-
+   /*help*/
+      helpList: function() {
 	  const url = "http://localhost:8081/help/listHelps";
-
       Axios.get(url)
         .then(response => (this.helps = response.data))
-
         .catch(function(error) {
           console.warn("error occured" + error);
       });
-    },
-    markComplete: function(id) {
-      console.log(id);
-      console.log(this.complete);
-      const url = "http://localhost:8081/user/updateHelp";
-      Axios.post(url, null, {
-        params: {
-          ID: id,
-          complete: this.complete
-        },
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(function(error) {
-          console.warn("error occured" + error);
+		},
+    addHelp() {
+
+      Axios.post('http://localhost:8081/help/newHelp',
+      {
+        name: this.name,
+        email: this.email,
+        question: this.question,
+        completed: 0
+      }).then(reponse => {
+          this.alert = 'Message posted succesfully'
+          this.showSnackbar = true
+            this.name = ''
+            this.email = ''
+            this.question = ''
+          console.log(reponse);
+        }, (error) => {
+          this.alert = 'Question failed to submit!'
+          this.showSnackbar = true
+          console.log(error);
         });
-    }
-  };
+    },
+   
+    
+  }
+
+};
 
 </script>
 
@@ -436,5 +482,11 @@ h2 {
 .space {
   padding: 25px;
   margin: 25px;
+}
+
+.form_error {
+  color: red;
+  font-size: 0.75em;
+  padding-left: 10px;
 }
 </style>

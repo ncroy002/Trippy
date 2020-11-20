@@ -119,8 +119,9 @@ INSERT INTO dbo.forums (id, forum_title, forum_post, forum_post_date, forum_user
 SET IDENTITY_INSERT dbo.forums OFF;
 
 SET IDENTITY_INSERT dbo.help ON;
-INSERT INTO Trippy.dbo.help (id, question, name, email, completed) VALUES (1, 'How do I update my email', 'test@test.com','Sara Jane', 0 );
-INSERT INTO Trippy.dbo.help (id, question, name, email, completed) VALUES (2, 'Where did my good price go', 'email@email.com', 'John Smith', 1);
-INSERT INTO Trippy.dbo.help (id, question, name, email, completed) VALUES (3, 'How do I save a trip', 'qman@test.com', 'Don Berry', 0  );
+INSERT INTO Trippy.dbo.help (id, question, email, name, completed) VALUES (1, 'How do I update my email', 'test@test.com','Sara Jane', 0 );
+INSERT INTO Trippy.dbo.help (id, question, email, name, completed) VALUES (2, 'Where did my good price go', 'email@email.com', 'John Smith', 1);
+INSERT INTO Trippy.dbo.help (id, question, email, name, completed) VALUES (3, 'How do I save a trip', 'qman@test.com', 'Don Berry', 0  );
+INSERT INTO Trippy.dbo.help (id, question, email, name, completed) VALUES (4, 'I don''t need you I''m perfect', 'sue@email.com', 'Mary Sue', 0  );
 
 SET IDENTITY_INSERT dbo.help OFF;
