@@ -3,8 +3,11 @@ package com.trippy.back.controllers;
 import com.trippy.back.com.trippy.back.util.ImageUtil;
 import com.trippy.back.entities.Account;
 import com.trippy.back.entities.Event;
+import com.trippy.back.entities.EventComment;
+import com.trippy.back.repos.EventCommentsRepo;
 import com.trippy.back.repos.EventsRepo;
 import com.trippy.back.repos.UserRepo;
+import com.trippy.back.services.EventCommentsService;
 import com.trippy.back.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -33,6 +37,9 @@ public class EventController {
 
     @Autowired
     EventsRepo eventRepository;
+
+    @Autowired
+    EventCommentsService commentsService;
 
     @PostMapping(value = "/create", consumes = "application/json;charset=UTF-8" )
     @PreAuthorize("hasRole('ADMIN')")
@@ -72,5 +79,27 @@ public class EventController {
     @GetMapping(value = "/follow/{eventId}")
     public ResponseEntity follow(@RequestHeader(value = "email") String email, @PathVariable int eventId){
         return new ResponseEntity<>(userService.followEvent(email, eventId), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/userevents")
+    public List<Event> listUserEvents(@RequestHeader(value = "email") String email){
+        List<Event> events = userService.findEvents(email);
+        return events;
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/addcomment/{eventId}")
+    public ResponseEntity addComment(@RequestHeader(value = "email") String email, @PathVariable int eventId, @RequestBody EventComment eventComment){
+        return new ResponseEntity(commentsService.saveComment(eventComment, email,eventId), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/comments/{eventId}")
+    public ResponseEntity getComments(@PathVariable int eventId){
+        return new ResponseEntity(commentsService.findComments(eventId), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/removecomment/{commentId}")
+    public ResponseEntity removeComments(@PathVariable int commentId){
+        return new ResponseEntity(commentsService.deleteComment(commentId), HttpStatus.OK);
     }
 }

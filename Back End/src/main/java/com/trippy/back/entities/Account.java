@@ -1,5 +1,5 @@
 package com.trippy.back.entities;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.trippy.back.enumeration.ERole;
 
@@ -126,6 +126,7 @@ public class Account {
         this.trips = trips;
     }
 
+    @JsonIgnore
     public List<Event> getEvents() {
         return events;
     }

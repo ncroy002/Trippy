@@ -1,11 +1,35 @@
 <template>
-  	<div class="card">
+  	<div :id="'event_' + id" class="card">
   	<img v-bind:src="image" alt="Avatar" style="width:100%">
 		<div class="container">
 			<h4><b>{{name}}</b></h4>
 			<p>{{date}}</p>
 			<a v-bind:href="website" target="_blank" class="btn btn-outline-primary">Official Website</a>
       <md-button class="md-success" @click="follow()">Follow</md-button>
+
+		<div>
+      <div>
+        <div v-for="item in commentList" :key="item.id">
+            <md-card style="margin:10px;">
+              <md-card-content>
+                <p style="text-align:left; font-weight:bold;">
+                  <md-avatar>
+                    <img src="https://via.placeholder.com/150?text=PIC" alt="Avatar">
+                </md-avatar>
+                  {{item.account.firstName}} {{item.account.lastName}}</p>
+                <p style="text-align:left;">{{ item.commentText }} <a href="javascript:void(0)" style="float:right;" @click="removeComment(item.id)"><md-icon>delete</md-icon> </a></p>
+              </md-card-content>
+            </md-card>
+        </div>
+      </div>
+      <div>
+        <md-field>
+          <md-input placeholder="Write a comment" v-model="comment" name="event-comment" id="event-comment" />
+          <a href="javascript:void(0)" @click="commentIt"><md-icon>send</md-icon></a>
+        </md-field>
+      </div>
+    </div>
+
 			<div v-if= "isAdmin" class="md-layout-item md-size-33 mx-auto text-center">
           <md-button class="md-success" @click="showDialog = true">Edit</md-button>
 				  <md-button class="md-success" @click="remove">DELETE</md-button>
@@ -64,11 +88,14 @@ export default {
     showDialog: false,
     isAdmin: false,
     email: null,
+    comment: null,
+    commentList:null,
     };
   },
   beforeMount() {
     this.checkIfAdmin()
     this.email = this.$store.getters.getEmail
+    this.getComments()
   },
   methods: {
   checkIfAdmin(){
@@ -113,7 +140,6 @@ export default {
 		this.dWebsite = response.data.website
 		this.dImage = response.data.image
 		this.$parent.fetchEvents();
-        console.log(this.result);
       }, (error) => {
         this.$parent.message = 'Failed to update the post!'
         this.$parent.showSnackbar = true
@@ -131,11 +157,58 @@ export default {
       }).then((response) => {
         this.$parent.message = 'Followed successfully'
         this.$parent.showSnackbar = true
-        console.log(this.result);
       }, (error) => {
         this.$parent.message = 'Failed to follow event!'
         this.$parent.showSnackbar = true
         console.log(error);
+      });
+  },
+  commentIt(){
+    let url = "http://localhost:8081/event/addcomment/" + this.dId
+    axios.post(url,{
+      "commentText" : this.comment
+    },{
+        headers: {
+          Authorization: `${this.$store.state.token}`,
+          'email' : `${this.email}`,
+        }
+      }).then((response) => {
+        this.$parent.message = 'Commented successfully'
+        this.$parent.showSnackbar = true
+        this.getComments();
+      }, (error) => {
+        this.$parent.message = 'Failed to comment!'
+        this.$parent.showSnackbar = true
+        console.log(error);
+      });
+  },
+  getComments(){
+    let url = "http://localhost:8081/event/comments/" + this.id;
+      axios.get(url,{
+        headers: {
+          Authorization: `${this.$store.state.token}`
+        }
+      }).then((response) => {
+        this.commentList = response.data
+      }, (error) => {
+        this.message = 'Failed to fetch data!'
+		    this.$parent.showSnackbar = true
+		    this.$parent.message = "Failed to fetch data!"
+      });
+  },
+  removeComment(commentId){
+      let url = "http://localhost:8081/event/removecomment/" + commentId;
+      axios.get(url,{
+        headers: {
+          Authorization: `${this.$store.state.token}`
+        }
+      }).then((response) => {
+		this.$parent.showSnackbar = true
+		this.$parent.message = "Comment deleted successfully"
+		this.getComments();
+      }, (error) => {
+		this.$parent.showSnackbar = true
+		this.$parent.message = "Failed to delete comment"
       });
   }
   }
