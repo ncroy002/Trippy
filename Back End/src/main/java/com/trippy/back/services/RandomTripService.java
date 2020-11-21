@@ -56,7 +56,7 @@ public class RandomTripService {
         //first we need the destination ID
         String getid = generateSearchID(cityList[randomNumber]);
         //next we setup the URL for the proper call
-        String url =  "https://rapidapi.p.rapidapi.com/properties/list?destinationId="+getid+"&pageNumber=1&checkIn=2020-11-20&checkOut=2020-11-30&pageSize=25&adults1=1&currency=USD&locale=en_US&sortOrder=PRICE";
+        String url =  "https://rapidapi.p.rapidapi.com/properties/list?destinationId="+getid+"&pageNumber=1&checkIn=2020-11-26&checkOut=2020-12-16&pageSize=25&adults1=1&currency=USD&locale=en_US&sortOrder=PRICE";
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -102,7 +102,7 @@ public class RandomTripService {
         System.out.println("destination airport is");
         System.out.println(reformatAirport);
 
-        String url = "https://rapidapi.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/NYCA-sky/"+reformatAirport+"/2020-11-20?inboundpartialdate=2020-11-30";
+        String url = "https://rapidapi.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/NYCA-sky/"+reformatAirport+"/2020-11-26?inboundpartialdate=2020-12-16";
 
         Request request = new Request.Builder()
                 .url(url)

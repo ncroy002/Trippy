@@ -61,10 +61,9 @@
                 'Recently viewed',
                 'Shared trips',
                 'Saved Trips',
-                'Followed Events'
+                'Followed Events',
               ]"
               :tab-icon="['explore', 'share', 'favorite', 'rss_feed']"
-
               plain
               nav-pills-icons
               color-button="success"
@@ -152,18 +151,23 @@
                             </md-card>
                           </div>
                         </md-list-item>
-                        <md-list-item> 
+                        <md-list-item>
                           <span class="md-list-item-text"
                             >Interest Information:</span
                           >
                           <div class="md-layout">
-                            <md-card 
-                              v-for="(interest, interestIndex) in trip.interests" :key="interestIndex">
+                            <md-card
+                              v-for="(interest,
+                              interestIndex) in trip.interests"
+                              :key="interestIndex"
+                            >
                               <md-card-content>
-                              <p>Address: {{interest.address}}</p>
-                              <p>County: {{interest.county}}</p>
-                              <p>State: {{interest.state}}</p>
-                              <p v-if="interest.name">name: {{interest.name}}</p>
+                                <p>Address: {{ interest.address }}</p>
+                                <p>County: {{ interest.county }}</p>
+                                <p>State: {{ interest.state }}</p>
+                                <p v-if="interest.name">
+                                  name: {{ interest.name }}
+                                </p>
                               </md-card-content>
                             </md-card>
                           </div>
@@ -172,7 +176,7 @@
                     </md-list-item>
                   </md-list>
                 </div>
-                <modal v-if="modalToggle" @close="classicModalHide">
+                <modal v-if="modalToggle" v-on:close="closeModal()">
                   <template slot="header">
                     <h4 class="modal-title">{{ modalTitle }}</h4>
                   </template>
@@ -182,12 +186,7 @@
                   </template>
 
                   <template slot="footer">
-                    <md-button
-                      class="md-danger md-simple"
-                      @click="classicModalHide"
-                    >
-                      Close
-                    </md-button>
+                    <md-button class="md-danger md-simple" v-on:click="closeModal()"> Close </md-button>
                   </template>
                 </modal>
               </template>
@@ -195,16 +194,16 @@
                 <div class="md-layout">
                   <div v-for="event in followedEvents" :key="event.id">
                     <a href="javascript:void(0)" @click="viewEvent(event.id)">
-                    <md-card style="margin:10px;">
-                      <md-card-content>
-                        <p style="text-align:left; font-weight:bold;">
-                          <md-avatar>
-                            <img v-bind:src="event.image" alt="Avatar">
-                          </md-avatar>
-                          {{event.name}}
+                      <md-card style="margin: 10px">
+                        <md-card-content>
+                          <p style="text-align: left; font-weight: bold">
+                            <md-avatar>
+                              <img v-bind:src="event.image" alt="Avatar" />
+                            </md-avatar>
+                            {{ event.name }}
                           </p>
-                      </md-card-content>
-                    </md-card>
+                        </md-card-content>
+                      </md-card>
                     </a>
                   </div>
                 </div>
@@ -358,7 +357,7 @@ export default {
         })
         .then((result) => {
           console.log(result);
-          this.trips.splice(index,1)
+          this.trips.splice(index, 1);
           this.modalMessage = result.data;
           this.modalTitle = "Deleted Trip";
           this.modalToggle = true;
@@ -404,30 +403,29 @@ export default {
         );
     },
 
-    getFollowedEvents(){
+    getFollowedEvents() {
       let url = "http://localhost:8081/event/userevents";
       axios
-        .get(url,{
-        headers: {
-          Authorization: `${this.$store.state.token}`,
-          'email' : `${this.$store.getters.getEmail}`
-        }
-      })
-        .then(response => {
-          this.followedEvents = response.data
+        .get(url, {
+          headers: {
+            Authorization: `${this.$store.state.token}`,
+            email: `${this.$store.getters.getEmail}`,
+          },
         })
-        .catch(error => {
+        .then((response) => {
+          this.followedEvents = response.data;
+        })
+        .catch((error) => {
           console.log(error);
         });
     },
-    viewEvent(eventId){
-      this.$router.push({ path: 'events', query: { id: eventId } })
+    viewEvent(eventId) {
+      this.$router.push({ path: "events", query: { id: eventId } });
     },
-  },
-    classicModalHide() {
+    closeModal(){
       this.modalToggle = false;
-    },
-
+    }
+  },
 };
 </script>
 
