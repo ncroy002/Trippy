@@ -1,3 +1,4 @@
+<!--
 <template>
   <div class="wrapper">
     <parallax class="section page-header header-filter" :style="headerStyle">
@@ -178,7 +179,7 @@
     </div>
   </div>
 </template>
-
+-->
 
 
 <script>
